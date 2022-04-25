@@ -9,5 +9,8 @@ body {
 }
 
 .theme {
-    background-color: black;
+    nav > * {
+        padding: 1em 1.2em;
+        cursor: pointer;
+    }
 }
