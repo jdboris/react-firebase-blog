@@ -6,6 +6,9 @@ import {
   signOut,
   GoogleAuthProvider,
 } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
@@ -17,17 +20,19 @@ export function useFirebaseAuth() {
 }
 
 export function FirebaseAuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [authUser, isLoadingAuthUser] = useAuthState(auth);
+  const [userData, isLoadingUserData] = useDocumentData(
+    authUser ? doc(getFirestore(), `/users/${authUser.uid}`) : null
+  );
+
   const [errors, setErrors] = useState([]);
 
   async function login() {
     try {
-      const result = await signInWithPopup(auth, provider);
+      await signInWithPopup(auth, provider);
       // This gives you a Google Access Token. You can use it to access the Google API.
       // const credential = GoogleAuthProvider.credentialFromResult(result);
       // const token = credential.accessToken;
-      // The signed-in user info.
-      setUser(result.user);
     } catch (error) {
       setErrors([errors]);
       return false;
@@ -46,7 +51,6 @@ export function FirebaseAuthProvider({ children }) {
   async function logout() {
     try {
       await signOut(auth);
-      setUser(null);
     } catch (error) {
       setErrors([errors]);
       return false;
@@ -57,7 +61,7 @@ export function FirebaseAuthProvider({ children }) {
   return (
     <FirebaseAuthContext.Provider
       value={{
-        user,
+        user: userData && authUser ? { ...userData, ...authUser } : null,
         login,
         logout,
       }}
