@@ -9,10 +9,11 @@ export function ArticleForm({
   const { user } = useFirebaseAuth();
   const { save, isLoading } = useArticles();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
+  const contentPreviewLimit = 256;
   const [article, setArticle] = useState(
     props.article
       ? props.article
-      : { uid: "", title: "", date: "", content: "" }
+      : { uid: "", title: "", date: "", content: "", contentPreview: "" }
   );
 
   return (
@@ -36,6 +37,7 @@ export function ArticleForm({
           <input
             type="text"
             name="title"
+            value={article.title}
             onChange={(e) => {
               setArticle((old) => ({
                 ...old,
@@ -49,6 +51,7 @@ export function ArticleForm({
           <input
             type="datetime-local"
             name="date"
+            value={article.date}
             onChange={(e) => {
               setArticle((old) => ({
                 ...old,
@@ -58,13 +61,37 @@ export function ArticleForm({
           />
         </label>
         <label>
+          Content
           <textarea
             name="content"
+            value={article.content}
             onChange={(e) => {
-              setArticle((old) => ({
-                ...old,
-                [e.target.name]: e.target.value,
-              }));
+              setArticle((old) => {
+                return {
+                  ...old,
+                  contentPreview:
+                    old.contentPreview !=
+                    old.content.substring(0, contentPreviewLimit)
+                      ? old.contentPreview
+                      : e.target.value.substring(0, contentPreviewLimit),
+                  [e.target.name]: e.target.value,
+                };
+              });
+            }}
+          ></textarea>
+        </label>
+        <label>
+          Preview
+          <textarea
+            name="contentPreview"
+            value={article.contentPreview}
+            onChange={(e) => {
+              setArticle((old) => {
+                return {
+                  ...old,
+                  [e.target.name]: e.target.value,
+                };
+              });
             }}
           ></textarea>
         </label>
