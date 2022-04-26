@@ -14,9 +14,20 @@ export function Homepage({ useFirebaseAuth, useArticles }) {
 
   return (
     <section>
-      {mostRecent.length && (
+      {mostRecent.length > 0 && (
         <Article article={mostRecent[0]} useFirebaseAuth={useFirebaseAuth} />
       )}
+      {mostRecent.length > 1 &&
+        mostRecent
+          .slice(1)
+          .map((article) => (
+            <Article
+              key={article.uid}
+              article={article}
+              isPreview={true}
+              useFirebaseAuth={useFirebaseAuth}
+            />
+          ))}
     </section>
   );
 }

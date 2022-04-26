@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export function Article({ article, useFirebaseAuth }) {
+export function Article({ article, isPreview = false, useFirebaseAuth }) {
   const { user } = useFirebaseAuth();
 
   return (
@@ -12,7 +12,7 @@ export function Article({ article, useFirebaseAuth }) {
       <small>
         {article.authorName} - {article.date}
       </small>
-      <p>{article.content}</p>
+      <p>{isPreview ? article.contentPreview : article.content}</p>
     </article>
   );
 }
