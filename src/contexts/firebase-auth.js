@@ -6,7 +6,7 @@ import {
   signOut,
   GoogleAuthProvider,
 } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
@@ -25,10 +25,14 @@ export function FirebaseAuthProvider({ children }) {
     authUser ? doc(getFirestore(), `/users/${authUser.uid}`) : null
   );
 
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
   async function login() {
+    if (isLoading) return;
+
     try {
+      setIsLoading(true);
       const result = await signInWithPopup(auth, provider);
       // This gives you a Google Access Token. You can use it to access the Google API.
       // const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -39,7 +43,6 @@ export function FirebaseAuthProvider({ children }) {
       });
     } catch (error) {
       setErrors([errors]);
-      return false;
       // // Handle Errors here.
       // const errorCode = error.code;
       // const errorMessage = error.message;
@@ -47,9 +50,9 @@ export function FirebaseAuthProvider({ children }) {
       // const email = error.email;
       // // The AuthCredential type that was used.
       // const credential = GoogleAuthProvider.credentialFromError(error);
+    } finally {
+      setIsLoading(false);
     }
-
-    return true;
   }
 
   async function logout() {

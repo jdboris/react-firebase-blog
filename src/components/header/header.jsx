@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import css from "./header.module.scss";
 
 export function Header({ useFirebaseAuth }) {
@@ -7,7 +8,11 @@ export function Header({ useFirebaseAuth }) {
     <header>
       <nav>
         {user ? (
-          <span onClick={logout}>Logout</span>
+          <>
+            {" "}
+            {user.isWriter && <Link to="posts/new">New Post</Link>}
+            <span onClick={logout}>Logout</span>
+          </>
         ) : (
           <>
             <span onClick={login}>Signup</span>

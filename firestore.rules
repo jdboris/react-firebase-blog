@@ -8,6 +8,10 @@ service cloud.firestore {
     function isLoggedIn() {
       return request.auth != null && request.auth.uid != null;
     }
+
+    function currentUser() {
+      return isLoggedIn() ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data : null;
+    }
     
     function isDocOwner(docId) {
       let isOwner = request.auth.uid == docId;
@@ -15,8 +19,17 @@ service cloud.firestore {
       return isLoggedIn() && isOwner;
     }
 
+    function isWriter() {
+      let user = currentUser();
+      return user != null && user.isWriter;
+    }
+
     match /users/{uid} {
       allow read, write: if isDocOwner(uid);
+    }
+
+    match /posts/{uid} {
+      allow read, write: if isWriter();
     }
   }
 }
