@@ -19,17 +19,18 @@ service cloud.firestore {
       return isLoggedIn() && isOwner;
     }
 
-    function isWriter() {
+    function isAuthor() {
       let user = currentUser();
-      return user != null && user.isWriter;
+      return user != null && user.isAuthor;
     }
 
     match /users/{uid} {
       allow read, write: if isDocOwner(uid);
     }
 
-    match /posts/{uid} {
-      allow read, write: if isWriter();
+    match /articles/{uid} {
+      allow read: if true;
+      allow write: if isAuthor();
     }
   }
 }

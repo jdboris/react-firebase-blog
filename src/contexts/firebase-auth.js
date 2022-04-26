@@ -1,5 +1,5 @@
 import "../firebase";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   getAuth,
   signInWithPopup,
@@ -28,6 +28,10 @@ export function FirebaseAuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
   async function login() {
     if (isLoading) return;
 
@@ -42,7 +46,7 @@ export function FirebaseAuthProvider({ children }) {
         uid: result.user.uid,
       });
     } catch (error) {
-      setErrors([errors]);
+      setErrors([error]);
       // // Handle Errors here.
       // const errorCode = error.code;
       // const errorMessage = error.message;
@@ -59,8 +63,7 @@ export function FirebaseAuthProvider({ children }) {
     try {
       await signOut(auth);
     } catch (error) {
-      console.error(error);
-      setErrors([errors]);
+      setErrors([error]);
       return false;
     }
     return true;

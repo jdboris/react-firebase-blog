@@ -6,25 +6,35 @@ import {
 } from "../../contexts/firebase-auth";
 import { Header } from "../header";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { PostForm } from "../post-form/post-form";
-import { PostProvider, usePosts } from "../../contexts/posts";
+import { ArticleForm } from "../article-form";
+import { ArticleProvider, useArticles } from "../../contexts/articles";
+import { Homepage } from "../homepage";
 
 export function App({ theme }) {
   return (
     <Router>
       <div className={theme.theme}>
         <FirebaseAuthProvider>
-          <PostProvider>
+          <ArticleProvider useFirebaseAuth={useFirebaseAuth}>
             <Header useFirebaseAuth={useFirebaseAuth} />
             <main>
               <Routes>
-                <Route path="posts">
+                <Route
+                  path="/"
+                  element={
+                    <Homepage
+                      useFirebaseAuth={useFirebaseAuth}
+                      useArticles={useArticles}
+                    />
+                  }
+                ></Route>
+                <Route path="articles">
                   <Route
                     path="new"
                     element={
-                      <PostForm
+                      <ArticleForm
                         useFirebaseAuth={useFirebaseAuth}
-                        usePosts={usePosts}
+                        useArticles={useArticles}
                         mode="create"
                       />
                     }
@@ -33,7 +43,7 @@ export function App({ theme }) {
               </Routes>
             </main>
             <footer></footer>
-          </PostProvider>
+          </ArticleProvider>
         </FirebaseAuthProvider>
       </div>
     </Router>

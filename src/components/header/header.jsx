@@ -7,10 +7,11 @@ export function Header({ useFirebaseAuth }) {
   return (
     <header>
       <nav>
+        <Link to="/">Homepage</Link>
         {user ? (
           <>
             {" "}
-            {user.isWriter && <Link to="posts/new">New Post</Link>}
+            {user.isAuthor && <Link to="/articles/new">New Article</Link>}
             <span onClick={logout}>Logout</span>
           </>
         ) : (

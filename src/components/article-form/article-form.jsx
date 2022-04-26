@@ -1,24 +1,30 @@
 import { useState } from "react";
-import css from "./post-form.module.scss";
+import css from "./article-form.module.scss";
 
-export function PostForm({ useFirebaseAuth, usePosts, ...props }) {
+export function ArticleForm({
+  useFirebaseAuth,
+  useArticles: useArticles,
+  ...props
+}) {
   const { user } = useFirebaseAuth();
-  const { save, isLoading } = usePosts();
+  const { save, isLoading } = useArticles();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
-  const [post, setPost] = useState(
-    props.post ? props.post : { uid: "", title: "", date: "", content: "" }
+  const [article, setArticle] = useState(
+    props.article
+      ? props.article
+      : { uid: "", title: "", date: "", content: "" }
   );
 
   return (
     <form
-      className={css.postForm}
+      className={css.ArticleForm}
       onSubmit={async (e) => {
         e.preventDefault();
         if (isLoading) return;
         if (mode == "create" || mode == "update") {
-          const newPost = await save(post);
-          if (newPost) {
-            setPost(newPost);
+          const newArticle = await save(article);
+          if (newArticle) {
+            setArticle(newArticle);
             setMode("read");
           }
         }
@@ -31,7 +37,10 @@ export function PostForm({ useFirebaseAuth, usePosts, ...props }) {
             type="text"
             name="title"
             onChange={(e) => {
-              setPost((old) => ({ ...old, [e.target.name]: e.target.value }));
+              setArticle((old) => ({
+                ...old,
+                [e.target.name]: e.target.value,
+              }));
             }}
           />
         </label>
@@ -41,7 +50,10 @@ export function PostForm({ useFirebaseAuth, usePosts, ...props }) {
             type="datetime-local"
             name="date"
             onChange={(e) => {
-              setPost((old) => ({ ...old, [e.target.name]: e.target.value }));
+              setArticle((old) => ({
+                ...old,
+                [e.target.name]: e.target.value,
+              }));
             }}
           />
         </label>
@@ -49,12 +61,15 @@ export function PostForm({ useFirebaseAuth, usePosts, ...props }) {
           <textarea
             name="content"
             onChange={(e) => {
-              setPost((old) => ({ ...old, [e.target.name]: e.target.value }));
+              setArticle((old) => ({
+                ...old,
+                [e.target.name]: e.target.value,
+              }));
             }}
           ></textarea>
         </label>
       </fieldset>
-      {user.isWriter &&
+      {user.isAuthor &&
         (mode == "read" ? (
           <button
             onClick={(e) => {
