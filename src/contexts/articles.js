@@ -38,10 +38,10 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
           query(
             collection(getFirestore(), "articles"),
             orderBy("date", "desc"),
-            limit(1)
+            limit(6)
           )
         )
-      ).docs[0]?.data();
+      ).docs.map((snapshot) => snapshot.data());
     } catch (error) {
       setErrors([error]);
     } finally {
