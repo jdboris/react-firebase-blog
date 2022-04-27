@@ -1,6 +1,7 @@
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   limit,
@@ -24,7 +25,9 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    console.log(errors);
+    if (errors && errors.length) {
+      console.error(errors);
+    }
   }, [errors]);
 
   async function getMostRecent() {
@@ -42,6 +45,20 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
           )
         )
       ).docs.map((snapshot) => snapshot.data());
+    } catch (error) {
+      setErrors([error]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function get(uid) {
+    if (isLoading) return;
+
+    try {
+      setIsLoading(true);
+
+      return (await getDoc(doc(getFirestore(), `articles/${uid}`))).data();
     } catch (error) {
       setErrors([error]);
     } finally {
@@ -78,6 +95,7 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
     <ArticleContext.Provider
       value={{
         save,
+        get,
         getMostRecent,
         isLoading,
       }}

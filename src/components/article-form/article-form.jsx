@@ -1,12 +1,14 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createEditor } from "slate";
 import { Editable, Slate, withReact } from "slate-react";
 import { ArticleEditor } from "../article-editor/article-editor";
 import css from "./article-form.module.scss";
+import { useParams } from "react-router-dom";
 
 export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
+  const { uid } = useParams();
   const { user } = useFirebaseAuth();
-  const { save, isLoading } = useArticles();
+  const { save, isLoading, get } = useArticles();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const contentPreviewLimit = 256;
   const [article, setArticle] = useState(
@@ -20,6 +22,14 @@ export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
           contentPreview: "<p></p>",
         }
   );
+
+  useEffect(() => {
+    (async () => {
+      if (uid && !props.article) {
+        setArticle(await get(uid));
+      }
+    })();
+  }, [uid]);
 
   return (
     <form
