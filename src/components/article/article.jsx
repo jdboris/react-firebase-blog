@@ -7,7 +7,9 @@ export function Article({ article, isPreview = false, useFirebaseAuth }) {
     <article>
       <h1>
         {article.title}
-        {user.isAuthor && <Link to={`/articles/${article.uid}`}>Edit</Link>}
+        {user && user.isAuthor && (
+          <Link to={`/articles/${article.uid}`}>Edit</Link>
+        )}
       </h1>
       <small>
         {article.authorName} - {article.date}

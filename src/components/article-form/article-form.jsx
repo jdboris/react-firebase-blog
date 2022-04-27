@@ -102,7 +102,8 @@ export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
             }}
           />
         </fieldset>
-        {user.isAuthor &&
+        {user &&
+          user.isAuthor &&
           (mode == "read" ? (
             <button
               onClick={(e) => {
