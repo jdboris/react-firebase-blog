@@ -39,6 +39,16 @@ export function App({ theme }) {
                       />
                     }
                   ></Route>
+                  <Route
+                    path=":uid"
+                    element={
+                      <ArticleForm
+                        useFirebaseAuth={useFirebaseAuth}
+                        useArticles={useArticles}
+                        mode="update"
+                      />
+                    }
+                  ></Route>
                 </Route>
               </Routes>
             </main>
