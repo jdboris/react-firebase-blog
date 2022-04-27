@@ -23,11 +23,7 @@ const HOTKEYS = {
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"];
 
-export function ArticleEditor({
-  name,
-  value = "<p><span></span></p>",
-  onChange,
-}) {
+export function ArticleEditor({ name, value = "<p></p>", onChange }) {
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);

@@ -12,7 +12,11 @@ export function Article({ article, isPreview = false, useFirebaseAuth }) {
       <small>
         {article.authorName} - {article.date}
       </small>
-      <p>{isPreview ? article.contentPreview : article.content}</p>
+      <p
+        dangerouslySetInnerHTML={{
+          __html: isPreview ? article.contentPreview : article.content,
+        }}
+      ></p>
     </article>
   );
 }
