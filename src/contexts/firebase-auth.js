@@ -44,9 +44,13 @@ export function FirebaseAuthProvider({ children }) {
       // const credential = GoogleAuthProvider.credentialFromResult(result);
       // const token = credential.accessToken;
 
-      await setDoc(doc(getFirestore(), `/users/${result.user.uid}`), {
-        uid: result.user.uid,
-      });
+      await setDoc(
+        doc(getFirestore(), `/users/${result.user.uid}`),
+        {
+          uid: result.user.uid,
+        },
+        { merge: true }
+      );
     } catch (error) {
       setErrors([error]);
       // // Handle Errors here.

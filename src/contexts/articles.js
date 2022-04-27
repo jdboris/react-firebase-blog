@@ -82,7 +82,7 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
         uid: docRef.id,
       };
 
-      await setDoc(docRef, data);
+      await setDoc(docRef, data, { merge: true });
       return data;
     } catch (error) {
       setErrors([error]);
