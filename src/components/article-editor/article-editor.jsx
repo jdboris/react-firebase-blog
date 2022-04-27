@@ -31,18 +31,21 @@ export function ArticleEditor({
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  editor.children = deserialize(
+    new DOMParser().parseFromString(value, "text/html").body
+  );
 
   return (
     <Slate
       editor={editor}
-      value={deserialize(
-        new DOMParser().parseFromString(value, "text/html").body
-      )}
       onChange={(value) => {
         if (value) {
           onChange(serialize({ children: value }));
         }
       }}
+      value={deserialize(
+        new DOMParser().parseFromString(value, "text/html").body
+      )}
     >
       <div>
         <MarkButton format="bold" icon="format_bold" />

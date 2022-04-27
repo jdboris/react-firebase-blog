@@ -12,7 +12,13 @@ export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
   const [article, setArticle] = useState(
     props.article
       ? props.article
-      : { uid: "", title: "", date: "", content: "", contentPreview: "" }
+      : {
+          uid: "",
+          title: "",
+          date: "",
+          content: "<p></p>",
+          contentPreview: "<p></p>",
+        }
   );
 
   return (
@@ -58,10 +64,11 @@ export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
             }}
           />
         </label>
+
         <label>Content</label>
         <ArticleEditor
           name="content"
-          value={"<p></p>"}
+          value={article.content}
           onChange={(value) => {
             setArticle((old) => {
               return {
@@ -76,21 +83,20 @@ export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
             });
           }}
         />
-        <label>
-          Preview
-          <textarea
-            name="contentPreview"
-            value={article.contentPreview}
-            onChange={(e) => {
-              setArticle((old) => {
-                return {
-                  ...old,
-                  [e.target.name]: e.target.value,
-                };
-              });
-            }}
-          ></textarea>
-        </label>
+
+        <label>Preview</label>
+        <ArticleEditor
+          name="contentPreview"
+          value={article.contentPreview}
+          onChange={(value) => {
+            setArticle((old) => {
+              return {
+                ...old,
+                contentPreview: value,
+              };
+            });
+          }}
+        />
       </fieldset>
       {user.isAuthor &&
         (mode == "read" ? (
