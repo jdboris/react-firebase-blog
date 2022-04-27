@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { createEditor } from "slate";
+import { Editable, Slate, withReact } from "slate-react";
+import { ArticleEditor } from "../article-editor/article-editor";
 import css from "./article-form.module.scss";
 
-export function ArticleForm({
-  useFirebaseAuth,
-  useArticles: useArticles,
-  ...props
-}) {
+export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
   const { user } = useFirebaseAuth();
   const { save, isLoading } = useArticles();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
@@ -18,7 +17,6 @@ export function ArticleForm({
 
   return (
     <form
-      className={css.ArticleForm}
       onSubmit={async (e) => {
         e.preventDefault();
         if (isLoading) return;
@@ -60,26 +58,24 @@ export function ArticleForm({
             }}
           />
         </label>
-        <label>
-          Content
-          <textarea
-            name="content"
-            value={article.content}
-            onChange={(e) => {
-              setArticle((old) => {
-                return {
-                  ...old,
-                  contentPreview:
-                    old.contentPreview !=
-                    old.content.substring(0, contentPreviewLimit)
-                      ? old.contentPreview
-                      : e.target.value.substring(0, contentPreviewLimit),
-                  [e.target.name]: e.target.value,
-                };
-              });
-            }}
-          ></textarea>
-        </label>
+        <label>Content</label>
+        <ArticleEditor
+          name="content"
+          // value={}
+          onChange={(value) => {
+            setArticle((old) => {
+              return {
+                ...old,
+                contentPreview:
+                  old.contentPreview !=
+                  old.content.substring(0, contentPreviewLimit)
+                    ? old.contentPreview
+                    : value.substring(0, contentPreviewLimit),
+                content: value,
+              };
+            });
+          }}
+        />
         <label>
           Preview
           <textarea
