@@ -61,7 +61,7 @@ export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
         <label>Content</label>
         <ArticleEditor
           name="content"
-          // value={}
+          value={"<p></p>"}
           onChange={(value) => {
             setArticle((old) => {
               return {
