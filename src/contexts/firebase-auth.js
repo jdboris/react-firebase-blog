@@ -29,7 +29,9 @@ export function FirebaseAuthProvider({ children }) {
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    console.log(errors);
+    if (errors && errors.length) {
+      console.error(errors);
+    }
   }, [errors]);
 
   async function login() {
