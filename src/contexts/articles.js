@@ -18,6 +18,10 @@ export function useArticles() {
   return useContext(ArticleContext);
 }
 
+function translateDates(article) {
+  return { ...article, date: article.date.toDate() };
+}
+
 export function ArticleProvider({ useFirebaseAuth, children }) {
   const { user } = useFirebaseAuth();
 
@@ -44,7 +48,7 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
             limit(6)
           )
         )
-      ).docs.map((snapshot) => snapshot.data());
+      ).docs.map((snapshot) => translateDates(snapshot.data()));
     } catch (error) {
       setErrors([error]);
     } finally {
@@ -58,7 +62,9 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
     try {
       setIsLoading(true);
 
-      return (await getDoc(doc(getFirestore(), `articles/${uid}`))).data();
+      return translateDates(
+        (await getDoc(doc(getFirestore(), `articles/${uid}`))).data()
+      );
     } catch (error) {
       setErrors([error]);
     } finally {

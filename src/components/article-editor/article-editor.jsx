@@ -62,7 +62,6 @@ export function ArticleEditor({ name, value = "<p></p>", onChange }) {
         name={name}
         renderElement={renderElement}
         renderLeaf={renderLeaf}
-        placeholder="Article content..."
         spellCheck
         autoFocus
         onKeyDown={(event) => {

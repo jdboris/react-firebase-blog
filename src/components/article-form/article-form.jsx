@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createEditor } from "slate";
 import { Editable, Slate, withReact } from "slate-react";
-import { ArticleEditor } from "../article-editor/article-editor";
+import { ArticleEditor } from "../article-editor";
 import css from "./article-form.module.scss";
 import { useParams } from "react-router-dom";
 
@@ -56,11 +56,20 @@ export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
             <input
               type="datetime-local"
               name="date"
-              value={article?.date}
+              value={
+                article?.date
+                  ? new Date(
+                      article.date.getTime() -
+                        article.date.getTimezoneOffset() * 60000
+                    )
+                      .toISOString()
+                      .slice(0, -1)
+                  : ""
+              }
               onChange={(e) => {
                 setArticle((old) => ({
                   ...old,
-                  [e.target.name]: e.target.value,
+                  [e.target.name]: new Date(e.target.value),
                 }));
               }}
             />

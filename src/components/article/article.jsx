@@ -18,7 +18,11 @@ export function Article({
           </Link>
         )}
         <small>
-          {article.authorName} {article.date}
+          {article.authorName} |{" "}
+          {new Intl.DateTimeFormat(undefined, {
+            timeStyle: "short",
+            dateStyle: "medium",
+          }).format(article.date)}
         </small>
       </header>
       <article>
