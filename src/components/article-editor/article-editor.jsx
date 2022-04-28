@@ -262,7 +262,8 @@ function toElements(node) {
     return (
       <Leaf
         key={Date.now()}
-        children={escapeHtml(node.text)}
+        // children={escapeHtml(node.text)}
+        children={node.text}
         leaf={node}
         attributes={node.attributes}
       />
