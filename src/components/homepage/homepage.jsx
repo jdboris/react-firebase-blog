@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Article } from "../article";
 
-export function Homepage({ useFirebaseAuth, useArticles }) {
+export function Homepage({ theme, useFirebaseAuth, useArticles }) {
   const { user } = useFirebaseAuth();
   const { getMostRecent } = useArticles();
   const [mostRecent, setMostRecent] = useState([]);
@@ -13,21 +13,26 @@ export function Homepage({ useFirebaseAuth, useArticles }) {
   }, []);
 
   return (
-    <section>
+    <>
       {mostRecent.length > 0 && (
-        <Article article={mostRecent[0]} useFirebaseAuth={useFirebaseAuth} />
+        <Article
+          theme={theme}
+          article={mostRecent[0]}
+          useFirebaseAuth={useFirebaseAuth}
+        />
       )}
       {mostRecent.length > 1 &&
         mostRecent
           .slice(1)
           .map((article) => (
             <Article
+              theme={theme}
               key={article.uid}
               article={article}
               isPreview={true}
               useFirebaseAuth={useFirebaseAuth}
             />
           ))}
-    </section>
+    </>
   );
 }

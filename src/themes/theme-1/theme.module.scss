@@ -1,0 +1,107 @@
+@font-face {
+  font-family: "IntroCondCaps";
+  src: local("IntroCondCaps"),
+    url(./intro-cond-light-free.otf) format("opentype");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                                'embedded-opentype', and 'svg' */
+}
+
+@font-face {
+  font-family: "IntroCondCaps";
+  font-weight: bold;
+  src: local("IntroCondCaps"),
+    url(./intro-cond-black-free.otf) format("opentype");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                                'embedded-opentype', and 'svg' */
+}
+
+@font-face {
+  font-family: "IntroCond";
+  src: local("IntroCond"),
+    url(./intro-cond-semi-bold-regular.ttf) format("truetype");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                                'embedded-opentype', and 'svg' */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.root {
+  $max-content-width: 900px;
+
+  font-family: "IntroCond";
+  font-size: 1.1em;
+
+  & > main {
+    max-width: $max-content-width;
+    margin: auto;
+  }
+
+  & > header {
+    background: rgb(25, 20, 31);
+    display: flex;
+    justify-content: space-between;
+    padding-inline: calc((100% - $max-content-width) / 2);
+
+    nav {
+      display: flex;
+    }
+  }
+
+  nav > * {
+    color: white;
+    padding: 1.5em 1em;
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "IntroCondCaps";
+  }
+
+  fieldset {
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  button,
+  .button {
+    font-size: 1.5rem;
+    background-color: grey;
+    border: none;
+    border-radius: 0.2em;
+    padding: 0.2em 0.4em;
+  }
+
+  .article {
+    header {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      small {
+        margin-top: -1.9em;
+        opacity: 0.5;
+        width: 100%;
+      }
+    }
+  }
+}

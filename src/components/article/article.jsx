@@ -1,24 +1,33 @@
 import { Link } from "react-router-dom";
 
-export function Article({ article, isPreview = false, useFirebaseAuth }) {
+export function Article({
+  theme,
+  article,
+  isPreview = false,
+  useFirebaseAuth,
+}) {
   const { user } = useFirebaseAuth();
 
   return (
-    <article>
-      <h1>
-        {article.title}
+    <div className={theme.article}>
+      <header>
+        <h1>{article.title}</h1>
         {user && user.isAuthor && (
-          <Link to={`/articles/${article.uid}`}>Edit</Link>
+          <Link to={`/articles/${article.uid}`} className={theme.button}>
+            Edit
+          </Link>
         )}
-      </h1>
-      <small>
-        {article.authorName} - {article.date}
-      </small>
-      <p
-        dangerouslySetInnerHTML={{
-          __html: isPreview ? article.contentPreview : article.content,
-        }}
-      ></p>
-    </article>
+        <small>
+          {article.authorName} {article.date}
+        </small>
+      </header>
+      <article>
+        <p
+          dangerouslySetInnerHTML={{
+            __html: isPreview ? article.contentPreview : article.content,
+          }}
+        ></p>
+      </article>
+    </div>
   );
 }

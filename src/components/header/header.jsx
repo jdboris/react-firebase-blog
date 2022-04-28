@@ -8,6 +8,8 @@ export function Header({ useFirebaseAuth }) {
     <header>
       <nav>
         <Link to="/">Homepage</Link>
+      </nav>
+      <nav>
         {user ? (
           <>
             {" "}

@@ -13,7 +13,7 @@ import { Homepage } from "../homepage";
 export function App({ theme }) {
   return (
     <Router>
-      <div className={theme.theme}>
+      <div className={theme.root}>
         <FirebaseAuthProvider>
           <ArticleProvider useFirebaseAuth={useFirebaseAuth}>
             <Header useFirebaseAuth={useFirebaseAuth} />
@@ -23,6 +23,7 @@ export function App({ theme }) {
                   path="/"
                   element={
                     <Homepage
+                      theme={theme}
                       useFirebaseAuth={useFirebaseAuth}
                       useArticles={useArticles}
                     />

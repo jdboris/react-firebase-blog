@@ -48,8 +48,8 @@ export function ArticleEditor({ name, value = "<p></p>", onChange }) {
         <MarkButton format="italic" icon="format_italic" />
         <MarkButton format="underline" icon="format_underlined" />
         <MarkButton format="code" icon="code" />
-        <BlockButton format="heading-one" icon="looks_one" />
-        <BlockButton format="heading-two" icon="looks_two" />
+        <BlockButton format="heading-two" icon="looks_one" />
+        <BlockButton format="heading-three" icon="looks_two" />
         <BlockButton format="block-quote" icon="format_quote" />
         <BlockButton format="numbered-list" icon="format_list_numbered" />
         <BlockButton format="bulleted-list" icon="format_list_bulleted" />
@@ -160,17 +160,17 @@ const Element = ({ attributes, children, element }) => {
           {children}
         </ul>
       );
-    case "heading-one":
-      return (
-        <h1 style={style} {...attributes}>
-          {children}
-        </h1>
-      );
     case "heading-two":
       return (
         <h2 style={style} {...attributes}>
           {children}
         </h2>
+      );
+    case "heading-three":
+      return (
+        <h3 style={style} {...attributes}>
+          {children}
+        </h3>
       );
     case "list-item":
       return (
@@ -327,10 +327,10 @@ const deserialize = (el, markAttributes = {}) => {
       return jsx("element", { type: "quote" }, children);
     case "P":
       return jsx("element", { type: "paragraph" }, children);
-    case "H1":
-      return jsx("element", { type: "heading-one" }, children);
     case "H2":
       return jsx("element", { type: "heading-two" }, children);
+    case "H3":
+      return jsx("element", { type: "heading-three" }, children);
     case "A":
       return jsx(
         "element",

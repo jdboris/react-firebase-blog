@@ -1,5 +1,5 @@
 import { App } from "../components/app";
-import theme from "../css/theme.module.scss";
+import theme from "../themes/theme-1/theme.module.scss";
 
 export default {
   title: "App",
