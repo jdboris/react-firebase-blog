@@ -1,3 +1,4 @@
+import css from "./article-editor.module.scss";
 import isHotkey from "is-hotkey";
 import React, { useCallback, useMemo } from "react";
 import ReactDOMServer from "react-dom/server";
@@ -56,64 +57,75 @@ export function ArticleEditor({ theme, name, value = "<p></p>", onChange }) {
         new DOMParser().parseFromString(value, "text/html").body
       )}
     >
-      <div>
-        <MarkButton theme={theme} format="bold">
-          <FaBold />
-        </MarkButton>
-        <MarkButton theme={theme} format="italic">
-          <FaItalic />
-        </MarkButton>
-        <MarkButton theme={theme} format="underline">
-          <FaUnderline />
-        </MarkButton>
-        <MarkButton theme={theme} format="code">
-          <FaCode />
-        </MarkButton>
-        <BlockButton theme={theme} format="heading-two">
-          <FaHeading />
-        </BlockButton>
-        <BlockButton theme={theme} format="heading-three">
-          <FaHeading style={{ fontSize: "0.8em" }} />
-        </BlockButton>
-        <BlockButton theme={theme} format="block-quote">
-          <FaQuoteRight />
-        </BlockButton>
+      <div className={css.articleEditor}>
+        <header>
+          <span className={css.formatControls}>
+            <span className={css.buttonGroup}>
+              <MarkButton theme={theme} format="bold">
+                <FaBold />
+              </MarkButton>
+              <MarkButton theme={theme} format="italic">
+                <FaItalic />
+              </MarkButton>
+              <MarkButton theme={theme} format="underline">
+                <FaUnderline />
+              </MarkButton>
+              <MarkButton theme={theme} format="code">
+                <FaCode />
+              </MarkButton>
+            </span>
 
-        <BlockButton theme={theme} format="numbered-list">
-          <FaListOl />
-        </BlockButton>
-        <BlockButton theme={theme} format="bulleted-list">
-          <FaListUl />
-        </BlockButton>
-        <BlockButton theme={theme} format="left">
-          <FaAlignLeft />
-        </BlockButton>
-        <BlockButton theme={theme} format="center">
-          <FaAlignCenter />
-        </BlockButton>
-        <BlockButton theme={theme} format="right">
-          <FaAlignRight />
-        </BlockButton>
-        <BlockButton theme={theme} format="justify">
-          <FaAlignJustify />
-        </BlockButton>
-      </div>
-      <Editable
-        name={name}
-        renderElement={renderElement}
-        renderLeaf={renderLeaf}
-        spellCheck
-        autoFocus
-        onKeyDown={(event) => {
-          for (const hotkey in HOTKEYS) {
-            if (isHotkey(hotkey, event)) {
-              event.preventDefault();
-              const mark = HOTKEYS[hotkey];
-              toggleMark(editor, mark);
+            <span className={css.buttonGroup}>
+              <BlockButton theme={theme} format="heading-two">
+                <FaHeading />
+              </BlockButton>
+              <BlockButton theme={theme} format="heading-three">
+                <FaHeading style={{ padding: "0.1em" }} />
+              </BlockButton>
+              <BlockButton theme={theme} format="block-quote">
+                <FaQuoteRight />
+              </BlockButton>
+              <BlockButton theme={theme} format="numbered-list">
+                <FaListOl />
+              </BlockButton>
+              <BlockButton theme={theme} format="bulleted-list">
+                <FaListUl />
+              </BlockButton>
+            </span>
+
+            <span className={css.buttonGroup}>
+              <BlockButton theme={theme} format="left">
+                <FaAlignLeft />
+              </BlockButton>
+              <BlockButton theme={theme} format="center">
+                <FaAlignCenter />
+              </BlockButton>
+              <BlockButton theme={theme} format="right">
+                <FaAlignRight />
+              </BlockButton>
+              <BlockButton theme={theme} format="justify">
+                <FaAlignJustify />
+              </BlockButton>
+            </span>
+          </span>
+        </header>
+        <Editable
+          name={name}
+          renderElement={renderElement}
+          renderLeaf={renderLeaf}
+          spellCheck
+          autoFocus
+          onKeyDown={(event) => {
+            for (const hotkey in HOTKEYS) {
+              if (isHotkey(hotkey, event)) {
+                event.preventDefault();
+                const mark = HOTKEYS[hotkey];
+                toggleMark(editor, mark);
+              }
             }
-          }
-        }}
-      />
+          }}
+        />
+      </div>
     </Slate>
   );
 }
@@ -256,12 +268,19 @@ const BlockButton = ({ theme, format, children }) => {
   const editor = useSlate();
   return (
     <button
-      className={theme.buttonAlt}
-      // active={isBlockActive(
-      //   editor,
-      //   format,
-      //   TEXT_ALIGN_TYPES.includes(format) ? "align" : "type"
-      // )}
+      className={
+        theme.buttonAlt +
+        " " +
+        css.small +
+        " " +
+        (isBlockActive(
+          editor,
+          format,
+          TEXT_ALIGN_TYPES.includes(format) ? "align" : "type"
+        )
+          ? css.active
+          : "")
+      }
       onMouseDown={(e) => {
         e.preventDefault();
         toggleBlock(editor, format);
@@ -279,8 +298,13 @@ const MarkButton = ({ theme, format, children }) => {
   const editor = useSlate();
   return (
     <button
-      className={theme.buttonAlt}
-      // active={isMarkActive(editor, format)}
+      className={
+        theme.buttonAlt +
+        " " +
+        css.small +
+        " " +
+        (isMarkActive(editor, format) ? css.active : "")
+      }
       onMouseDown={(e) => {
         e.preventDefault();
         toggleMark(editor, format);

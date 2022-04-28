@@ -63,7 +63,7 @@ body {
     background: rgb(25, 20, 31);
     display: flex;
     justify-content: space-between;
-    padding-inline: calc((100% - $max-content-width) / 2);
+    padding: 0 calc((100% - $max-content-width) / 2);
 
     nav {
       display: flex;
@@ -120,14 +120,6 @@ body {
     color: initial;
     background-color: initial;
     padding: 0.1em;
-  }
-
-  .buttonAlt.active {
-    background: rgb(106, 158, 65);
-  }
-
-  .buttonAlt.small {
-    font-size: 1em;
   }
 
   button[disabled],
