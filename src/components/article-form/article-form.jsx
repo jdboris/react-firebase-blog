@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
-import { createEditor } from "slate";
-import { Editable, Slate, withReact } from "slate-react";
-import { ArticleEditor } from "../article-editor";
-import css from "./article-form.module.scss";
+import { toHaveErrorMessage } from "@testing-library/jest-dom/dist/matchers";
+import { useEffect, useState } from "react";
+import { FaEdit, FaSave } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import { ArticleEditor } from "../article-editor";
 
-export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
+export function ArticleForm({ theme, useFirebaseAuth, useArticles, ...props }) {
   const { uid } = useParams();
   const { user } = useFirebaseAuth();
   const { save, isLoading, get } = useArticles();
@@ -77,6 +76,7 @@ export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
 
           <label>Content</label>
           <ArticleEditor
+            theme={theme}
             name="content"
             value={article?.content}
             onChange={(value) => {
@@ -99,6 +99,7 @@ export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
 
           <label>Preview</label>
           <ArticleEditor
+            theme={theme}
             name="contentPreview"
             value={article?.contentPreview}
             onChange={(value) => {
@@ -115,18 +116,21 @@ export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
           user.isAuthor &&
           (mode == "read" ? (
             <button
+              className={theme.buttonAlt}
               onClick={(e) => {
                 e.preventDefault();
                 setMode("update");
               }}
               disabled={isLoading}
             >
-              Edit
+              <FaEdit />
             </button>
           ) : mode == "create" ? (
             <button disabled={isLoading}>Post</button>
           ) : mode == "update" ? (
-            <button disabled={isLoading}>Save</button>
+            <button className={theme.buttonAlt} disabled={isLoading}>
+              <FaSave />
+            </button>
           ) : (
             false
           ))}

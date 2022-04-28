@@ -1,4 +1,3 @@
-import escapeHtml from "escape-html";
 import isHotkey from "is-hotkey";
 import React, { useCallback, useMemo } from "react";
 import ReactDOMServer from "react-dom/server";
@@ -12,6 +11,20 @@ import {
 import { withHistory } from "slate-history";
 import { jsx } from "slate-hyperscript";
 import { Editable, Slate, useSlate, withReact } from "slate-react";
+import {
+  FaBold,
+  FaItalic,
+  FaUnderline,
+  FaCode,
+  FaHeading,
+  FaQuoteRight,
+  FaAlignLeft,
+  FaAlignCenter,
+  FaAlignRight,
+  FaAlignJustify,
+  FaListUl,
+  FaListOl,
+} from "react-icons/fa";
 
 const HOTKEYS = {
   "mod+b": "bold",
@@ -23,7 +36,7 @@ const HOTKEYS = {
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"];
 
-export function ArticleEditor({ name, value = "<p></p>", onChange }) {
+export function ArticleEditor({ theme, name, value = "<p></p>", onChange }) {
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -44,19 +57,46 @@ export function ArticleEditor({ name, value = "<p></p>", onChange }) {
       )}
     >
       <div>
-        <MarkButton format="bold" icon="format_bold" />
-        <MarkButton format="italic" icon="format_italic" />
-        <MarkButton format="underline" icon="format_underlined" />
-        <MarkButton format="code" icon="code" />
-        <BlockButton format="heading-two" icon="looks_one" />
-        <BlockButton format="heading-three" icon="looks_two" />
-        <BlockButton format="block-quote" icon="format_quote" />
-        <BlockButton format="numbered-list" icon="format_list_numbered" />
-        <BlockButton format="bulleted-list" icon="format_list_bulleted" />
-        <BlockButton format="left" icon="format_align_left" />
-        <BlockButton format="center" icon="format_align_center" />
-        <BlockButton format="right" icon="format_align_right" />
-        <BlockButton format="justify" icon="format_align_justify" />
+        <MarkButton theme={theme} format="bold">
+          <FaBold />
+        </MarkButton>
+        <MarkButton theme={theme} format="italic">
+          <FaItalic />
+        </MarkButton>
+        <MarkButton theme={theme} format="underline">
+          <FaUnderline />
+        </MarkButton>
+        <MarkButton theme={theme} format="code">
+          <FaCode />
+        </MarkButton>
+        <BlockButton theme={theme} format="heading-two">
+          <FaHeading />
+        </BlockButton>
+        <BlockButton theme={theme} format="heading-three">
+          <FaHeading style={{ fontSize: "0.8em" }} />
+        </BlockButton>
+        <BlockButton theme={theme} format="block-quote">
+          <FaQuoteRight />
+        </BlockButton>
+
+        <BlockButton theme={theme} format="numbered-list">
+          <FaListOl />
+        </BlockButton>
+        <BlockButton theme={theme} format="bulleted-list">
+          <FaListUl />
+        </BlockButton>
+        <BlockButton theme={theme} format="left">
+          <FaAlignLeft />
+        </BlockButton>
+        <BlockButton theme={theme} format="center">
+          <FaAlignCenter />
+        </BlockButton>
+        <BlockButton theme={theme} format="right">
+          <FaAlignRight />
+        </BlockButton>
+        <BlockButton theme={theme} format="justify">
+          <FaAlignJustify />
+        </BlockButton>
       </div>
       <Editable
         name={name}
@@ -212,10 +252,11 @@ const Leaf = ({ attributes, children, leaf }) => {
   return <span {...attributes}>{children}</span>;
 };
 
-const BlockButton = ({ format, icon }) => {
+const BlockButton = ({ theme, format, children }) => {
   const editor = useSlate();
   return (
     <button
+      className={theme.buttonAlt}
       // active={isBlockActive(
       //   editor,
       //   format,
@@ -229,15 +270,16 @@ const BlockButton = ({ format, icon }) => {
         e.preventDefault();
       }}
     >
-      <i>{icon}</i>
+      {children}
     </button>
   );
 };
 
-const MarkButton = ({ format, icon }) => {
+const MarkButton = ({ theme, format, children }) => {
   const editor = useSlate();
   return (
     <button
+      className={theme.buttonAlt}
       // active={isMarkActive(editor, format)}
       onMouseDown={(e) => {
         e.preventDefault();
@@ -247,7 +289,7 @@ const MarkButton = ({ format, icon }) => {
         e.preventDefault();
       }}
     >
-      <i>{icon}</i>
+      {children}
     </button>
   );
 };
@@ -324,25 +366,57 @@ const deserialize = (el, markAttributes = {}) => {
     case "BR":
       return "\n";
     case "BLOCKQUOTE":
-      return jsx("element", { type: "quote" }, children);
+      return jsx(
+        "element",
+        { type: "quote", align: el.style.textAlign },
+        children
+      );
     case "P":
-      return jsx("element", { type: "paragraph" }, children);
+      return jsx(
+        "element",
+        { type: "paragraph", align: el.style.textAlign },
+        children
+      );
     case "H2":
-      return jsx("element", { type: "heading-two" }, children);
+      return jsx(
+        "element",
+        { type: "heading-two", align: el.style.textAlign },
+        children
+      );
     case "H3":
-      return jsx("element", { type: "heading-three" }, children);
+      return jsx(
+        "element",
+        { type: "heading-three", align: el.style.textAlign },
+        children
+      );
     case "A":
       return jsx(
         "element",
-        { type: "link", url: el.getAttribute("href") },
+        {
+          type: "link",
+          url: el.getAttribute("href"),
+          align: el.style.textAlign,
+        },
         children
       );
     case "UL":
-      return jsx("element", { type: "bulleted-list" }, children);
+      return jsx(
+        "element",
+        { type: "bulleted-list", align: el.style.textAlign },
+        children
+      );
     case "OL":
-      return jsx("element", { type: "numbered-list" }, children);
+      return jsx(
+        "element",
+        { type: "numbered-list", align: el.style.textAlign },
+        children
+      );
     case "LI":
-      return jsx("element", { type: "list-item" }, children);
+      return jsx(
+        "element",
+        { type: "list-item", align: el.style.textAlign },
+        children
+      );
 
     default:
       return children;

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
 
 export function Article({
   theme,
@@ -13,8 +14,8 @@ export function Article({
       <header>
         <h1>{article.title}</h1>
         {user && user.isAuthor && (
-          <Link to={`/articles/${article.uid}`} className={theme.button}>
-            Edit
+          <Link to={`/articles/${article.uid}`}>
+            <FaEdit />
           </Link>
         )}
         <small>

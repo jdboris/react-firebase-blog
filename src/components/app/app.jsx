@@ -34,6 +34,7 @@ export function App({ theme }) {
                     path="new"
                     element={
                       <ArticleForm
+                        theme={theme}
                         useFirebaseAuth={useFirebaseAuth}
                         useArticles={useArticles}
                         mode="create"
@@ -44,6 +45,7 @@ export function App({ theme }) {
                     path=":uid"
                     element={
                       <ArticleForm
+                        theme={theme}
                         useFirebaseAuth={useFirebaseAuth}
                         useArticles={useArticles}
                         mode="update"

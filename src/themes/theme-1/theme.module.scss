@@ -52,6 +52,10 @@ body {
 
     nav {
       display: flex;
+
+      a {
+        color: white;
+      }
     }
   }
 
@@ -77,21 +81,29 @@ body {
   }
 
   a {
-    color: white;
     text-decoration: none;
+    color: inherit;
   }
 
   button,
-  .button {
+  .button,
+  .buttonAlt {
     font-family: "IntroCondCaps";
-    font-size: 1.5rem;
     font-weight: bold;
     color: white;
     background-color: grey;
     border: none;
     border-radius: 0.2em;
     padding: 0.2em 0.4em;
+
+    font-size: 1.5rem;
     cursor: pointer;
+  }
+
+  .buttonAlt {
+    color: initial;
+    background-color: initial;
+    padding: 0.1em;
   }
 
   button[disabled],
@@ -105,12 +117,18 @@ body {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      justify-content: space-between;
+      column-gap: 1em;
 
       small {
         margin-top: -1.9em;
         opacity: 0.5;
         width: 100%;
+      }
+
+      a {
+        svg {
+          font-size: 1.5em;
+        }
       }
     }
   }
