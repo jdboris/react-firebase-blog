@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import css from "./header.module.scss";
 
 export function Header({ useFirebaseAuth }) {
-  const { user, login, logout } = useFirebaseAuth();
+  const { user, login, logout, isLoading } = useFirebaseAuth();
 
   return (
     <header>
@@ -10,20 +10,21 @@ export function Header({ useFirebaseAuth }) {
         <Link to="/">Homepage</Link>
       </nav>
       <nav>
-        {user ? (
-          <>
-            {" "}
-            {user && user.isAuthor && (
-              <Link to="/articles/new">New Article</Link>
-            )}
-            <span onClick={logout}>Logout</span>
-          </>
-        ) : (
-          <>
-            <span onClick={login}>Signup</span>
-            <span onClick={login}>Login</span>
-          </>
-        )}
+        {!isLoading &&
+          (user ? (
+            <>
+              {" "}
+              {user && user.isAuthor && (
+                <Link to="/articles/new">New Article</Link>
+              )}
+              <span onClick={logout}>Logout</span>
+            </>
+          ) : (
+            <>
+              <span onClick={login}>Signup</span>
+              <span onClick={login}>Login</span>
+            </>
+          ))}
       </nav>
     </header>
   );

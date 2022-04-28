@@ -1,5 +1,5 @@
 import "../firebase";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import {
   getAuth,
   signInWithPopup,
@@ -25,7 +25,11 @@ export function FirebaseAuthProvider({ children }) {
     authUser ? doc(getFirestore(), `/users/${authUser.uid}`) : null
   );
 
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useMemo(
+    () => isLoadingAuthUser || isLoadingUserData,
+    [isLoadingAuthUser, isLoadingUserData]
+  );
+
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
@@ -38,7 +42,7 @@ export function FirebaseAuthProvider({ children }) {
     if (isLoading) return;
 
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const result = await signInWithPopup(auth, provider);
       // This gives you a Google Access Token. You can use it to access the Google API.
       // const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -61,7 +65,7 @@ export function FirebaseAuthProvider({ children }) {
       // // The AuthCredential type that was used.
       // const credential = GoogleAuthProvider.credentialFromError(error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   }
 
@@ -81,6 +85,7 @@ export function FirebaseAuthProvider({ children }) {
         user: userData && authUser ? { ...userData, ...authUser } : null,
         login,
         logout,
+        isLoading,
       }}
     >
       {children}
