@@ -16,9 +16,24 @@
 }
 
 @font-face {
-  font-family: "IntroCond";
-  src: local("IntroCond"),
-    url(./intro-cond-semi-bold-regular.ttf) format("truetype");
+  font-family: "Intro";
+  src: local("Intro"), url(./intro-regular.ttf) format("truetype");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                                'embedded-opentype', and 'svg' */
+}
+
+@font-face {
+  font-family: "Intro";
+  font-weight: 300;
+  src: local("Intro"), url(./intro-bold.ttf) format("truetype");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                                'embedded-opentype', and 'svg' */
+}
+
+@font-face {
+  font-family: "Intro";
+  font-weight: bold;
+  src: local("Intro"), url(./intro-black.ttf) format("truetype");
   /* other formats include: 'woff2', 'truetype, 'opentype',
                                 'embedded-opentype', and 'svg' */
 }
@@ -36,7 +51,7 @@ body {
 .root {
   $max-content-width: 900px;
 
-  font-family: "IntroCond";
+  font-family: "Intro";
   font-size: 1.1em;
 
   & > main {
@@ -91,7 +106,7 @@ body {
     font-family: "IntroCondCaps";
     font-weight: bold;
     color: white;
-    background-color: grey;
+    background-color: rgb(74, 71, 74);
     border: none;
     border-radius: 0.2em;
     padding: 0.2em 0.4em;
@@ -101,9 +116,18 @@ body {
   }
 
   .buttonAlt {
+    display: inline-flex;
     color: initial;
     background-color: initial;
     padding: 0.1em;
+  }
+
+  .buttonAlt.active {
+    background: rgb(106, 158, 65);
+  }
+
+  .buttonAlt.small {
+    font-size: 1em;
   }
 
   button[disabled],
