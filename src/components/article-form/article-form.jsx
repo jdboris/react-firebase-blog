@@ -119,13 +119,14 @@ export function ArticleForm({ useFirebaseAuth, useArticles, ...props }) {
                 e.preventDefault();
                 setMode("update");
               }}
+              disabled={isLoading}
             >
               Edit
             </button>
           ) : mode == "create" ? (
-            <button>Post</button>
+            <button disabled={isLoading}>Post</button>
           ) : mode == "update" ? (
-            <button>Save</button>
+            <button disabled={isLoading}>Save</button>
           ) : (
             false
           ))}

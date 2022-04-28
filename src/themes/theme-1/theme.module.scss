@@ -83,12 +83,21 @@ body {
 
   button,
   .button {
+    font-family: "IntroCondCaps";
     font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
     background-color: grey;
     border: none;
     border-radius: 0.2em;
     padding: 0.2em 0.4em;
     cursor: pointer;
+  }
+
+  button[disabled],
+  .button[disabled] {
+    cursor: initial;
+    opacity: 0.5;
   }
 
   .article {
