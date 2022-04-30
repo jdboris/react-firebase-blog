@@ -1,6 +1,6 @@
 import css from "./article-editor.module.scss";
 import isHotkey from "is-hotkey";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import {
   createEditor,
@@ -37,10 +37,19 @@ const HOTKEYS = {
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"];
 
-export function ArticleEditor({ theme, name, value = "<p></p>", onChange }) {
+export function ArticleEditor({
+  theme,
+  name,
+  value = "<p><span></span></p>",
+  onChange,
+  placeholder,
+  autoFocus,
+}) {
+  const [isFocused, setIsFocused] = useState(false);
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+
   editor.children = deserialize(
     new DOMParser().parseFromString(value, "text/html").body
   );
@@ -49,7 +58,7 @@ export function ArticleEditor({ theme, name, value = "<p></p>", onChange }) {
     <Slate
       editor={editor}
       onChange={(value) => {
-        if (value) {
+        if (onChange && value) {
           onChange(serialize({ children: value }));
         }
       }}
@@ -59,7 +68,10 @@ export function ArticleEditor({ theme, name, value = "<p></p>", onChange }) {
     >
       <div className={css.articleEditor}>
         <header>
-          <span className={css.formatControls}>
+          <span
+            className={css.formatControls}
+            style={{ ...(!isFocused ? { visibility: "hidden" } : {}) }}
+          >
             <span className={css.buttonGroup}>
               <MarkButton theme={theme} format="bold">
                 <FaBold />
@@ -109,22 +121,31 @@ export function ArticleEditor({ theme, name, value = "<p></p>", onChange }) {
             </span>
           </span>
         </header>
-        <Editable
-          name={name}
-          renderElement={renderElement}
-          renderLeaf={renderLeaf}
-          spellCheck
-          autoFocus
-          onKeyDown={(event) => {
-            for (const hotkey in HOTKEYS) {
-              if (isHotkey(hotkey, event)) {
-                event.preventDefault();
-                const mark = HOTKEYS[hotkey];
-                toggleMark(editor, mark);
+        <div className={css.content}>
+          <Editable
+            name={name}
+            renderElement={renderElement}
+            renderLeaf={renderLeaf}
+            spellCheck
+            autoFocus={autoFocus}
+            onFocus={() => {
+              setIsFocused(true);
+            }}
+            onBlur={() => {
+              setIsFocused(false);
+            }}
+            placeholder={placeholder}
+            onKeyDown={(event) => {
+              for (const hotkey in HOTKEYS) {
+                if (isHotkey(hotkey, event)) {
+                  event.preventDefault();
+                  const mark = HOTKEYS[hotkey];
+                  toggleMark(editor, mark);
+                }
               }
-            }
-          }}
-        />
+            }}
+          />
+        </div>
       </div>
     </Slate>
   );
@@ -156,6 +177,7 @@ const toggleBlock = (editor, format) => {
       type: isActive ? "paragraph" : isList ? "list-item" : format,
     };
   }
+
   Transforms.setNodes(editor, newProperties);
 
   if (!isActive && isList) {
@@ -392,7 +414,7 @@ const deserialize = (el, markAttributes = {}) => {
     case "BLOCKQUOTE":
       return jsx(
         "element",
-        { type: "quote", align: el.style.textAlign },
+        { type: "block-quote", align: el.style.textAlign },
         children
       );
     case "P":
