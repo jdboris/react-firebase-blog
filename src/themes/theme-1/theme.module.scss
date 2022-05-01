@@ -64,6 +64,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 0 calc((100% - $max-content-width) / 2);
+    border-bottom: 0.5em solid rgb(81, 119, 55);
 
     nav {
       display: flex;
@@ -88,6 +89,10 @@ body {
   h6 {
     font-family: "IntroCondCaps";
     width: 100%;
+  }
+
+  h1 {
+    font-size: 3em;
   }
 
   input,
@@ -180,6 +185,8 @@ body {
   }
 
   .article {
+    border-bottom: 0.2em solid #7650a1;
+
     header {
       display: flex;
       align-items: center;
@@ -188,7 +195,8 @@ body {
 
       small {
         display: flex;
-        margin-top: -1.9em;
+        margin-top: -4.9em;
+        margin-left: 0.3em;
         opacity: 0.5;
         width: 100%;
       }

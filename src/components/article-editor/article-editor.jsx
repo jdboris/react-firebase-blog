@@ -44,6 +44,8 @@ export function ArticleEditor({
   onChange,
   placeholder,
   autoFocus,
+  hideToolbar,
+  disabled,
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const renderElement = useCallback((props) => <Element {...props} />, []);
@@ -75,7 +77,15 @@ export function ArticleEditor({
           setIsFocused(false);
         }}
       >
-        <header style={{ ...(isFocused ? { visibility: "visible" } : {}) }}>
+        <header
+          style={{
+            ...(hideToolbar
+              ? { visibility: "hidden" }
+              : isFocused
+              ? { visibility: "visible" }
+              : {}),
+          }}
+        >
           <span className={css.formatControls}>
             <span className={css.buttonGroup}>
               <MarkButton theme={theme} format="bold">
@@ -133,6 +143,7 @@ export function ArticleEditor({
             renderLeaf={renderLeaf}
             spellCheck
             autoFocus={autoFocus}
+            readOnly={disabled}
             placeholder={placeholder}
             onKeyDown={(event) => {
               for (const hotkey in HOTKEYS) {

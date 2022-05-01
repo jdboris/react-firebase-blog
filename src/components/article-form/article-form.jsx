@@ -5,7 +5,13 @@ import { ArticleEditor } from "../article-editor";
 import TextareaAutosize from "react-textarea-autosize";
 import css from "./article-form.module.scss";
 
-export function ArticleForm({ theme, useFirebaseAuth, useArticles, ...props }) {
+export function ArticleForm({
+  theme,
+  useFirebaseAuth,
+  useArticles,
+  isPreview = false,
+  ...props
+}) {
   const { uid } = useParams();
   const { user } = useFirebaseAuth();
   const { save, isLoading, get } = useArticles();
@@ -90,45 +96,54 @@ export function ArticleForm({ theme, useFirebaseAuth, useArticles, ...props }) {
           </header>
           <main>
             <article>
-              <ArticleEditor
-                theme={theme}
-                name="content"
-                value={article?.content}
-                placeholder="Article content..."
-                autoFocus
-                onChange={(value) => {
-                  setArticle((old) => {
-                    const isPreviewInSync =
-                      old.content &&
-                      old.contentPreview ==
-                        old.content.substring(0, contentPreviewLimit);
+              {(mode == "create" || mode == "update" || !isPreview) && (
+                <ArticleEditor
+                  theme={theme}
+                  name="content"
+                  placeholder="Article content..."
+                  value={article?.content}
+                  autoFocus={mode != "read"}
+                  hideToolbar={mode == "read"}
+                  disabled={mode == "read"}
+                  onChange={(value) => {
+                    setArticle((old) => {
+                      const isPreviewInSync =
+                        old.content &&
+                        old.contentPreview ==
+                          old.content.substring(0, contentPreviewLimit);
 
-                    return {
-                      ...old,
-                      contentPreview: isPreviewInSync
-                        ? value.substring(0, contentPreviewLimit)
-                        : old.contentPreview,
-                      content: value,
-                    };
-                  });
-                }}
-              />
+                      return {
+                        ...old,
+                        contentPreview: isPreviewInSync
+                          ? value.substring(0, contentPreviewLimit)
+                          : old.contentPreview,
+                        content: value,
+                      };
+                    });
+                  }}
+                />
+              )}
 
-              <h4>Preview View</h4>
-              <ArticleEditor
-                theme={theme}
-                name="contentPreview"
-                placeholder="Content preview..."
-                value={article?.contentPreview}
-                onChange={(value) => {
-                  setArticle((old) => {
-                    return {
-                      ...old,
-                      contentPreview: value,
-                    };
-                  });
-                }}
-              />
+              {(mode == "create" || mode == "update") && <h4>Preview View</h4>}
+
+              {(mode == "create" || mode == "update" || isPreview) && (
+                <ArticleEditor
+                  theme={theme}
+                  name="contentPreview"
+                  placeholder="Content preview..."
+                  value={article?.contentPreview}
+                  hideToolbar={mode == "read"}
+                  disabled={mode == "read"}
+                  onChange={(value) => {
+                    setArticle((old) => {
+                      return {
+                        ...old,
+                        contentPreview: value,
+                      };
+                    });
+                  }}
+                />
+              )}
             </article>
             <aside>
               <div>
