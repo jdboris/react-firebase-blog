@@ -12,7 +12,13 @@ export function ArticleForm({ theme, useFirebaseAuth, useArticles, ...props }) {
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const contentPreviewLimit = 256;
   const [article, setArticle] = useState(
-    props.article || { authorName: user.displayName, date: new Date() }
+    props.article || {
+      authorName: user.displayName,
+      date: new Date(),
+      // NOTE: Defaults required to start in sync
+      content: "<p><span></span></p>",
+      contentPreview: "<p><span></span></p>",
+    }
   );
 
   useEffect(() => {
