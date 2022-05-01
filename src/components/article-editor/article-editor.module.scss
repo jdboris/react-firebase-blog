@@ -1,6 +1,7 @@
 .articleEditor {
   header {
     display: flex;
+    visibility: hidden;
     gap: 0.1em;
 
     .formatControls {
@@ -38,5 +39,13 @@
 
   button.small {
     font-size: 1em;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    header {
+      visibility: visible;
+    }
   }
 }

@@ -66,12 +66,17 @@ export function ArticleEditor({
         new DOMParser().parseFromString(value, "text/html").body
       )}
     >
-      <div className={css.articleEditor}>
-        <header>
-          <span
-            className={css.formatControls}
-            style={{ ...(!isFocused ? { visibility: "hidden" } : {}) }}
-          >
+      <div
+        className={css.articleEditor}
+        onFocus={() => {
+          setIsFocused(true);
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+        }}
+      >
+        <header style={{ ...(isFocused ? { visibility: "visible" } : {}) }}>
+          <span className={css.formatControls}>
             <span className={css.buttonGroup}>
               <MarkButton theme={theme} format="bold">
                 <FaBold />
@@ -128,12 +133,6 @@ export function ArticleEditor({
             renderLeaf={renderLeaf}
             spellCheck
             autoFocus={autoFocus}
-            onFocus={() => {
-              setIsFocused(true);
-            }}
-            onBlur={() => {
-              setIsFocused(false);
-            }}
             placeholder={placeholder}
             onKeyDown={(event) => {
               for (const hotkey in HOTKEYS) {

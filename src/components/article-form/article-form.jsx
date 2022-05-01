@@ -134,6 +134,7 @@ export function ArticleForm({ theme, useFirebaseAuth, useArticles, ...props }) {
               }}
             />
 
+            <h4>Preview View</h4>
             <ArticleEditor
               theme={theme}
               name="contentPreview"
