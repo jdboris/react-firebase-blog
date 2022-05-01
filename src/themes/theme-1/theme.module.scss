@@ -113,6 +113,27 @@ body {
     color: inherit;
   }
 
+  blockquote {
+    position: relative;
+    color: #8b8b8b;
+    font-style: italic;
+    background: #f9f9f9;
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 1.1em 10px;
+    padding-left: 2em;
+  }
+
+  blockquote:before {
+    content: "\201C";
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ccc;
+    font-size: 4em;
+    left: 0.1em;
+    top: 0em;
+  }
+
   button,
   .button,
   .buttonAlt {
