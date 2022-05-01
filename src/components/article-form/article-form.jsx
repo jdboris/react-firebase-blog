@@ -86,74 +86,79 @@ export function ArticleForm({ theme, useFirebaseAuth, useArticles, ...props }) {
                   }));
                 }}
               />
-              {user &&
-                user.isAuthor &&
-                (mode == "read" ? (
-                  <button
-                    className={theme.buttonAlt}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setMode("update");
-                    }}
-                    disabled={isLoading}
-                  >
-                    <FaEdit />
-                  </button>
-                ) : mode == "update" ? (
-                  <button className={theme.buttonAlt} disabled={isLoading}>
-                    <FaSave />
-                  </button>
-                ) : (
-                  false
-                ))}
             </small>
           </header>
+          <main>
+            <article>
+              <ArticleEditor
+                theme={theme}
+                name="content"
+                value={article?.content}
+                placeholder="Article content..."
+                autoFocus
+                onChange={(value) => {
+                  setArticle((old) => {
+                    const isPreviewInSync =
+                      old.content &&
+                      old.contentPreview ==
+                        old.content.substring(0, contentPreviewLimit);
 
-          <article>
-            <ArticleEditor
-              theme={theme}
-              name="content"
-              value={article?.content}
-              placeholder="Article content..."
-              autoFocus
-              onChange={(value) => {
-                setArticle((old) => {
-                  const isPreviewInSync =
-                    old.content &&
-                    old.contentPreview ==
-                      old.content.substring(0, contentPreviewLimit);
+                    return {
+                      ...old,
+                      contentPreview: isPreviewInSync
+                        ? value.substring(0, contentPreviewLimit)
+                        : old.contentPreview,
+                      content: value,
+                    };
+                  });
+                }}
+              />
 
-                  return {
-                    ...old,
-                    contentPreview: isPreviewInSync
-                      ? value.substring(0, contentPreviewLimit)
-                      : old.contentPreview,
-                    content: value,
-                  };
-                });
-              }}
-            />
-
-            <h4>Preview View</h4>
-            <ArticleEditor
-              theme={theme}
-              name="contentPreview"
-              placeholder="Content preview..."
-              value={article?.contentPreview}
-              onChange={(value) => {
-                setArticle((old) => {
-                  return {
-                    ...old,
-                    contentPreview: value,
-                  };
-                });
-              }}
-            />
-          </article>
+              <h4>Preview View</h4>
+              <ArticleEditor
+                theme={theme}
+                name="contentPreview"
+                placeholder="Content preview..."
+                value={article?.contentPreview}
+                onChange={(value) => {
+                  setArticle((old) => {
+                    return {
+                      ...old,
+                      contentPreview: value,
+                    };
+                  });
+                }}
+              />
+            </article>
+            <aside>
+              <div>
+                {user && user.isAuthor && mode == "create" && (
+                  <button disabled={isLoading}>Post</button>
+                )}
+                {user &&
+                  user.isAuthor &&
+                  (mode == "read" ? (
+                    <button
+                      className={theme.buttonAlt}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setMode("update");
+                      }}
+                      disabled={isLoading}
+                    >
+                      <FaEdit />
+                    </button>
+                  ) : mode == "update" ? (
+                    <button className={theme.buttonAlt} disabled={isLoading}>
+                      <FaSave />
+                    </button>
+                  ) : (
+                    false
+                  ))}
+              </div>
+            </aside>
+          </main>
         </fieldset>
-        {user && user.isAuthor && mode == "create" && (
-          <button disabled={isLoading}>Post</button>
-        )}
       </form>
     )
   );
