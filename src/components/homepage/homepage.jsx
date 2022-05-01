@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Article } from "../article";
+import { ArticleForm } from "../article-form";
 
 export function Homepage({ theme, useFirebaseAuth, useArticles }) {
   const { user } = useFirebaseAuth();
@@ -15,22 +16,26 @@ export function Homepage({ theme, useFirebaseAuth, useArticles }) {
   return (
     <>
       {mostRecent.length > 0 && (
-        <Article
+        <ArticleForm
           theme={theme}
           article={mostRecent[0]}
+          mode="read"
           useFirebaseAuth={useFirebaseAuth}
+          useArticles={useArticles}
         />
       )}
       {mostRecent.length > 1 &&
         mostRecent
           .slice(1)
           .map((article) => (
-            <Article
+            <ArticleForm
               theme={theme}
               key={article.uid}
               article={article}
+              mode="read"
               isPreview={true}
               useFirebaseAuth={useFirebaseAuth}
+              useArticles={useArticles}
             />
           ))}
     </>

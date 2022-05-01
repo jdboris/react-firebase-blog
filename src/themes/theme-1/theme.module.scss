@@ -87,6 +87,19 @@ body {
   h5,
   h6 {
     font-family: "IntroCondCaps";
+    width: 100%;
+  }
+
+  input,
+  textarea {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  textarea {
+    width: 100%;
+    resize: none;
   }
 
   fieldset {
@@ -136,6 +149,7 @@ body {
       column-gap: 1em;
 
       small {
+        display: flex;
         margin-top: -1.9em;
         opacity: 0.5;
         width: 100%;

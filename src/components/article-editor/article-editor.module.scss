@@ -5,7 +5,7 @@
 
     .formatControls {
       display: inline-flex;
-      border: 1px solid gray;
+      border: 1px solid rgb(184, 184, 184);
       border-radius: 0.2em;
 
       .buttonGroup {
@@ -30,6 +30,10 @@
         border-right: 0;
       }
     }
+  }
+
+  .content {
+    border-bottom: 1px solid rgb(184, 184, 184);
   }
 
   button.small {
