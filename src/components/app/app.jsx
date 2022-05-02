@@ -31,24 +31,26 @@ export function App({ theme }) {
                 ></Route>
                 <Route path="article">
                   <Route
-                    path="new"
-                    element={
-                      <ArticleForm
-                        theme={theme}
-                        useFirebaseAuth={useFirebaseAuth}
-                        useArticles={useArticles}
-                        mode="create"
-                      />
-                    }
-                  ></Route>
-                  <Route
                     path=":uid"
                     element={
                       <ArticleForm
+                        key="uid"
                         theme={theme}
                         useFirebaseAuth={useFirebaseAuth}
                         useArticles={useArticles}
                         mode="read"
+                      />
+                    }
+                  ></Route>
+                  <Route
+                    path="new"
+                    element={
+                      <ArticleForm
+                        key="new"
+                        theme={theme}
+                        useFirebaseAuth={useFirebaseAuth}
+                        useArticles={useArticles}
+                        mode="create"
                       />
                     }
                   ></Route>
