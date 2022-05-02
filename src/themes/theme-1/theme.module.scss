@@ -81,6 +81,10 @@ body {
     cursor: pointer;
   }
 
+  a * {
+    cursor: inherit;
+  }
+
   h1,
   h2,
   h3,
@@ -89,10 +93,24 @@ body {
   h6 {
     font-family: "IntroCondCaps";
     width: 100%;
+
+    small {
+      display: flex;
+      font-size: 0.9rem;
+      font-family: "Intro";
+      font-weight: normal;
+      opacity: 0.5;
+      width: 100%;
+      margin-left: 0.1em;
+    }
   }
 
   h1 {
     font-size: 3em;
+
+    small {
+      margin-left: 0.3em;
+    }
   }
 
   input,
@@ -186,6 +204,7 @@ body {
 
   .article {
     border-bottom: 0.2em solid #7650a1;
+    margin-bottom: 1em;
 
     header {
       display: flex;
@@ -195,8 +214,6 @@ body {
 
       small {
         display: flex;
-        margin-top: -4.9em;
-        margin-left: 0.3em;
         opacity: 0.5;
         width: 100%;
       }

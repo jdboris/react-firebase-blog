@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Article } from "../article";
 import { ArticleForm } from "../article-form";
 
 export function Homepage({ theme, useFirebaseAuth, useArticles }) {

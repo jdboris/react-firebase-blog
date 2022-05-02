@@ -29,7 +29,7 @@ export function App({ theme }) {
                     />
                   }
                 ></Route>
-                <Route path="articles">
+                <Route path="article">
                   <Route
                     path="new"
                     element={
@@ -48,7 +48,7 @@ export function App({ theme }) {
                         theme={theme}
                         useFirebaseAuth={useFirebaseAuth}
                         useArticles={useArticles}
-                        mode="update"
+                        mode="read"
                       />
                     }
                   ></Route>

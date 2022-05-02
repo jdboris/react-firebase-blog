@@ -15,7 +15,7 @@ export function Header({ useFirebaseAuth }) {
             <>
               {" "}
               {user && user.isAuthor && (
-                <Link to="/articles/new">New Article</Link>
+                <Link to="/article/new">New Article</Link>
               )}
               <span onClick={logout}>Logout</span>
             </>

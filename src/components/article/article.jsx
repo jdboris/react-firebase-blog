@@ -14,7 +14,7 @@ export function Article({
       <header>
         <h1>{article.title}</h1>
         {user && user.isAuthor && (
-          <Link to={`/articles/${article.uid}`}>
+          <Link to={`/article/${article.uid}`}>
             <FaEdit />
           </Link>
         )}
