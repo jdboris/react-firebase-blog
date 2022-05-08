@@ -14,16 +14,16 @@ export function ArticleForm({
 }) {
   const { uid } = useParams();
   const { user } = useFirebaseAuth();
-  const { save, isLoading, get } = useArticles();
+  const { save, isLoading, get, draft, saveDraft } = useArticles();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const contentPreviewLimit = 256;
   const [article, setArticle] = useState(
     props.article ||
       (uid
         ? null
-        : // : mode == "create"
-          // ? JSON.parse(localStorage.getItem("articleDraft"))
-          {
+        : mode == "create" && draft
+        ? draft
+        : {
             authorName: user.displayName,
             date: new Date(),
             // NOTE: Defaults required to start in sync
@@ -40,15 +40,13 @@ export function ArticleForm({
     })();
   }, [uid]);
 
-  // useEffect(() => {
-  //   if (mode == "create") {
-  //     if (!article) {
-  //       localStorage.removeItem("articleDraft");
-  //     } else {
-  //       localStorage.setItem("articleDraft", JSON.stringify(article));
-  //     }
-  //   }
-  // }, [article]);
+  useEffect(() => {
+    if (mode == "create") {
+      if (article) {
+        saveDraft(article);
+      }
+    }
+  }, [article]);
 
   const HeaderTag = (props) =>
     useMemo(
@@ -66,10 +64,6 @@ export function ArticleForm({
         ),
       []
     );
-
-  console.log(uid);
-  console.log(article);
-  console.log(uid && article);
 
   return useMemo(
     () =>
@@ -98,10 +92,12 @@ export function ArticleForm({
                     value={article?.title}
                     placeholder="New Article..."
                     onChange={(e) => {
-                      setArticle((old) => ({
-                        ...old,
-                        [e.target.name]: e.target.value,
-                      }));
+                      setArticle((old) => {
+                        return {
+                          ...old,
+                          [e.target.name]: e.target.value,
+                        };
+                      });
                     }}
                   />
 

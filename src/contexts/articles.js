@@ -18,8 +18,12 @@ export function useArticles() {
   return useContext(ArticleContext);
 }
 
-function translateDates(article) {
+function datesFirestoreToJs(article) {
   return { ...article, date: article.date.toDate() };
+}
+
+function datesJsonToJs(article) {
+  return { ...article, date: new Date(article.date) };
 }
 
 export function ArticleProvider({ useFirebaseAuth, children }) {
@@ -27,6 +31,14 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [draft, setDraft] = useState(
+    datesJsonToJs(JSON.parse(localStorage.getItem("articleDraft")))
+  );
+
+  function saveDraft(article) {
+    setDraft(article);
+    return localStorage.setItem("articleDraft", JSON.stringify(article));
+  }
 
   useEffect(() => {
     if (errors && errors.length) {
@@ -48,7 +60,7 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
             limit(6)
           )
         )
-      ).docs.map((snapshot) => translateDates(snapshot.data()));
+      ).docs.map((snapshot) => datesFirestoreToJs(snapshot.data()));
     } catch (error) {
       setErrors([error]);
     } finally {
@@ -62,7 +74,7 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
     try {
       setIsLoading(true);
 
-      return translateDates(
+      return datesFirestoreToJs(
         (await getDoc(doc(getFirestore(), `articles/${uid}`))).data()
       );
     } catch (error) {
@@ -104,6 +116,8 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
         get,
         getMostRecent,
         isLoading,
+        draft,
+        saveDraft,
       }}
     >
       {children}
