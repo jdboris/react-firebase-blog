@@ -19,11 +19,11 @@ export function useArticles() {
 }
 
 function datesFirestoreToJs(article) {
-  return { ...article, date: article.date.toDate() };
+  return article ? { ...article, date: article.date.toDate() } : article;
 }
 
 function datesJsonToJs(article) {
-  return { ...article, date: new Date(article.date) };
+  return article ? { ...article, date: new Date(article.date) } : article;
 }
 
 export function ArticleProvider({ useFirebaseAuth, children }) {
