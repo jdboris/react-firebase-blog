@@ -198,6 +198,6 @@ export function ArticleForm({
           </fieldset>
         </form>
       ),
-    [uid, article]
+    [uid, article, mode]
   );
 }
