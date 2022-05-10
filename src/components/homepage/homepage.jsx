@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArticleForm } from "../article-form";
 
 export function Homepage({ theme, useFirebaseAuth, useArticles }) {
@@ -24,9 +25,8 @@ export function Homepage({ theme, useFirebaseAuth, useArticles }) {
         />
       )}
       {mostRecent.length > 1 &&
-        mostRecent
-          .slice(1)
-          .map((article) => (
+        mostRecent.slice(1).map((article) => (
+          <Link to={`/article/${article.uid}`}>
             <ArticleForm
               theme={theme}
               key={article.uid}
@@ -36,7 +36,8 @@ export function Homepage({ theme, useFirebaseAuth, useArticles }) {
               useFirebaseAuth={useFirebaseAuth}
               useArticles={useArticles}
             />
-          ))}
+          </Link>
+        ))}
     </>
   );
 }
