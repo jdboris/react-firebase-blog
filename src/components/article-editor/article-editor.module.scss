@@ -3,9 +3,13 @@
     display: flex;
     visibility: hidden;
     gap: 0.1em;
+    position: sticky;
+    top: 1em;
+    z-index: 1;
 
     .formatControls {
       display: inline-flex;
+      background: white;
       border: 1px solid rgb(184, 184, 184);
       border-radius: 0.2em;
 
