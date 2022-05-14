@@ -20,7 +20,7 @@ export function useArticles() {
 
 function datesFirestoreToJs(article) {
   return article
-    ? { ...article, ...(article.date ? { date: new Date(article.date) } : {}) }
+    ? { ...article, ...(article.date ? { date: article.date.toDate() } : {}) }
     : article;
 }
 
