@@ -1,9 +1,58 @@
 import { useEffect, useMemo, useState } from "react";
-import { FaEdit, FaSave } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
-import { ArticleEditor } from "../article-editor";
-import TextareaAutosize from "react-textarea-autosize";
 import css from "./article-form.module.scss";
+import { FaEdit, FaSave } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import TextareaAutosize from "react-textarea-autosize";
+import { ArticleEditor } from "../article-editor";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "./react-datepicker.scss";
+
+function formatDateRelative(date) {
+  if (!date) return null;
+  const now = new Date();
+  const minuteDifference = (now - date) / 1000 / 60;
+
+  if (minuteDifference < 60) {
+    const formatter = new Intl.RelativeTimeFormat("en", { style: "long" });
+    return formatter.format(-Math.floor(minuteDifference), "minute");
+  }
+
+  if (minuteDifference < 24 * 60) {
+    const formatter = new Intl.RelativeTimeFormat("en", { style: "long" });
+    return formatter.format(-Math.floor(minuteDifference / 60), "hour");
+  }
+
+  if (minuteDifference < 24 * 60 * 2) {
+    const formatter = new Intl.DateTimeFormat(undefined, {
+      timeStyle: "short",
+    });
+    return "Yesterday at " + formatter.format(date);
+  }
+
+  if (minuteDifference < 24 * 60 * 4) {
+    const formatter = new Intl.DateTimeFormat(undefined, {
+      timeStyle: "short",
+    });
+    const weekdays = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+
+    return weekdays[date.getDay()] + " at " + formatter.format(date);
+  }
+
+  const formatter = new Intl.DateTimeFormat(undefined, {
+    timeStyle: "short",
+    dateStyle: "long",
+  });
+  return formatter.format(date);
+}
 
 export function ArticleForm({
   theme,
@@ -25,7 +74,7 @@ export function ArticleForm({
         ? draft
         : {
             authorName: user.displayName,
-            date: new Date(),
+            date: null,
             // NOTE: Defaults required to start in sync
             content: "<p><span></span></p>",
             contentPreview: "<p><span></span></p>",
@@ -90,27 +139,26 @@ export function ArticleForm({
                 />
 
                 <small>
-                  {article?.authorName} -
-                  <input
-                    type="datetime-local"
-                    name="date"
-                    value={
-                      article?.date
-                        ? new Date(
-                            article.date.getTime() -
-                              article.date.getTimezoneOffset() * 60000
-                          )
-                            .toISOString()
-                            .slice(0, -1)
-                        : ""
-                    }
-                    onChange={(e) => {
-                      setArticle((old) => ({
-                        ...old,
-                        [e.target.name]: new Date(e.target.value),
-                      }));
-                    }}
-                  />
+                  {article?.authorName}:{" "}
+                  {mode == "read" ? (
+                    formatDateRelative(article?.date)
+                  ) : (
+                    <DatePicker
+                      name="date"
+                      selected={article?.date}
+                      value={!article?.date ? "[AUTOMATIC DATE]" : null}
+                      onChange={(date, e) => {
+                        console.log(date);
+                        setArticle((old) => ({
+                          ...old,
+                          date,
+                        }));
+                      }}
+                      showTimeSelect
+                      timeIntervals={5}
+                      dateFormat={"LLL d, yyyy h:mma"}
+                    />
+                  )}
                 </small>
               </HeaderTag>
             </header>
