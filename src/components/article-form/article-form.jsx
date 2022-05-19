@@ -15,7 +15,7 @@ function formatDateRelative(date) {
 
   if (minuteDifference < 60) {
     const formatter = new Intl.RelativeTimeFormat("en", { style: "long" });
-    return formatter.format(-Math.floor(minuteDifference), "minute");
+    return formatter.format(-Math.ceil(minuteDifference), "minute");
   }
 
   if (minuteDifference < 24 * 60) {
@@ -74,7 +74,6 @@ export function ArticleForm({
         ? draft
         : {
             authorName: user.displayName,
-            date: null,
             // NOTE: Defaults required to start in sync
             content: "<p><span></span></p>",
             contentPreview: "<p><span></span></p>",
@@ -109,6 +108,7 @@ export function ArticleForm({
             e.preventDefault();
             if (isLoading) return;
             if (mode == "create" || mode == "update") {
+              if (!article.date) article.date = new Date();
               const newArticle = await save(article);
               if (newArticle) {
                 setArticle(newArticle);
@@ -148,7 +148,6 @@ export function ArticleForm({
                       selected={article?.date}
                       value={!article?.date ? "[AUTOMATIC DATE]" : null}
                       onChange={(date, e) => {
-                        console.log(date);
                         setArticle((old) => ({
                           ...old,
                           date,
@@ -203,6 +202,7 @@ export function ArticleForm({
                     placeholder="Content preview..."
                     value={article?.contentPreview}
                     hideToolbar={mode == "read"}
+                    renderToolbar={mode != "read"}
                     disabled={mode == "read"}
                     onChange={(value) => {
                       setArticle((old) => {
@@ -215,33 +215,38 @@ export function ArticleForm({
                   />
                 )}
               </article>
-              <aside>
-                <div>
-                  {user && user.isAuthor && mode == "create" && (
-                    <button disabled={isLoading}>Post</button>
-                  )}
-                  {user &&
-                    user.isAuthor &&
-                    (mode == "read" ? (
-                      <button
-                        className={theme.buttonAlt}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setMode("update");
-                        }}
-                        disabled={isLoading}
-                      >
-                        <FaEdit />
-                      </button>
-                    ) : mode == "update" ? (
-                      <button className={theme.buttonAlt} disabled={isLoading}>
-                        <FaSave />
-                      </button>
-                    ) : (
-                      false
-                    ))}
-                </div>
-              </aside>
+              {!isPreview && (
+                <aside>
+                  <div>
+                    {user && user.isAuthor && mode == "create" && (
+                      <button disabled={isLoading}>Post</button>
+                    )}
+                    {user &&
+                      user.isAuthor &&
+                      (mode == "read" ? (
+                        <button
+                          className={theme.buttonAlt}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setMode("update");
+                          }}
+                          disabled={isLoading}
+                        >
+                          <FaEdit />
+                        </button>
+                      ) : mode == "update" ? (
+                        <button
+                          className={theme.buttonAlt}
+                          disabled={isLoading}
+                        >
+                          <FaSave />
+                        </button>
+                      ) : (
+                        false
+                      ))}
+                  </div>
+                </aside>
+              )}
             </main>
           </fieldset>
         </form>

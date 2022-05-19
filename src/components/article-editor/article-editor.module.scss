@@ -9,15 +9,18 @@
 
     .formatControls {
       display: inline-flex;
+      flex-wrap: wrap;
       background: white;
-      border: 1px solid rgb(184, 184, 184);
-      border-radius: 0.2em;
 
       .buttonGroup {
         display: inline-flex;
         align-items: flex-end;
         border-right: 1px solid #eee;
+        margin: 0.1em;
         padding: 0.3em;
+
+        border: 1px solid rgb(184, 184, 184);
+        border-radius: 0.2em;
 
         button {
           color: #c7c7c7;
@@ -30,16 +33,12 @@
           color: inherit;
         }
       }
-
-      .buttonGroup:last-child {
-        border-right: 0;
-      }
     }
   }
 
-  .content {
-    border-top: 0.1em solid rgb(184, 184, 184);
-  }
+  // .content {
+  //   border-top: 0.1em solid rgb(184, 184, 184);
+  // }
 
   button.small {
     font-size: 1em;

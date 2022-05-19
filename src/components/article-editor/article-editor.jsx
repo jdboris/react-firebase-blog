@@ -45,6 +45,7 @@ export function ArticleEditor({
   placeholder,
   autoFocus,
   hideToolbar,
+  renderToolbar = true,
   disabled,
 }) {
   const [isFocused, setIsFocused] = useState(false);
@@ -77,65 +78,68 @@ export function ArticleEditor({
           setIsFocused(false);
         }}
       >
-        <header
-          style={{
-            ...(hideToolbar
-              ? { visibility: "hidden" }
-              : isFocused
-              ? { visibility: "visible" }
-              : {}),
-          }}
-        >
-          <span className={css.formatControls}>
-            <span className={css.buttonGroup}>
-              <MarkButton theme={theme} format="bold">
-                <FaBold />
-              </MarkButton>
-              <MarkButton theme={theme} format="italic">
-                <FaItalic />
-              </MarkButton>
-              <MarkButton theme={theme} format="underline">
-                <FaUnderline />
-              </MarkButton>
-              <MarkButton theme={theme} format="code">
-                <FaCode />
-              </MarkButton>
-            </span>
+        {renderToolbar && (
+          <header
+            style={{
+              ...(hideToolbar
+                ? { visibility: "hidden" }
+                : isFocused
+                ? { visibility: "visible" }
+                : {}),
+            }}
+          >
+            <span className={css.formatControls}>
+              <span className={css.buttonGroup}>
+                <MarkButton theme={theme} format="bold">
+                  <FaBold />
+                </MarkButton>
+                <MarkButton theme={theme} format="italic">
+                  <FaItalic />
+                </MarkButton>
+                <MarkButton theme={theme} format="underline">
+                  <FaUnderline />
+                </MarkButton>
+                <MarkButton theme={theme} format="code">
+                  <FaCode />
+                </MarkButton>
+              </span>
 
-            <span className={css.buttonGroup}>
-              <BlockButton theme={theme} format="heading-two">
-                <FaHeading />
-              </BlockButton>
-              <BlockButton theme={theme} format="heading-three">
-                <FaHeading style={{ padding: "0.1em" }} />
-              </BlockButton>
-              <BlockButton theme={theme} format="block-quote">
-                <FaQuoteRight />
-              </BlockButton>
-              <BlockButton theme={theme} format="numbered-list">
-                <FaListOl />
-              </BlockButton>
-              <BlockButton theme={theme} format="bulleted-list">
-                <FaListUl />
-              </BlockButton>
-            </span>
+              <span className={css.buttonGroup}>
+                <BlockButton theme={theme} format="heading-two">
+                  <FaHeading />
+                </BlockButton>
+                <BlockButton theme={theme} format="heading-three">
+                  <FaHeading style={{ padding: "0.1em" }} />
+                </BlockButton>
+                <BlockButton theme={theme} format="block-quote">
+                  <FaQuoteRight />
+                </BlockButton>
+                <BlockButton theme={theme} format="numbered-list">
+                  <FaListOl />
+                </BlockButton>
+                <BlockButton theme={theme} format="bulleted-list">
+                  <FaListUl />
+                </BlockButton>
+              </span>
 
-            <span className={css.buttonGroup}>
-              <BlockButton theme={theme} format="left">
-                <FaAlignLeft />
-              </BlockButton>
-              <BlockButton theme={theme} format="center">
-                <FaAlignCenter />
-              </BlockButton>
-              <BlockButton theme={theme} format="right">
-                <FaAlignRight />
-              </BlockButton>
-              <BlockButton theme={theme} format="justify">
-                <FaAlignJustify />
-              </BlockButton>
+              <span className={css.buttonGroup}>
+                <BlockButton theme={theme} format="left">
+                  <FaAlignLeft />
+                </BlockButton>
+                <BlockButton theme={theme} format="center">
+                  <FaAlignCenter />
+                </BlockButton>
+                <BlockButton theme={theme} format="right">
+                  <FaAlignRight />
+                </BlockButton>
+                <BlockButton theme={theme} format="justify">
+                  <FaAlignJustify />
+                </BlockButton>
+              </span>
             </span>
-          </span>
-        </header>
+          </header>
+        )}
+
         <div className={css.content}>
           <Editable
             name={name}

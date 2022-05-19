@@ -1,4 +1,8 @@
 .articleForm {
+  &.preview {
+    border-bottom: none;
+  }
+
   header {
     h1,
     h2,
