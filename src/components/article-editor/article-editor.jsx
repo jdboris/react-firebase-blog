@@ -8,6 +8,7 @@ import {
   Element as SlateElement,
   Text,
   Transforms,
+  Node as SlateNode,
 } from "slate";
 import { withHistory } from "slate-history";
 import { jsx } from "slate-hyperscript";
@@ -155,6 +156,40 @@ export function ArticleEditor({
                   event.preventDefault();
                   const mark = HOTKEYS[hotkey];
                   toggleMark(editor, mark);
+                  return;
+                }
+              }
+
+              if (event.key === "Enter") {
+                const selectedElement = SlateNode.descendant(
+                  editor,
+                  editor.selection.anchor.path.slice(0, -1)
+                );
+
+                const selectedLeaf = SlateNode.descendant(
+                  editor,
+                  editor.selection.anchor.path
+                );
+
+                if (
+                  selectedElement.type === "heading-two" ||
+                  selectedElement.type === "heading-three" ||
+                  selectedElement.type === "block-quote" ||
+                  selectedLeaf.code
+                ) {
+                  event.preventDefault();
+
+                  if (
+                    selectedLeaf.text.length === editor.selection.anchor.offset
+                  ) {
+                    Transforms.insertNodes(editor, {
+                      type: "paragraph",
+                      children: [{ text: "", marks: [] }],
+                    });
+                  } else {
+                    Transforms.splitNodes(editor);
+                    Transforms.setNodes(editor, { type: "paragraph" });
+                  }
                 }
               }
             }}
