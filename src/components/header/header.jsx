@@ -13,10 +13,12 @@ export function Header({ useFirebaseAuth }) {
         {!isLoading &&
           (user ? (
             <>
-              {" "}
               {user && user.isAuthor && (
                 <Link to="/article/new">New Article</Link>
               )}
+
+              {user && user.isAdmin && <Link to="/settings">Settings</Link>}
+
               <span onClick={logout}>Logout</span>
             </>
           ) : (

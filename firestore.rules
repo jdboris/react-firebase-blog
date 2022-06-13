@@ -19,6 +19,11 @@ service cloud.firestore {
       return isLoggedIn() && isOwner;
     }
 
+    function isAdmin() {
+      let user = currentUser();
+      return user != null && user.isAdmin;
+    }
+
     function isAuthor() {
       let user = currentUser();
       return user != null && user.isAuthor;
@@ -31,6 +36,11 @@ service cloud.firestore {
     match /articles/{uid} {
       allow read: if true;
       allow write: if isAuthor();
+    }
+
+    match /settings/social/links/{uid} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
   }
 }

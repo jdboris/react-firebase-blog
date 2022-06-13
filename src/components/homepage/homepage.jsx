@@ -3,7 +3,7 @@ import css from "./homepage.module.scss";
 import { Link } from "react-router-dom";
 import { ArticleForm } from "../article-form";
 
-export function Homepage({ theme, useFirebaseAuth, useArticles }) {
+export function Homepage({ theme, useFirebaseAuth, useArticles, useSettings }) {
   const { user } = useFirebaseAuth();
   const { getMostRecent } = useArticles();
   const [mostRecent, setMostRecent] = useState([]);
@@ -23,6 +23,7 @@ export function Homepage({ theme, useFirebaseAuth, useArticles }) {
           mode="read"
           useFirebaseAuth={useFirebaseAuth}
           useArticles={useArticles}
+          useSettings={useSettings}
         />
       )}
       <section>
@@ -37,6 +38,7 @@ export function Homepage({ theme, useFirebaseAuth, useArticles }) {
                 isPreview={true}
                 useFirebaseAuth={useFirebaseAuth}
                 useArticles={useArticles}
+                useSettings={useSettings}
               />
             </Link>
           ))}

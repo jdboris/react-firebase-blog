@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import css from "./article-form.module.scss";
-import { FaEdit, FaSave } from "react-icons/fa";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { FaEdit, FaSave, FaPaperPlane } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import TextareaAutosize from "react-textarea-autosize";
 import { ArticleEditor } from "../article-editor";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import css from "./article-form.module.scss";
 import "./react-datepicker.scss";
 
 function formatDateRelative(date) {
@@ -59,10 +59,12 @@ export function ArticleForm({
   useFirebaseAuth,
   useArticles,
   isPreview = false,
+  useSettings,
   ...props
 }) {
   const { uid } = useParams();
   const { user } = useFirebaseAuth();
+  const { socialLinks } = useSettings();
   const { save, isLoading, get, draft, saveDraft } = useArticles();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const contentPreviewLimit = 256;
@@ -219,7 +221,9 @@ export function ArticleForm({
                 <aside>
                   <div>
                     {user && user.isAuthor && mode == "create" && (
-                      <button disabled={isLoading}>Post</button>
+                      <button className={theme.buttonAlt} disabled={isLoading}>
+                        <FaPaperPlane />
+                      </button>
                     )}
                     {user &&
                       user.isAuthor &&
@@ -243,6 +247,14 @@ export function ArticleForm({
                         </button>
                       ) : (
                         false
+                      ))}
+
+                    {!isPreview &&
+                      mode == "read" &&
+                      socialLinks.map((link) => (
+                        <a href={link.url} target="_blank">
+                          <img src={link.iconUrl} />
+                        </a>
                       ))}
                   </div>
                 </aside>

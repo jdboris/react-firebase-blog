@@ -9,56 +9,73 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ArticleForm } from "../article-form";
 import { ArticleProvider, useArticles } from "../../contexts/articles";
 import { Homepage } from "../homepage";
+import { SettingsForm } from "../settings-form";
+import { SettingsProvider, useSettings } from "../../contexts/settings";
 
 export function App({ theme }) {
   return (
     <Router>
       <div className={theme.root}>
         <FirebaseAuthProvider>
-          <ArticleProvider useFirebaseAuth={useFirebaseAuth}>
-            <Header useFirebaseAuth={useFirebaseAuth} />
-            <main>
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <Homepage
-                      theme={theme}
-                      useFirebaseAuth={useFirebaseAuth}
-                      useArticles={useArticles}
-                    />
-                  }
-                ></Route>
-                <Route path="article">
+          <SettingsProvider useFirebaseAuth={useFirebaseAuth}>
+            <ArticleProvider useFirebaseAuth={useFirebaseAuth}>
+              <Header useFirebaseAuth={useFirebaseAuth} />
+              <main>
+                <Routes>
                   <Route
-                    path=":uid"
+                    path="/"
                     element={
-                      <ArticleForm
-                        key="uid"
+                      <Homepage
                         theme={theme}
                         useFirebaseAuth={useFirebaseAuth}
                         useArticles={useArticles}
-                        mode="read"
+                        useSettings={useSettings}
                       />
                     }
                   ></Route>
                   <Route
-                    path="new"
+                    path="settings"
                     element={
-                      <ArticleForm
-                        key="new"
-                        theme={theme}
+                      <SettingsForm
                         useFirebaseAuth={useFirebaseAuth}
-                        useArticles={useArticles}
-                        mode="create"
+                        useSettings={useSettings}
                       />
                     }
                   ></Route>
-                </Route>
-              </Routes>
-            </main>
-            <footer></footer>
-          </ArticleProvider>
+
+                  <Route path="article">
+                    <Route
+                      path=":uid"
+                      element={
+                        <ArticleForm
+                          key="uid"
+                          theme={theme}
+                          useFirebaseAuth={useFirebaseAuth}
+                          useArticles={useArticles}
+                          useSettings={useSettings}
+                          mode="read"
+                        />
+                      }
+                    ></Route>
+                    <Route
+                      path="new"
+                      element={
+                        <ArticleForm
+                          key="new"
+                          theme={theme}
+                          useFirebaseAuth={useFirebaseAuth}
+                          useArticles={useArticles}
+                          useSettings={useSettings}
+                          mode="create"
+                        />
+                      }
+                    ></Route>
+                  </Route>
+                </Routes>
+              </main>
+              <footer></footer>
+            </ArticleProvider>
+          </SettingsProvider>
         </FirebaseAuthProvider>
       </div>
     </Router>

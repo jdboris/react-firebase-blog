@@ -1,0 +1,15 @@
+.socialLinkForm {
+  fieldset {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+
+  a {
+    display: inline-flex;
+  }
+
+  img {
+    max-width: 1.5em;
+  }
+}
