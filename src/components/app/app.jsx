@@ -37,6 +37,7 @@ export function App({ theme }) {
                     path="settings"
                     element={
                       <SettingsForm
+                        theme={theme}
                         useFirebaseAuth={useFirebaseAuth}
                         useSettings={useSettings}
                       />

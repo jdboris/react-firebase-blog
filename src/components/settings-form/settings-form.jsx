@@ -21,7 +21,7 @@ export function SettingsForm({
       // onSubmit={async (e) => {
       //   e.preventDefault();
       //   if (isLoading) return;
-      //   if (mode == "create" || mode == "update") {
+      //   if (mode == "create" || mode == "edit") {
       //     const newArticle = await save(article);
       //     if (newArticle) {
       //       setArticle(newArticle);
@@ -39,6 +39,8 @@ export function SettingsForm({
         <main>
           {socialLinks.map((link) => (
             <SocialLinkForm
+              theme={theme}
+              key={link.uid}
               link={link}
               useFirebaseAuth={useFirebaseAuth}
               useSettings={useSettings}

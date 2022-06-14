@@ -1,7 +1,7 @@
 .socialLinkForm {
   fieldset {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 1em;
   }
 
@@ -11,5 +11,11 @@
 
   img {
     max-width: 1.5em;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8em;
   }
 }

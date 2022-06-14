@@ -1,3 +1,4 @@
+import { FaEdit, FaSave, FaTrash } from "react-icons/fa";
 import { useState } from "react";
 import css from "./social-link-form.module.scss";
 
@@ -9,7 +10,7 @@ export function SocialLinkForm({
   ...props
 }) {
   const { user } = useFirebaseAuth();
-  const { saveSocialLink, isLoading } = useSettings();
+  const { saveSocialLink, deleteSocialLink, isLoading } = useSettings();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const [link, setLink] = useState(props.link || {});
 
@@ -21,16 +22,35 @@ export function SocialLinkForm({
         onSubmit={async (e) => {
           e.preventDefault();
           if (isLoading) return;
-          if (mode == "create" || mode == "update") {
+          if (mode == "create" || mode == "edit") {
             const newLink = await saveSocialLink(link);
             if (newLink) {
               setMode("read");
-              onSuccess();
+              if (onSuccess) {
+                onSuccess();
+              }
             }
           }
         }}
       >
-        <fieldset disabled={mode == "read" || isLoading}>
+        <fieldset>
+          {mode == "read" && (
+            <button
+              className={theme.buttonAlt}
+              onClick={() => {
+                setMode("edit");
+              }}
+            >
+              <FaEdit />
+            </button>
+          )}
+
+          {(mode == "create" || mode == "edit") && (
+            <button className={theme.buttonAlt}>
+              <FaSave />
+            </button>
+          )}
+
           {mode == "read" ? (
             <a href={link.url} target="_blank">
               <img src={link.iconUrl} />
@@ -64,7 +84,17 @@ export function SocialLinkForm({
             </label>
           )}
 
-          {(mode == "create" || mode == "update") && <button>Save</button>}
+          {mode == "edit" && (
+            <button
+              className={theme.buttonAlt}
+              onClick={(e) => {
+                e.preventDefault();
+                deleteSocialLink(link);
+              }}
+            >
+              <FaTrash />
+            </button>
+          )}
         </fieldset>
       </form>
     )

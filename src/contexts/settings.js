@@ -3,6 +3,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  deleteDoc,
   getFirestore,
   limit,
   orderBy,
@@ -30,6 +31,10 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
   );
 
   useEffect(() => {
+    setIsLoading(isLoadingSoacialLinks);
+  }, [isLoadingSoacialLinks]);
+
+  useEffect(() => {
     if (errors && errors.length) {
       console.error(errors);
     }
@@ -46,6 +51,8 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
         : doc(collection(getFirestore(), `settings/social/links`));
 
       const data = {
+        // Default
+        sortOrder: socialLinks.length + 1,
         ...socialLink,
         uid: docRef.id,
       };
@@ -59,12 +66,29 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
     }
   }
 
+  async function deleteSocialLink(socialLink) {
+    if (!user.isAdmin || isLoading || isLoadingSoacialLinks) return;
+
+    try {
+      setIsLoading(true);
+      await deleteDoc(
+        doc(getFirestore(), `settings/social/links/${socialLink.uid}`)
+      );
+      return true;
+    } catch (error) {
+      setErrors([error]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <SettingsContext.Provider
       value={{
         isLoading,
         socialLinks: socialLinks || [],
         saveSocialLink,
+        deleteSocialLink,
       }}
     >
       {children}

@@ -109,7 +109,7 @@ export function ArticleForm({
           onSubmit={async (e) => {
             e.preventDefault();
             if (isLoading) return;
-            if (mode == "create" || mode == "update") {
+            if (mode == "create" || mode == "edit") {
               if (!article.date) article.date = new Date();
               const newArticle = await save(article);
               if (newArticle) {
@@ -165,7 +165,7 @@ export function ArticleForm({
             </header>
             <main>
               <article>
-                {(mode == "create" || mode == "update" || !isPreview) && (
+                {(mode == "create" || mode == "edit" || !isPreview) && (
                   <ArticleEditor
                     theme={theme}
                     name="content"
@@ -193,11 +193,9 @@ export function ArticleForm({
                   />
                 )}
 
-                {(mode == "create" || mode == "update") && (
-                  <h4>Preview View</h4>
-                )}
+                {(mode == "create" || mode == "edit") && <h4>Preview View</h4>}
 
-                {(mode == "create" || mode == "update" || isPreview) && (
+                {(mode == "create" || mode == "edit" || isPreview) && (
                   <ArticleEditor
                     theme={theme}
                     name="contentPreview"
@@ -232,13 +230,13 @@ export function ArticleForm({
                           className={theme.buttonAlt}
                           onClick={(e) => {
                             e.preventDefault();
-                            setMode("update");
+                            setMode("edit");
                           }}
                           disabled={isLoading}
                         >
                           <FaEdit />
                         </button>
-                      ) : mode == "update" ? (
+                      ) : mode == "edit" ? (
                         <button
                           className={theme.buttonAlt}
                           disabled={isLoading}
