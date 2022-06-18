@@ -3,6 +3,7 @@ import { RiCloseFill } from "react-icons/ri";
 import { useState } from "react";
 import css from "./social-link-form.module.scss";
 import { FileInput } from "../file-input/file-input";
+import { useEffect } from "react";
 
 export function SocialLinkForm({
   theme,
@@ -17,6 +18,10 @@ export function SocialLinkForm({
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const [link, setLink] = useState(props.link || { url: "", iconUrl: "" });
   const [isIconLocked, setIsIconLocked] = useState(false);
+
+  useEffect(() => {
+    setIsIconLocked(false);
+  }, [mode]);
 
   return (
     user &&
