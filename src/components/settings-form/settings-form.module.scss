@@ -1,60 +1,9 @@
-.articleForm {
-  &.preview {
-    border-bottom: none;
-  }
+.settingsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 
-  header {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      margin-bottom: 0.1em;
-
-      small {
-        opacity: 1 !important;
-      }
-    }
-  }
-
-  h4 {
-    margin-top: 3em;
-    width: 100%;
-  }
-
-  main {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  article {
-    flex-grow: 1;
-    position: relative;
-    // NOTE: 95% on large devices, 100vw on mobile
-    max-width: min(95%, 100vw);
-  }
-
-  input,
-  textarea {
-    border: 0;
-    vertical-align: middle;
-    overflow-y: hidden;
-    background: initial;
-    color: inherit;
-  }
-
-  aside > div {
-    position: sticky;
-    top: 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
-  }
-
-  aside img {
-    max-width: 1.5em;
+  button {
+    max-width: 14em;
   }
 }

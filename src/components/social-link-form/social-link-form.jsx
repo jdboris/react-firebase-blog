@@ -1,6 +1,8 @@
 import { FaEdit, FaSave, FaTrash } from "react-icons/fa";
+import { RiCloseFill } from "react-icons/ri";
 import { useState } from "react";
 import css from "./social-link-form.module.scss";
+import { FileInput } from "../file-input/file-input";
 
 export function SocialLinkForm({
   theme,
@@ -34,43 +36,64 @@ export function SocialLinkForm({
         }}
       >
         <fieldset>
+          <aside>
+            {mode == "read" && (
+              <button
+                className={theme.buttonAlt}
+                onClick={() => {
+                  setMode("edit");
+                }}
+              >
+                <FaEdit />
+              </button>
+            )}
+
+            {(mode == "create" || mode == "edit") && (
+              <button className={theme.buttonAlt}>
+                <FaSave />
+              </button>
+            )}
+
+            {mode == "edit" && (
+              <button
+                className={css.buttonAlt + " " + css.red}
+                onClick={(e) => {
+                  e.preventDefault();
+                  deleteSocialLink(link);
+                }}
+              >
+                <RiCloseFill />
+              </button>
+            )}
+          </aside>
+
+          <label>
+            Icon:
+            {(mode == "create" || mode == "edit") && (
+              <>
+                <div>
+                  <FileInput />
+                </div>
+                <label>
+                  or...
+                  <input placeholder="Image URL..." type="text" />
+                </label>
+              </>
+            )}
+          </label>
           {mode == "read" && (
-            <button
-              className={theme.buttonAlt}
-              onClick={() => {
-                setMode("edit");
-              }}
-            >
-              <FaEdit />
-            </button>
-          )}
-
-          {(mode == "create" || mode == "edit") && (
-            <button className={theme.buttonAlt}>
-              <FaSave />
-            </button>
-          )}
-
-          {mode == "read" ? (
             <a href={link.url} target="_blank">
               <img src={link.iconUrl} />
             </a>
-          ) : (
-            <label>
-              Icon URL:
-              <input
-                name="iconUrl"
-                value={link.iconUrl}
-                onChange={(e) => {
-                  setLink((link) => ({ ...link, iconUrl: e.target.value }));
-                }}
-              />
-            </label>
           )}
+
           {mode == "read" ? (
-            <a href={link.url} target="_blank">
-              {link.url}
-            </a>
+            <div>
+              <label>Link URL:</label>
+              <a href={link.url} target="_blank">
+                {link.url}
+              </a>
+            </div>
           ) : (
             <label>
               Link URL:
@@ -82,18 +105,6 @@ export function SocialLinkForm({
                 }}
               />
             </label>
-          )}
-
-          {mode == "edit" && (
-            <button
-              className={theme.buttonAlt}
-              onClick={(e) => {
-                e.preventDefault();
-                deleteSocialLink(link);
-              }}
-            >
-              <FaTrash />
-            </button>
           )}
         </fieldset>
       </form>

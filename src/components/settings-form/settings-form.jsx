@@ -17,7 +17,6 @@ export function SettingsForm({
     user &&
     user.isAdmin && (
       <div
-      // className={theme.article + " " + css.articleForm}
       // onSubmit={async (e) => {
       //   e.preventDefault();
       //   if (isLoading) return;
@@ -36,7 +35,7 @@ export function SettingsForm({
         <header>
           <h3>Social Media Links</h3>
         </header>
-        <main>
+        <main className={css.settingsForm}>
           {socialLinks.map((link) => (
             <SocialLinkForm
               theme={theme}
@@ -49,6 +48,7 @@ export function SettingsForm({
 
           {newLink ? (
             <SocialLinkForm
+              theme={theme}
               link={newLink}
               mode={"create"}
               useFirebaseAuth={useFirebaseAuth}

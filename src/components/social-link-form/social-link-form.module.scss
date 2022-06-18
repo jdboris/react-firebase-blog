@@ -1,7 +1,6 @@
 .socialLinkForm {
   fieldset {
     display: flex;
-    align-items: flex-end;
     gap: 1em;
   }
 
@@ -16,6 +15,22 @@
   label {
     display: flex;
     flex-direction: column;
-    font-size: 0.8em;
+    font-size: 1rem;
+  }
+
+  aside {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .buttonAlt {
+    display: inline-flex;
+    color: initial;
+    background-color: initial;
+    padding: 0.1em;
+  }
+
+  .red {
+    color: red;
   }
 }
