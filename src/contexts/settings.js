@@ -10,14 +10,27 @@ import {
   query,
   setDoc,
 } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import "../firebase";
+import { v4 as uuid } from "uuid";
+
+const storage = getStorage();
 
 const SettingsContext = createContext(null);
 
 export function useSettings() {
   return useContext(SettingsContext);
+}
+
+// Upload the given `File` object and return the download URL.
+export async function uploadIcon(file) {
+  const storageRef = ref(storage, `${uuid()}/${file.name}`);
+
+  // 'file' comes from the Blob or File API
+  const snapshot = await uploadBytes(storageRef, file);
+  return await getDownloadURL(snapshot.ref);
 }
 
 export function SettingsProvider({ useFirebaseAuth, children }) {
@@ -89,6 +102,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
         socialLinks: socialLinks || [],
         saveSocialLink,
         deleteSocialLink,
+        uploadIcon,
       }}
     >
       {children}

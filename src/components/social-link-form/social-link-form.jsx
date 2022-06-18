@@ -12,9 +12,11 @@ export function SocialLinkForm({
   ...props
 }) {
   const { user } = useFirebaseAuth();
-  const { saveSocialLink, deleteSocialLink, isLoading } = useSettings();
+  const { uploadIcon, saveSocialLink, deleteSocialLink, isLoading } =
+    useSettings();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
-  const [link, setLink] = useState(props.link || {});
+  const [link, setLink] = useState(props.link || { url: "", iconUrl: "" });
+  const [isIconLocked, setIsIconLocked] = useState(false);
 
   return (
     user &&
@@ -69,23 +71,43 @@ export function SocialLinkForm({
 
           <label>
             Icon:
+            {link.iconUrl && <img src={link.iconUrl} />}
+          </label>
+
+          <div>
             {(mode == "create" || mode == "edit") && (
               <>
                 <div>
-                  <FileInput />
+                  <FileInput
+                    disabled={isIconLocked}
+                    onChange={async (files) => {
+                      const iconUrl = await uploadIcon(files[0]);
+                      setLink((link) => ({
+                        ...link,
+                        iconUrl,
+                      }));
+                      setIsIconLocked(true);
+                    }}
+                  />
                 </div>
                 <label>
                   or...
-                  <input placeholder="Image URL..." type="text" />
+                  <input
+                    disabled={isIconLocked}
+                    placeholder="Image URL..."
+                    type="text"
+                    value={link.iconUrl}
+                    onChange={(e) => {
+                      setLink((link) => ({
+                        ...link,
+                        iconUrl: e.target.value,
+                      }));
+                    }}
+                  />
                 </label>
               </>
             )}
-          </label>
-          {mode == "read" && (
-            <a href={link.url} target="_blank">
-              <img src={link.iconUrl} />
-            </a>
-          )}
+          </div>
 
           {mode == "read" ? (
             <div>

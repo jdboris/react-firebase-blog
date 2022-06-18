@@ -31,7 +31,12 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-export function FileInput({ theme, onChange }) {
+const disabledStyle = {
+  cursor: "initial",
+  opacity: 0.5,
+};
+
+export function FileInput({ onChange, disabled }) {
   const {
     acceptedFiles,
     getRootProps,
@@ -39,7 +44,13 @@ export function FileInput({ theme, onChange }) {
     isFocused,
     isDragAccept,
     isDragReject,
-  } = useDropzone({ accept: { "image/*": [] } });
+  } = useDropzone({
+    accept: {
+      "image/*": [],
+    },
+    multiple: false,
+    disabled,
+  });
 
   const style = useMemo(
     () => ({
@@ -47,16 +58,23 @@ export function FileInput({ theme, onChange }) {
       ...(isFocused ? focusedStyle : {}),
       ...(isDragAccept ? acceptStyle : {}),
       ...(isDragReject ? rejectStyle : {}),
+      ...(disabled ? disabledStyle : {}),
     }),
-    [isFocused, isDragAccept, isDragReject]
+    [isFocused, isDragAccept, isDragReject, disabled]
   );
+
+  useEffect(() => {
+    if (acceptedFiles.length) {
+      onChange(acceptedFiles);
+    }
+  }, [acceptedFiles]);
 
   return (
     <span
       className={css.fileInput}
       {...getRootProps({ style })}
       // NOTE: To stop propagation up to ancestor label which triggers a second "click" on the input
-      onClick={(e) => e.stopPropagation()}
+      // onClick={(e) => e.stopPropagation()}
     >
       <FaUpload /> Drag and drop or <strong>choose a file.</strong>
       <input {...getInputProps()} />
