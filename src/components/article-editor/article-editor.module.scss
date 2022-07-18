@@ -1,4 +1,8 @@
 .articleEditor {
+  .invisible {
+    visibility: hidden;
+  }
+
   header {
     display: flex;
     visibility: hidden;
@@ -22,18 +26,21 @@
         border: 1px solid rgb(184, 184, 184);
         border-radius: 0.2em;
 
-        button {
-          color: #c7c7c7;
-          padding: 0.2em;
-          border-radius: 0;
-          border: 1px solid rgba(0, 0, 0, 0);
-        }
-
         button.active {
           color: inherit;
         }
       }
     }
+  }
+
+  button {
+    padding: 0.2em;
+    border-radius: 0;
+    border: 1px solid rgba(0, 0, 0, 0);
+  }
+
+  button > * {
+    color: #c7c7c7;
   }
 
   // .content {
@@ -50,5 +57,44 @@
     header {
       visibility: visible;
     }
+  }
+
+  .imageWrapper {
+    > div {
+      position: relative;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      max-height: 20em;
+      box-shadow: none;
+    }
+
+    button {
+      display: none;
+      position: absolute;
+      top: 0.5em;
+      left: 0.5em;
+      background-color: white;
+
+      &.small {
+        padding: 0.3em;
+      }
+    }
+
+    &.selected {
+      img {
+        box-shadow: 0 0 0 3px #b4d5ff;
+      }
+
+      button {
+        display: inline-flex;
+      }
+    }
+
+    // &:hover button {
+    //   display: inline-flex;
+    // }
   }
 }

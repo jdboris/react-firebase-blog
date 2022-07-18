@@ -12,7 +12,16 @@ import {
 } from "slate";
 import { withHistory } from "slate-history";
 import { jsx } from "slate-hyperscript";
-import { Editable, Slate, useSlate, withReact } from "slate-react";
+import {
+  Editable,
+  Slate,
+  useSlate,
+  withReact,
+  useSlateStatic,
+  ReactEditor,
+  useSelected,
+  useFocused,
+} from "slate-react";
 import {
   FaBold,
   FaItalic,
@@ -26,7 +35,12 @@ import {
   FaAlignJustify,
   FaListUl,
   FaListOl,
+  FaTrash,
+  FaImage,
 } from "react-icons/fa";
+import isUrl from "is-url";
+import imageExtensions from "image-extensions";
+import { useEffect } from "react";
 
 const HOTKEYS = {
   "mod+b": "bold",
@@ -37,6 +51,13 @@ const HOTKEYS = {
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"];
+
+const isImageUrl = (url) => {
+  if (!url) return false;
+  if (!isUrl(url)) return false;
+  const ext = new URL(url).pathname.split(".").pop();
+  return imageExtensions.includes(ext);
+};
 
 export function ArticleEditor({
   theme,
@@ -52,18 +73,59 @@ export function ArticleEditor({
   const [isFocused, setIsFocused] = useState(false);
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
-
-  editor.children = deserialize(
-    new DOMParser().parseFromString(value, "text/html").body
+  const editor = useMemo(
+    () => withImages(withHistory(withReact(createEditor()))),
+    []
   );
+
+  const onKeyDown = useCallback((event) => {
+    for (const hotkey in HOTKEYS) {
+      if (isHotkey(hotkey, event)) {
+        event.preventDefault();
+        const mark = HOTKEYS[hotkey];
+        toggleMark(editor, mark);
+        return;
+      }
+    }
+
+    if (event.key === "Enter") {
+      const selectedElement = SlateNode.descendant(
+        editor,
+        editor.selection.anchor.path.slice(0, -1)
+      );
+
+      const selectedLeaf = SlateNode.descendant(
+        editor,
+        editor.selection.anchor.path
+      );
+
+      if (
+        selectedElement.type === "heading-two" ||
+        selectedElement.type === "heading-three" ||
+        selectedElement.type === "block-quote" ||
+        selectedLeaf.code
+      ) {
+        event.preventDefault();
+
+        if (selectedLeaf.text.length === editor.selection.anchor.offset) {
+          Transforms.insertNodes(editor, {
+            type: "paragraph",
+            children: [{ text: "", marks: [] }],
+          });
+        } else {
+          Transforms.splitNodes(editor);
+          Transforms.setNodes(editor, { type: "paragraph" });
+        }
+      }
+    }
+  }, []);
 
   return (
     <Slate
       editor={editor}
       onChange={(value) => {
         if (onChange && value) {
-          onChange(serialize({ children: value }));
+          onChange(serialize({ children: value }, editor));
         }
       }}
       value={deserialize(
@@ -73,10 +135,10 @@ export function ArticleEditor({
       <div
         className={css.articleEditor}
         onFocus={() => {
-          setIsFocused(true);
+          // setIsFocused(true);
         }}
         onBlur={() => {
-          setIsFocused(false);
+          // setIsFocused(false);
         }}
       >
         {renderToolbar && (
@@ -90,20 +152,25 @@ export function ArticleEditor({
             }}
           >
             <span className={css.formatControls}>
-              <span className={css.buttonGroup}>
-                <MarkButton theme={theme} format="bold">
-                  <FaBold />
-                </MarkButton>
-                <MarkButton theme={theme} format="italic">
-                  <FaItalic />
-                </MarkButton>
-                <MarkButton theme={theme} format="underline">
-                  <FaUnderline />
-                </MarkButton>
-                <MarkButton theme={theme} format="code">
-                  <FaCode />
-                </MarkButton>
-              </span>
+              {useMemo(
+                () => (
+                  <span className={css.buttonGroup}>
+                    <MarkButton theme={theme} format="bold">
+                      <FaBold />
+                    </MarkButton>
+                    <MarkButton theme={theme} format="italic">
+                      <FaItalic />
+                    </MarkButton>
+                    <MarkButton theme={theme} format="underline">
+                      <FaUnderline />
+                    </MarkButton>
+                    <MarkButton theme={theme} format="code">
+                      <FaCode />
+                    </MarkButton>
+                  </span>
+                ),
+                [theme, css]
+              )}
 
               <span className={css.buttonGroup}>
                 <BlockButton theme={theme} format="heading-two">
@@ -137,63 +204,30 @@ export function ArticleEditor({
                   <FaAlignJustify />
                 </BlockButton>
               </span>
+
+              <span className={css.buttonGroup}>
+                <InsertImageButton theme={theme} />
+              </span>
             </span>
           </header>
         )}
 
         <div className={css.content}>
-          <Editable
-            name={name}
-            renderElement={renderElement}
-            renderLeaf={renderLeaf}
-            spellCheck
-            autoFocus={autoFocus}
-            readOnly={disabled}
-            placeholder={placeholder}
-            onKeyDown={(event) => {
-              for (const hotkey in HOTKEYS) {
-                if (isHotkey(hotkey, event)) {
-                  event.preventDefault();
-                  const mark = HOTKEYS[hotkey];
-                  toggleMark(editor, mark);
-                  return;
-                }
-              }
-
-              if (event.key === "Enter") {
-                const selectedElement = SlateNode.descendant(
-                  editor,
-                  editor.selection.anchor.path.slice(0, -1)
-                );
-
-                const selectedLeaf = SlateNode.descendant(
-                  editor,
-                  editor.selection.anchor.path
-                );
-
-                if (
-                  selectedElement.type === "heading-two" ||
-                  selectedElement.type === "heading-three" ||
-                  selectedElement.type === "block-quote" ||
-                  selectedLeaf.code
-                ) {
-                  event.preventDefault();
-
-                  if (
-                    selectedLeaf.text.length === editor.selection.anchor.offset
-                  ) {
-                    Transforms.insertNodes(editor, {
-                      type: "paragraph",
-                      children: [{ text: "", marks: [] }],
-                    });
-                  } else {
-                    Transforms.splitNodes(editor);
-                    Transforms.setNodes(editor, { type: "paragraph" });
-                  }
-                }
-              }
-            }}
-          />
+          {useMemo(
+            () => (
+              <Editable
+                name={name}
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+                spellCheck
+                autoFocus={autoFocus}
+                readOnly={disabled}
+                placeholder={placeholder}
+                onKeyDown={onKeyDown}
+              />
+            ),
+            [name, placeholder, autoFocus, disabled]
+          )}
         </div>
       </div>
     </Slate>
@@ -267,8 +301,50 @@ const isMarkActive = (editor, format) => {
   return marks ? marks[format] === true : false;
 };
 
-const Element = ({ attributes, children, element }) => {
+const withImages = (editor) => {
+  const { insertData, isVoid } = editor;
+
+  editor.isVoid = (element) => {
+    return element.type === "image" ? true : isVoid(element);
+  };
+
+  editor.insertData = (data) => {
+    const text = data.getData("text/plain");
+    const { files } = data;
+
+    if (files && files.length > 0) {
+      for (const file of files) {
+        const reader = new FileReader();
+        const [mime] = file.type.split("/");
+
+        if (mime === "image") {
+          reader.addEventListener("load", () => {
+            const url = reader.result;
+            insertImage(editor, url);
+          });
+
+          reader.readAsDataURL(file);
+        }
+      }
+    } else if (isImageUrl(text)) {
+      insertImage(editor, text);
+    } else {
+      insertData(data);
+    }
+  };
+
+  return editor;
+};
+
+const insertImage = (editor, url) => {
+  const text = { text: "" };
+  const image = { type: "image", url, children: [text] };
+  Transforms.insertNodes(editor, image);
+};
+
+const Element = ({ attributes, children, element, editor }) => {
   const style = { textAlign: element.align };
+
   switch (element.type) {
     case "block-quote":
       return (
@@ -306,6 +382,17 @@ const Element = ({ attributes, children, element }) => {
           {children}
         </ol>
       );
+    case "image":
+      return (
+        <Image
+          editor={editor}
+          // "Delete" the ref attribute, since this is a function component
+          {...{ ...attributes, ref: undefined }}
+          innerRef={attributes && attributes.ref}
+          element={element}
+          children={children}
+        />
+      );
     default:
       return (
         <p style={style} {...attributes}>
@@ -313,6 +400,63 @@ const Element = ({ attributes, children, element }) => {
         </p>
       );
   }
+};
+
+const Image = ({ editor, attributes, innerRef, children, element }) => {
+  const selected = useSelected();
+  const focused = useFocused();
+
+  console.log("selected: ", selected);
+  console.log("focused: ", focused);
+  return (
+    <div
+      {...attributes}
+      // NOTE: Must do ref after attributes, since attributes contains ref: undefined
+      ref={innerRef}
+      className={
+        css.imageWrapper + " " + (selected && focused ? css.selected : "")
+      }
+      onMouseDown={(e) => {
+        editor;
+      }}
+    >
+      {children}
+      <div contentEditable={false}>
+        <img src={element.url} draggable={true} />
+        <button
+          className={css.small}
+          onClick={() =>
+            Transforms.removeNodes(editor, {
+              at: ReactEditor.findPath(editor, element),
+            })
+          }
+        >
+          <FaTrash />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const InsertImageButton = ({ theme }) => {
+  const editor = useSlateStatic();
+
+  return (
+    <button
+      className={theme.buttonAlt + " " + css.small}
+      onClick={(event) => {
+        event.preventDefault();
+        const url = window.prompt("Enter the URL of the image:");
+        if (url && !isImageUrl(url)) {
+          alert("URL is not an image");
+          return;
+        }
+        insertImage(editor, url);
+      }}
+    >
+      <FaImage />
+    </button>
+  );
 };
 
 const Leaf = ({ attributes, children, leaf }) => {
@@ -352,12 +496,9 @@ const BlockButton = ({ theme, format, children }) => {
           ? css.active
           : "")
       }
-      onMouseDown={(e) => {
-        e.preventDefault();
-        toggleBlock(editor, format);
-      }}
       onClick={(e) => {
         e.preventDefault();
+        toggleBlock(editor, format);
       }}
     >
       {children}
@@ -376,12 +517,9 @@ const MarkButton = ({ theme, format, children }) => {
         " " +
         (isMarkActive(editor, format) ? css.active : "")
       }
-      onMouseDown={(e) => {
-        e.preventDefault();
-        toggleMark(editor, format);
-      }}
       onClick={(e) => {
         e.preventDefault();
+        toggleMark(editor, format);
       }}
     >
       {children}
@@ -389,11 +527,11 @@ const MarkButton = ({ theme, format, children }) => {
   );
 };
 
-function serialize(node) {
-  return ReactDOMServer.renderToStaticMarkup(toElements(node));
+function serialize(node, editor) {
+  return ReactDOMServer.renderToStaticMarkup(toElements(node, editor));
 }
 
-function toElements(node) {
+function toElements(node, editor) {
   if (Text.isText(node)) {
     return (
       <Leaf
@@ -415,6 +553,7 @@ function toElements(node) {
         children={children}
         element={node}
         attributes={node.attributes}
+        editor={editor}
       />
     );
   } else {
@@ -510,6 +649,12 @@ const deserialize = (el, markAttributes = {}) => {
       return jsx(
         "element",
         { type: "list-item", align: el.style.textAlign },
+        children
+      );
+    case "IMG":
+      return jsx(
+        "element",
+        { type: "image", url: el.getAttribute("src") },
         children
       );
 
