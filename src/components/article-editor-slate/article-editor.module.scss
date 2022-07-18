@@ -1,55 +1,58 @@
 .articleEditor {
-  header {
+  .invisible {
     visibility: hidden;
+  }
+
+  header {
     display: flex;
+    visibility: hidden;
+    gap: 0.1em;
     position: sticky;
     top: 1em;
-    column-gap: initial;
     z-index: 1;
 
-    button {
+    .formatControls {
       display: inline-flex;
-      color: inherit;
-      padding: 0.2em;
-      border-radius: 0;
-      border: 1px solid rgba(0, 0, 0, 0);
-      background-color: initial;
-      font-size: 1em;
-    }
-
-    .buttonGroup {
-      display: inline-flex;
-      align-items: flex-end;
-      border-right: 1px solid #eee;
+      flex-wrap: wrap;
       background: white;
-      margin: 0.1em;
-      padding: 0.3em;
 
-      border: 1px solid rgb(184, 184, 184);
-      border-radius: 0.2em;
+      .buttonGroup {
+        display: inline-flex;
+        align-items: flex-end;
+        border-right: 1px solid #eee;
+        margin: 0.1em;
+        padding: 0.3em;
 
-      button {
-        color: #c7c7c7;
-      }
+        border: 1px solid rgb(184, 184, 184);
+        border-radius: 0.2em;
 
-      button.small {
-        font-size: 1em;
-      }
-
-      button.active {
-        color: inherit;
-      }
-
-      .altButton {
-        color: inherit;
+        button.active {
+          color: inherit;
+        }
       }
     }
   }
 
+  button {
+    padding: 0.2em;
+    border-radius: 0;
+    border: 1px solid rgba(0, 0, 0, 0);
+  }
+
+  button > * {
+    color: #c7c7c7;
+  }
+
+  // .content {
+  //   border-top: 0.1em solid rgb(184, 184, 184);
+  // }
+
+  button.small {
+    font-size: 1em;
+  }
+
   &:hover,
   &:focus,
-  &:focus-within,
-  &:focus-visible,
   &:active {
     header {
       visibility: visible;
@@ -89,5 +92,9 @@
         display: inline-flex;
       }
     }
+
+    // &:hover button {
+    //   display: inline-flex;
+    // }
   }
 }

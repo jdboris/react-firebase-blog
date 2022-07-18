@@ -13,14 +13,15 @@
       margin-bottom: 0.1em;
 
       small {
+        display: inline-flex;
         opacity: 1 !important;
+        align-items: center;
       }
     }
   }
 
-  h4 {
-    margin-top: 3em;
-    width: 100%;
+  .articleEditor {
+    margin-bottom: 3em;
   }
 
   main {
@@ -43,6 +44,10 @@
     overflow-y: hidden;
     background: initial;
     color: inherit;
+  }
+
+  header textarea {
+    padding: 0;
   }
 
   aside > div {

@@ -168,11 +168,12 @@ export function ArticleForm({
                 {(mode == "create" || mode == "edit" || !isPreview) && (
                   <ArticleEditor
                     theme={theme}
+                    className={css.articleEditor}
                     name="content"
                     placeholder="Article content..."
                     value={article?.content}
                     autoFocus={mode != "read"}
-                    hideToolbar={mode == "read"}
+                    // hideToolbar={mode == "read"}
                     disabled={mode == "read"}
                     onChange={(value) => {
                       setArticle((old) => {
@@ -193,15 +194,18 @@ export function ArticleForm({
                   />
                 )}
 
-                {(mode == "create" || mode == "edit") && <h4>Preview View</h4>}
+                {(mode == "create" || mode == "edit") && (
+                  <h4>Article Preview</h4>
+                )}
 
                 {(mode == "create" || mode == "edit" || isPreview) && (
                   <ArticleEditor
                     theme={theme}
+                    className={css.articleEditor}
                     name="contentPreview"
                     placeholder="Content preview..."
                     value={article?.contentPreview}
-                    hideToolbar={mode == "read"}
+                    // hideToolbar={mode == "read"}
                     renderToolbar={mode != "read"}
                     disabled={mode == "read"}
                     onChange={(value) => {
@@ -250,7 +254,7 @@ export function ArticleForm({
                     {!isPreview &&
                       mode == "read" &&
                       socialLinks.map((link) => (
-                        <a href={link.url} target="_blank">
+                        <a key={link.uid} href={link.url} target="_blank">
                           <img src={link.iconUrl} />
                         </a>
                       ))}

@@ -42,7 +42,7 @@ export function SocialLinkForm({
           }
         }}
       >
-        <fieldset>
+        <fieldset disabled={isLoading}>
           <aside>
             {mode == "read" && (
               <button
