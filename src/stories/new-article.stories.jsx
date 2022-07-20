@@ -1,17 +1,17 @@
-import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "../components/app";
 import theme from "../themes/theme-1/theme.module.scss";
+import { MemoryRouter } from "react-router-dom";
 
 export default {
-  title: "App",
+  title: "New Article",
   component: App,
 };
 
 const Template = (args) => (
   // https://chestozo.medium.com/how-to-mock-location-inside-storybook-stories-76a7c0705354
-  <Router>
+  <MemoryRouter initialEntries={["/article/new"]}>
     <App {...args} />
-  </Router>
+  </MemoryRouter>
 );
 
 export const NormalApp = Template.bind({});
