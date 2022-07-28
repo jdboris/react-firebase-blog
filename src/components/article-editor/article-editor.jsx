@@ -21,6 +21,7 @@ import { VscHorizontalRule } from "react-icons/vsc";
 import FileInput from "../file-input/file-input";
 import { fileToDataUrl, uploadFile } from "../../utils/files";
 import { uploadBytes } from "firebase/storage";
+import { useEffect } from "react";
 
 const MenuBar = ({ editor, ...props }) => {
   if (!editor) {
@@ -194,6 +195,10 @@ export const ArticleEditor = ({
     editable: !disabled,
     ...props,
   });
+
+  useEffect(() => {
+    editor && editor.setEditable(!disabled);
+  }, [disabled]);
 
   return (
     <div className={css.articleEditor + " " + className}>

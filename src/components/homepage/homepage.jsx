@@ -29,10 +29,9 @@ export function Homepage({ theme, useFirebaseAuth, useArticles, useSettings }) {
       <section>
         {mostRecent.length > 1 &&
           mostRecent.slice(1).map((article) => (
-            <Link to={`/article/${article.uid}`}>
+            <Link to={`/article/${article.uid}`} key={article.uid}>
               <ArticleForm
                 theme={theme}
-                key={article.uid}
                 article={article}
                 mode="read"
                 isPreview={true}
