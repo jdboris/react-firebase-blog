@@ -2,6 +2,7 @@ import { FaUpload } from "react-icons/fa";
 import { useEffect, useMemo, useState } from "react";
 import css from "./file-input.module.scss";
 import { useDropzone } from "react-dropzone";
+import { createRef } from "react";
 
 const baseStyle = {
   display: "inline-flex",
@@ -36,7 +37,12 @@ const disabledStyle = {
   opacity: 0.5,
 };
 
-export function FileInput({ onChange, disabled }) {
+export function FileInput({
+  onChange,
+  disabled,
+  buttonMode = false,
+  children,
+}) {
   const {
     acceptedFiles,
     getRootProps,
@@ -44,13 +50,19 @@ export function FileInput({ onChange, disabled }) {
     isFocused,
     isDragAccept,
     isDragReject,
-  } = useDropzone({
-    accept: {
-      "image/*": [],
-    },
-    multiple: false,
-    disabled,
-  });
+  } = useDropzone(
+    buttonMode
+      ? null
+      : {
+          accept: {
+            "image/*": [],
+          },
+          multiple: false,
+          disabled,
+        }
+  );
+
+  const inputRef = createRef();
 
   const style = useMemo(
     () => ({
@@ -69,7 +81,24 @@ export function FileInput({ onChange, disabled }) {
     }
   }, [acceptedFiles]);
 
-  return (
+  return buttonMode ? (
+    <>
+      <button
+        onClick={() => {
+          inputRef.current.click();
+        }}
+        type="button"
+      >
+        {children}
+      </button>
+      <input
+        {...getInputProps()}
+        style={{ display: "none" }}
+        ref={inputRef}
+        type="file"
+      />
+    </>
+  ) : (
     <span
       className={css.fileInput}
       {...getRootProps({ style })}
@@ -78,6 +107,7 @@ export function FileInput({ onChange, disabled }) {
     >
       <FaUpload /> Drag and drop or <strong>choose a file.</strong>
       <input {...getInputProps()} />
+      {children}
     </span>
   );
 }
