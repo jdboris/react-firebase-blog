@@ -62,11 +62,12 @@ export function ArticleForm({
   useSettings,
   ...props
 }) {
+  const { user, isLoading: isLoadingUser } = useFirebaseAuth();
+  const [mode, setMode] = useState(props.mode ? props.mode : "read");
+
   const { uid } = useParams();
-  const { user } = useFirebaseAuth();
   const { socialLinks } = useSettings();
   const { save, isLoading, get, draft, saveDraft } = useArticles();
-  const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const contentPreviewLimit = 256;
   const [article, setArticle] = useState(
     props.article ||
@@ -75,7 +76,7 @@ export function ArticleForm({
         : mode == "create" && draft
         ? draft
         : {
-            authorName: user.displayName,
+            authorName: user && user.displayName,
             // NOTE: Defaults required to start in sync
             content: "<p><span></span></p>",
             contentPreview: "<p><span></span></p>",
@@ -103,7 +104,8 @@ export function ArticleForm({
 
   return useMemo(
     () =>
-      ((!uid && article) || (uid && article)) && (
+      ((!uid && article) || (uid && article)) &&
+      !(mode != "read" && !user) && (
         <form
           className={theme.article + " " + css.articleForm}
           onSubmit={async (e) => {
@@ -173,7 +175,7 @@ export function ArticleForm({
                     placeholder="Article content..."
                     value={article?.content}
                     autoFocus={mode != "read"}
-                    // hideToolbar={mode == "read"}
+                    renderToolbar={mode != "read"}
                     disabled={mode == "read"}
                     onChange={(value) => {
                       setArticle((old) => {
@@ -265,6 +267,6 @@ export function ArticleForm({
           </fieldset>
         </form>
       ),
-    [uid, article, mode]
+    [uid, article, mode, isLoadingUser]
   );
 }

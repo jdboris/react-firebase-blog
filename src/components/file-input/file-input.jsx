@@ -37,7 +37,7 @@ const disabledStyle = {
   opacity: 0.5,
 };
 
-export function FileInput({
+export default function FileInput({
   onChange,
   disabled,
   buttonMode = false,

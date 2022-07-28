@@ -1,6 +1,8 @@
 import css from "./article-editor.module.scss";
 
 import { EditorContent, useEditor } from "@tiptap/react";
+import Image from "@tiptap/extension-image";
+
 import StarterKit from "@tiptap/starter-kit";
 import { default as React } from "react";
 import {
@@ -11,10 +13,14 @@ import {
   FaListOl,
   FaQuoteLeft,
   FaStrikethrough,
+  FaImage,
 } from "react-icons/fa";
 import { GrRedo, GrReturn, GrUndo } from "react-icons/gr";
 import { RiCodeSFill, RiCodeSSlashFill } from "react-icons/ri";
 import { VscHorizontalRule } from "react-icons/vsc";
+import FileInput from "../file-input/file-input";
+import { fileToDataUrl, uploadFile } from "../../utils/files";
+import { uploadBytes } from "firebase/storage";
 
 const MenuBar = ({ editor, ...props }) => {
   if (!editor) {
@@ -119,6 +125,17 @@ const MenuBar = ({ editor, ...props }) => {
         >
           <FaQuoteLeft />
         </button>
+
+        <FileInput
+          buttonMode={true}
+          onChange={async (files) => {
+            (await Promise.all(files.map((file) => uploadFile(file)))).forEach(
+              (url) => editor.chain().focus().setImage({ src: url }).run()
+            );
+          }}
+        >
+          <FaImage />
+        </FileInput>
       </span>
       <span className={css.buttonGroup}>
         <button
@@ -169,7 +186,7 @@ export const ArticleEditor = ({
   ...props
 }) => {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, Image],
     content: value,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());

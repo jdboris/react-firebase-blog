@@ -2,7 +2,7 @@ import { FaEdit, FaSave, FaTrash } from "react-icons/fa";
 import { RiCloseFill } from "react-icons/ri";
 import { useState } from "react";
 import css from "./social-link-form.module.scss";
-import { FileInput } from "../file-input/file-input";
+import FileInput from "../file-input/file-input";
 import { useEffect } from "react";
 
 export function SocialLinkForm({
