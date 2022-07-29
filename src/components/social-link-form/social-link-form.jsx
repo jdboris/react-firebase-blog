@@ -31,7 +31,7 @@ export function SocialLinkForm({
         onSubmit={async (e) => {
           e.preventDefault();
           if (isLoading) return;
-          if (mode == "create" || mode == "edit") {
+          if (mode === "create" || mode === "edit") {
             const newLink = await saveSocialLink(link);
             if (newLink) {
               setMode("read");
@@ -44,7 +44,7 @@ export function SocialLinkForm({
       >
         <fieldset disabled={isLoading}>
           <aside>
-            {mode == "read" && (
+            {mode === "read" && (
               <button
                 className={theme.buttonAlt}
                 onClick={() => {
@@ -55,13 +55,13 @@ export function SocialLinkForm({
               </button>
             )}
 
-            {(mode == "create" || mode == "edit") && (
+            {(mode === "create" || mode === "edit") && (
               <button className={theme.buttonAlt}>
                 <FaSave />
               </button>
             )}
 
-            {mode == "edit" && (
+            {mode === "edit" && (
               <button
                 className={css.buttonAlt + " " + css.red}
                 onClick={(e) => {
@@ -80,7 +80,7 @@ export function SocialLinkForm({
           </label>
 
           <div>
-            {(mode == "create" || mode == "edit") && (
+            {(mode === "create" || mode === "edit") && (
               <>
                 <div>
                   <FileInput
@@ -114,7 +114,7 @@ export function SocialLinkForm({
             )}
           </div>
 
-          {mode == "read" ? (
+          {mode === "read" ? (
             <div>
               <label>Link URL:</label>
               <a href={link.url} target="_blank">

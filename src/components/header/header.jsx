@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import css from "./header.module.scss";
 
 export function Header({ useFirebaseAuth }) {
   const { user, login, logout, isLoading } = useFirebaseAuth();

@@ -1,8 +1,7 @@
-import { FaUpload } from "react-icons/fa";
-import { useEffect, useMemo, useState } from "react";
-import css from "./file-input.module.scss";
+import { createRef, useEffect, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
-import { createRef } from "react";
+import { FaUpload } from "react-icons/fa";
+import css from "./file-input.module.scss";
 
 const baseStyle = {
   display: "inline-flex",

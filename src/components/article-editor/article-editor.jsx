@@ -1,27 +1,25 @@
 import css from "./article-editor.module.scss";
 
-import { EditorContent, useEditor } from "@tiptap/react";
 import Image from "@tiptap/extension-image";
+import { EditorContent, useEditor } from "@tiptap/react";
 
 import StarterKit from "@tiptap/starter-kit";
-import { default as React } from "react";
+import { default as React, useEffect } from "react";
 import {
   FaBold,
   FaHeading,
+  FaImage,
   FaItalic,
   FaList,
   FaListOl,
   FaQuoteLeft,
   FaStrikethrough,
-  FaImage,
 } from "react-icons/fa";
 import { GrRedo, GrReturn, GrUndo } from "react-icons/gr";
 import { RiCodeSFill, RiCodeSSlashFill } from "react-icons/ri";
 import { VscHorizontalRule } from "react-icons/vsc";
+import { uploadFile } from "../../utils/files";
 import FileInput from "../file-input/file-input";
-import { fileToDataUrl, uploadFile } from "../../utils/files";
-import { uploadBytes } from "firebase/storage";
-import { useEffect } from "react";
 
 const MenuBar = ({ editor, ...props }) => {
   if (!editor) {

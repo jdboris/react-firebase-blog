@@ -20,12 +20,12 @@ export function SettingsForm({
       // onSubmit={async (e) => {
       //   e.preventDefault();
       //   if (isLoading) return;
-      //   if (mode == "create" || mode == "edit") {
+      //   if (mode === "create" || mode === "edit") {
       //     const newArticle = await save(article);
       //     if (newArticle) {
       //       setArticle(newArticle);
       //       setMode("read");
-      //       if (mode == "create") {
+      //       if (mode === "create") {
       //         saveDraft(null);
       //       }
       //     }

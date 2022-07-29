@@ -1,20 +1,15 @@
 import {
   collection,
-  doc,
-  getDoc,
-  getDocs,
   deleteDoc,
+  doc,
   getFirestore,
-  limit,
-  orderBy,
-  query,
   setDoc,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import "../firebase";
 import { v4 as uuid } from "uuid";
+import "../firebase";
 
 const storage = getStorage();
 

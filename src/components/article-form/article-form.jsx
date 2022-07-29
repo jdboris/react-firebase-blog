@@ -73,7 +73,7 @@ export function ArticleForm({
     props.article ||
       (uid
         ? null
-        : mode == "create" && draft
+        : mode === "create" && draft
         ? draft
         : {
             authorName: user && user.displayName,
@@ -92,7 +92,7 @@ export function ArticleForm({
   }, [uid]);
 
   useEffect(() => {
-    if (mode == "create") {
+    if (mode === "create") {
       saveDraft(article);
     }
   }, [article]);
@@ -111,20 +111,20 @@ export function ArticleForm({
           onSubmit={async (e) => {
             e.preventDefault();
             if (isLoading) return;
-            if (mode == "create" || mode == "edit") {
+            if (mode === "create" || mode === "edit") {
               if (!article.date) article.date = new Date();
               const newArticle = await save(article);
               if (newArticle) {
                 setArticle(newArticle);
                 setMode("read");
-                if (mode == "create") {
+                if (mode === "create") {
                   saveDraft(null);
                 }
               }
             }
           }}
         >
-          <fieldset disabled={mode == "read" || isLoading}>
+          <fieldset disabled={mode === "read" || isLoading}>
             <header>
               <HeaderTag>
                 <TextareaAutosize
@@ -144,7 +144,7 @@ export function ArticleForm({
 
                 <small>
                   {article?.authorName}:{" "}
-                  {mode == "read" ? (
+                  {mode === "read" ? (
                     formatDateRelative(article?.date)
                   ) : (
                     <DatePicker
@@ -167,7 +167,7 @@ export function ArticleForm({
             </header>
             <main>
               <article>
-                {(mode == "create" || mode == "edit" || !isPreview) && (
+                {(mode === "create" || mode === "edit" || !isPreview) && (
                   <ArticleEditor
                     theme={theme}
                     className={css.articleEditor}
@@ -176,12 +176,12 @@ export function ArticleForm({
                     value={article?.content}
                     autoFocus={mode != "read"}
                     renderToolbar={mode != "read"}
-                    disabled={mode == "read"}
+                    disabled={mode === "read"}
                     onChange={(value) => {
                       setArticle((old) => {
                         const isPreviewInSync =
                           old.content &&
-                          old.contentPreview ==
+                          old.contentPreview ===
                             old.content.substring(0, contentPreviewLimit);
 
                         return {
@@ -196,20 +196,20 @@ export function ArticleForm({
                   />
                 )}
 
-                {(mode == "create" || mode == "edit") && (
+                {(mode === "create" || mode === "edit") && (
                   <h4>Article Preview</h4>
                 )}
 
-                {(mode == "create" || mode == "edit" || isPreview) && (
+                {(mode === "create" || mode === "edit" || isPreview) && (
                   <ArticleEditor
                     theme={theme}
                     className={css.articleEditor}
                     name="contentPreview"
                     placeholder="Content preview..."
                     value={article?.contentPreview}
-                    // hideToolbar={mode == "read"}
+                    // hideToolbar={mode === "read"}
                     renderToolbar={mode != "read"}
-                    disabled={mode == "read"}
+                    disabled={mode === "read"}
                     onChange={(value) => {
                       setArticle((old) => {
                         return {
@@ -224,14 +224,14 @@ export function ArticleForm({
               {!isPreview && (
                 <aside>
                   <div>
-                    {user && user.isAuthor && mode == "create" && (
+                    {user && user.isAuthor && mode === "create" && (
                       <button className={theme.buttonAlt} disabled={isLoading}>
                         <FaPaperPlane />
                       </button>
                     )}
                     {user &&
                       user.isAuthor &&
-                      (mode == "read" ? (
+                      (mode === "read" ? (
                         <button
                           className={theme.buttonAlt}
                           onClick={(e) => {
@@ -242,7 +242,7 @@ export function ArticleForm({
                         >
                           <FaEdit />
                         </button>
-                      ) : mode == "edit" ? (
+                      ) : mode === "edit" ? (
                         <button
                           className={theme.buttonAlt}
                           disabled={isLoading}
@@ -254,7 +254,7 @@ export function ArticleForm({
                       ))}
 
                     {!isPreview &&
-                      mode == "read" &&
+                      mode === "read" &&
                       socialLinks.map((link) => (
                         <a key={link.uid} href={link.url} target="_blank">
                           <img src={link.iconUrl} />

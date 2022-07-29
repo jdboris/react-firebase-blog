@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import css from "./homepage.module.scss";
 import { Link } from "react-router-dom";
 import { ArticleForm } from "../article-form";
+import css from "./homepage.module.scss";
 
 export function Homepage({ theme, useFirebaseAuth, useArticles, useSettings }) {
-  const { user } = useFirebaseAuth();
+  // const { user } = useFirebaseAuth();
   const { getMostRecent } = useArticles();
   const [mostRecent, setMostRecent] = useState([]);
 
