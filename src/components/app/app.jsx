@@ -1,9 +1,3 @@
-import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
 import { ArticleProvider, useArticles } from "../../contexts/articles";
 import {
   FirebaseAuthProvider,
@@ -11,11 +5,8 @@ import {
 } from "../../contexts/firebase-auth";
 import { SettingsProvider, useSettings } from "../../contexts/settings";
 import "../../firebase";
-import { ArticleForm } from "../article-form";
 import { Header } from "../header";
-import { Homepage } from "../homepage";
 import { Main } from "../main";
-import { SettingsForm } from "../settings-form";
 
 export function App({ theme }) {
   return (
