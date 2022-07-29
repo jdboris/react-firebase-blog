@@ -89,23 +89,31 @@ export function ArticleForm({
         setArticle(await get(uid));
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uid]);
 
   useEffect(() => {
     if (mode === "create") {
       saveDraft(article);
     }
-  }, [article]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [article, mode]);
 
   const HeaderTag = useMemo(
-    () => (props) => isPreview ? <h2 {...props}></h2> : <h1 {...props}></h1>,
+    () =>
+      ({ children, ...props }) =>
+        isPreview ? (
+          <h2 {...props}>{children}</h2>
+        ) : (
+          <h1 {...props}>{children}</h1>
+        ),
     []
   );
 
   return useMemo(
     () =>
       ((!uid && article) || (uid && article)) &&
-      !(mode != "read" && !user) && (
+      !(mode !== "read" && !user) && (
         <form
           className={theme.article + " " + css.articleForm}
           onSubmit={async (e) => {
@@ -174,8 +182,8 @@ export function ArticleForm({
                     name="content"
                     placeholder="Article content..."
                     value={article?.content}
-                    autoFocus={mode != "read"}
-                    renderToolbar={mode != "read"}
+                    autoFocus={mode !== "read"}
+                    renderToolbar={mode !== "read"}
                     disabled={mode === "read"}
                     onChange={(value) => {
                       setArticle((old) => {
@@ -208,7 +216,7 @@ export function ArticleForm({
                     placeholder="Content preview..."
                     value={article?.contentPreview}
                     // hideToolbar={mode === "read"}
-                    renderToolbar={mode != "read"}
+                    renderToolbar={mode !== "read"}
                     disabled={mode === "read"}
                     onChange={(value) => {
                       setArticle((old) => {
@@ -256,8 +264,13 @@ export function ArticleForm({
                     {!isPreview &&
                       mode === "read" &&
                       socialLinks.map((link) => (
-                        <a key={link.uid} href={link.url} target="_blank">
-                          <img src={link.iconUrl} />
+                        <a
+                          key={link.uid}
+                          href={link.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <img src={link.iconUrl} alt="social icon" />
                         </a>
                       ))}
                   </div>
@@ -267,6 +280,7 @@ export function ArticleForm({
           </fieldset>
         </form>
       ),
-    [uid, article, mode, isLoadingUser]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [uid, article, mode, isLoadingUser, isPreview, isLoading, socialLinks, user]
   );
 }

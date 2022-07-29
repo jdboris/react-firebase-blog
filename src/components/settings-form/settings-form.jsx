@@ -6,11 +6,11 @@ export function SettingsForm({
   theme,
   useFirebaseAuth,
   useSettings,
-  ...props
+  // ...props
 }) {
   const { user } = useFirebaseAuth();
-  const { socialLinks, isLoading } = useSettings();
-  const [mode, setMode] = useState(props.mode ? props.mode : "read");
+  const { socialLinks } = useSettings();
+  // const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const [newLink, setNewLink] = useState(null);
 
   return (

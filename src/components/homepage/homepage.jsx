@@ -12,6 +12,8 @@ export function Homepage({ theme, useFirebaseAuth, useArticles, useSettings }) {
     (async () => {
       setMostRecent(await getMostRecent());
     })();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

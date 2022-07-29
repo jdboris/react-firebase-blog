@@ -406,8 +406,6 @@ const Image = ({ editor, attributes, innerRef, children, element }) => {
   const selected = useSelected();
   const focused = useFocused();
 
-  console.log("selected: ", selected);
-  console.log("focused: ", focused);
   return (
     <div
       {...attributes}
@@ -422,7 +420,7 @@ const Image = ({ editor, attributes, innerRef, children, element }) => {
     >
       {children}
       <div contentEditable={false}>
-        <img src={element.url} draggable={true} />
+        <img src={element.url} draggable={true} alt="article embed" />
         <button
           className={css.small}
           onClick={() =>

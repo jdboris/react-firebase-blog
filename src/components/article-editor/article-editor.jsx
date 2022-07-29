@@ -80,9 +80,7 @@ const MenuBar = ({ editor, ...props }) => {
             editor.chain().focus().toggleHeading({ level: 4 }).run()
           }
           className={
-            editor.isActive("heading", { level: 4 })
-              ? css.active
-              : "" + " " + css.small
+            editor.isActive("heading", { level: 4 }) ? css.active : css.small
           }
         >
           <FaHeading />
@@ -196,7 +194,7 @@ export const ArticleEditor = ({
 
   useEffect(() => {
     editor && editor.setEditable(!disabled);
-  }, [disabled]);
+  }, [disabled, editor]);
 
   return (
     <div className={css.articleEditor + " " + className}>

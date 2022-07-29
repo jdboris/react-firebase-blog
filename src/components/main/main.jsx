@@ -5,7 +5,7 @@ import { Homepage } from "../homepage";
 import { SettingsForm } from "../settings-form";
 
 export function Main({ theme, useFirebaseAuth, useArticles, useSettings }) {
-  const { user, login, logout, isLoading } = useFirebaseAuth();
+  const { user } = useFirebaseAuth();
 
   return (
     <main>

@@ -1,9 +1,8 @@
-import { FaEdit, FaSave, FaTrash } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaEdit, FaSave } from "react-icons/fa";
 import { RiCloseFill } from "react-icons/ri";
-import { useState } from "react";
-import css from "./social-link-form.module.scss";
 import FileInput from "../file-input/file-input";
-import { useEffect } from "react";
+import css from "./social-link-form.module.scss";
 
 export function SocialLinkForm({
   theme,
@@ -76,7 +75,7 @@ export function SocialLinkForm({
 
           <label>
             Icon:
-            {link.iconUrl && <img src={link.iconUrl} />}
+            {link.iconUrl && <img src={link.iconUrl} alt="social icon" />}
           </label>
 
           <div>
@@ -117,7 +116,7 @@ export function SocialLinkForm({
           {mode === "read" ? (
             <div>
               <label>Link URL:</label>
-              <a href={link.url} target="_blank">
+              <a href={link.url} target="_blank" rel="noreferrer">
                 {link.url}
               </a>
             </div>
