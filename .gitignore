@@ -42,6 +42,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Firebase cache
+.firebase/
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
@@ -143,6 +146,7 @@ dist
 .env.local
 .env.development.local
 .env.test.local
+.env.production
 .env.production.local
 
 npm-debug.log*

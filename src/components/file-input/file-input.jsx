@@ -78,7 +78,8 @@ export default function FileInput({
     if (acceptedFiles.length) {
       onChange(acceptedFiles);
     }
-  }, [acceptedFiles, onChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [acceptedFiles]);
 
   return buttonMode ? (
     <>

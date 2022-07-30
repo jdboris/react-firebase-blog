@@ -194,7 +194,8 @@ export const ArticleEditor = ({
 
   useEffect(() => {
     editor && editor.setEditable(!disabled);
-  }, [disabled, editor]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [disabled]);
 
   return (
     <div className={css.articleEditor + " " + className}>
