@@ -1,4 +1,5 @@
 import css from "./article-editor.module.scss";
+import "./tiptap.scss";
 
 import Image from "@tiptap/extension-image";
 import { EditorContent, useEditor } from "@tiptap/react";
