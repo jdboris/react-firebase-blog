@@ -28,6 +28,7 @@ export function Homepage({ theme, useFirebaseAuth, useArticles, useSettings }) {
           useSettings={useSettings}
         />
       )}
+      <h2>Latest News</h2>
       <section>
         {mostRecent.length > 1 &&
           mostRecent.slice(1).map((article) => (
