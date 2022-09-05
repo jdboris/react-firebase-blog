@@ -5,7 +5,16 @@
 
     > * {
       width: 50%;
-      padding: 1em;
+      padding: 0.5em;
+
+      &:hover {
+        transform: scale(1.02);
+      }
+      transition: transform 0.1s;
+
+      article {
+        max-width: 100%;
+      }
     }
   }
 }
