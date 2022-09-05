@@ -51,7 +51,12 @@ export default function FileInput({
     isDragReject,
   } = useDropzone(
     buttonMode
-      ? null
+      ? {
+          accept: {
+            "image/*": [],
+          },
+          multiple: false,
+        }
       : {
           accept: {
             "image/*": [],

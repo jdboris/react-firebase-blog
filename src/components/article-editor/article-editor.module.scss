@@ -33,7 +33,7 @@
       }
 
       button.small {
-        font-size: 1em;
+        font-size: 0.85em;
       }
 
       button.active {
@@ -54,6 +54,11 @@
     header {
       visibility: visible;
     }
+  }
+
+  div[contenteditable="true"] {
+    padding: 0.5em;
+    margin: -0.5em;
   }
 
   .imageWrapper {
@@ -94,6 +99,5 @@
 
   img {
     max-width: 100%;
-    max-height: 100vh;
   }
 }
