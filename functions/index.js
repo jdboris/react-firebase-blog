@@ -8,8 +8,8 @@ exports.writeToFirestore = functions.firestore
     if (change.after) {
       // Add custom claims
       return await admin.auth().setCustomUserClaims(change.after.id, {
-        isAdmin: change.after.data().isAdmin,
-        isAuthor: change.after.data().isAuthor,
+        isAdmin: change.after.data().isAdmin || false,
+        isAuthor: change.after.data().isAuthor || false,
       });
     }
   });
