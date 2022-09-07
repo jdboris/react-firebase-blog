@@ -86,6 +86,12 @@ body {
     cursor: inherit;
   }
 
+  small {
+    opacity: 0.5;
+    color: gray;
+    font-size: 0.7em;
+  }
+
   h1,
   h2,
   h3,
@@ -109,6 +115,12 @@ body {
     font-size: 3em;
   }
 
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
   input,
   textarea {
     font-family: inherit;
@@ -120,6 +132,7 @@ body {
   textarea {
     width: 100%;
     resize: none;
+    padding: 1em;
   }
 
   ::placeholder {
@@ -211,7 +224,6 @@ body {
 
   .article {
     // border-bottom: 0.2em solid #7650a1;
-    margin-bottom: 1em;
 
     header {
       display: flex;
@@ -221,9 +233,7 @@ body {
 
       small {
         display: flex;
-        opacity: 0.5;
         width: 100%;
-        color: gray;
       }
 
       a {

@@ -1,19 +1,19 @@
 // NOTE: Must import the theme stylesheet first to allow others to overwrite
 import theme from "../themes/theme-1/theme.module.scss";
 
-import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "../components/app";
+import { MemoryRouter } from "react-router-dom";
 
 export default {
-  title: "App",
+  title: "Article",
   component: App,
 };
 
 const Template = (args) => (
   // https://chestozo.medium.com/how-to-mock-location-inside-storybook-stories-76a7c0705354
-  <Router>
+  <MemoryRouter initialEntries={["/article/YRnVLosmsGr49LQoAWAs"]}>
     <App {...args} />
-  </Router>
+  </MemoryRouter>
 );
 
 export const NormalApp = Template.bind({});

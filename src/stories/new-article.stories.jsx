@@ -1,5 +1,7 @@
-import { App } from "../components/app";
+// NOTE: Must import the theme stylesheet first to allow others to overwrite
 import theme from "../themes/theme-1/theme.module.scss";
+
+import { App } from "../components/app";
 import { MemoryRouter } from "react-router-dom";
 
 export default {

@@ -1,14 +1,25 @@
 import { Route, Routes } from "react-router-dom";
 import "../../firebase";
+import { CommentList } from "../comment-list";
 import { ArticleForm } from "../article-form";
 import { Homepage } from "../homepage";
 import { SettingsForm } from "../settings-form";
+import { useParams } from "react-router-dom";
+import { ArticlePage } from "../article-page/article-page";
+import ScrollToTop from "../../utils/scroll-to-top";
 
-export function Main({ theme, useFirebaseAuth, useArticles, useSettings }) {
+export function Main({
+  theme,
+  useFirebaseAuth,
+  useArticles,
+  useSettings,
+  useComments,
+}) {
   const { user } = useFirebaseAuth();
 
   return (
     <main>
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"
@@ -36,11 +47,12 @@ export function Main({ theme, useFirebaseAuth, useArticles, useSettings }) {
           <Route
             path=":uid"
             element={
-              <ArticleForm
+              <ArticlePage
                 key="uid"
                 theme={theme}
                 useFirebaseAuth={useFirebaseAuth}
                 useArticles={useArticles}
+                useComments={useComments}
                 useSettings={useSettings}
                 mode="read"
               />
@@ -51,10 +63,11 @@ export function Main({ theme, useFirebaseAuth, useArticles, useSettings }) {
             element={
               user && (
                 <ArticleForm
-                  key="new"
+                  key="new-article"
                   theme={theme}
                   useFirebaseAuth={useFirebaseAuth}
                   useArticles={useArticles}
+                  useComments={useComments}
                   useSettings={useSettings}
                   mode="create"
                 />

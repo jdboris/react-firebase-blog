@@ -15,7 +15,8 @@ export function addTypes(types) {
     object = object || value;
 
     return (
-      (object[key] &&
+      (object &&
+        object[key] &&
         typeof object[key] == "object" &&
         types.find((type) => type.name == object[key].constructor.name) && {
           value,

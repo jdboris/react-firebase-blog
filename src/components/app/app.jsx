@@ -1,4 +1,5 @@
 import { ArticleProvider, useArticles } from "../../contexts/articles";
+import { CommentProvider, useComments } from "../../contexts/comments";
 import {
   FirebaseAuthProvider,
   useFirebaseAuth,
@@ -13,16 +14,22 @@ export function App({ theme }) {
     <div className={theme.root}>
       <FirebaseAuthProvider>
         <SettingsProvider useFirebaseAuth={useFirebaseAuth}>
-          <ArticleProvider useFirebaseAuth={useFirebaseAuth}>
-            <Header useFirebaseAuth={useFirebaseAuth} />
-            <Main
-              theme={theme}
+          <CommentProvider useFirebaseAuth={useFirebaseAuth}>
+            <ArticleProvider
               useFirebaseAuth={useFirebaseAuth}
-              useSettings={useSettings}
-              useArticles={useArticles}
-            />
-            <footer></footer>
-          </ArticleProvider>
+              useComments={useComments}
+            >
+              <Header useFirebaseAuth={useFirebaseAuth} />
+              <Main
+                theme={theme}
+                useFirebaseAuth={useFirebaseAuth}
+                useSettings={useSettings}
+                useArticles={useArticles}
+                useComments={useComments}
+              />
+              <footer></footer>
+            </ArticleProvider>
+          </CommentProvider>
         </SettingsProvider>
       </FirebaseAuthProvider>
     </div>

@@ -4,59 +4,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FaEdit, FaSave, FaPaperPlane } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import TextareaAutosize from "react-textarea-autosize";
+import { formatDateRelative } from "../../utils/date";
 import { ArticleEditor } from "../article-editor";
 import css from "./article-form.module.scss";
 import "./react-datepicker.scss";
-
-function formatDateRelative(date, includePrefix = false) {
-  if (!date) return null;
-  const now = new Date();
-  const minuteDifference = (now - date) / 1000 / 60;
-
-  // Less than an hour ago
-  if (minuteDifference < 60) {
-    const formatter = new Intl.RelativeTimeFormat("en", { style: "long" });
-    return formatter.format(-Math.ceil(minuteDifference), "minute");
-  }
-
-  // Less than a day ago
-  if (minuteDifference < 24 * 60) {
-    const formatter = new Intl.RelativeTimeFormat("en", { style: "long" });
-    return formatter.format(-Math.floor(minuteDifference / 60), "hour");
-  }
-
-  // Less than 2 days ago
-  if (minuteDifference < 24 * 60 * 2) {
-    const formatter = new Intl.DateTimeFormat(undefined, {
-      timeStyle: "short",
-    });
-    return "Yesterday at " + formatter.format(date);
-  }
-
-  // Less than 4 days ago
-  if (minuteDifference < 24 * 60 * 4) {
-    const formatter = new Intl.DateTimeFormat(undefined, {
-      timeStyle: "short",
-    });
-    const weekdays = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-
-    return "on " + weekdays[date.getDay()] + " at " + formatter.format(date);
-  }
-
-  const formatter = new Intl.DateTimeFormat(undefined, {
-    timeStyle: "short",
-    dateStyle: "long",
-  });
-  return "on " + formatter.format(date);
-}
 
 export function ArticleForm({
   theme,
@@ -69,15 +20,12 @@ export function ArticleForm({
   const { user, isLoading: isLoadingUser } = useFirebaseAuth();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
 
-  const { uid } = useParams();
   const { socialLinks } = useSettings();
   const { save, isLoading, get, draft, saveDraft } = useArticles();
   const contentPreviewLimit = 256;
   const [article, setArticle] = useState(
     props.article ||
-      (uid
-        ? null
-        : mode === "create" && draft
+      (mode === "create" && draft
         ? draft
         : {
             authorName: user && user.displayName,
@@ -86,15 +34,6 @@ export function ArticleForm({
             contentPreview: "<p><span></span></p>",
           })
   );
-
-  useEffect(() => {
-    (async () => {
-      if (uid) {
-        setArticle(await get(uid));
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [uid]);
 
   useEffect(() => {
     if (mode === "create") {
@@ -116,7 +55,6 @@ export function ArticleForm({
 
   return useMemo(
     () =>
-      ((!uid && article) || (uid && article)) &&
       !(mode !== "read" && !user) && (
         <form
           className={theme.article + " " + css.articleForm}
@@ -285,6 +223,6 @@ export function ArticleForm({
         </form>
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [uid, article, mode, isLoadingUser, isPreview, isLoading, socialLinks, user]
+    [article, mode, isLoadingUser, isPreview, isLoading, socialLinks, user]
   );
 }

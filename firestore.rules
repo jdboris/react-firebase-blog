@@ -38,6 +38,16 @@ service cloud.firestore {
       allow write: if isAuthor();
     }
 
+    match /commentThreads/{uid} {
+      allow read: if true;
+      allow create: if isAuthor();
+
+      match /comments/{commentId} {
+        allow read, create: if true;
+      }
+    }
+
+
     match /settings/social/links/{uid} {
       allow read: if true;
       allow write: if isAdmin();

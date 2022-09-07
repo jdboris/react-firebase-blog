@@ -1,4 +1,5 @@
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -11,6 +12,8 @@ import {
 } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import "../firebase";
+import { idConverter } from "../utils/firestore";
+import { addTypes, parseTypes } from "../utils/json";
 
 const ArticleContext = createContext(null);
 
@@ -24,24 +27,23 @@ function datesFirestoreToJs(article) {
     : article;
 }
 
-function datesJsonToJs(article) {
-  return article
-    ? { ...article, ...(article.date ? { date: new Date(article.date) } : {}) }
-    : article;
-}
-
-export function ArticleProvider({ useFirebaseAuth, children }) {
+export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
   const { user } = useFirebaseAuth();
+  const { newThread } = useComments();
 
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
+
   const [draft, setDraft] = useState(
-    datesJsonToJs(JSON.parse(localStorage.getItem("articleDraft")))
+    JSON.parse(localStorage.getItem("articleDraft"), parseTypes([Date]))
   );
 
   function saveDraft(article) {
     setDraft(article);
-    return localStorage.setItem("articleDraft", JSON.stringify(article));
+    localStorage.setItem(
+      "articleDraft",
+      JSON.stringify(article, addTypes([Date]))
+    );
   }
 
   useEffect(() => {
@@ -62,7 +64,7 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
             collection(getFirestore(), "articles"),
             orderBy("date", "desc"),
             limit(6)
-          )
+          ).withConverter(idConverter)
         )
       ).docs.map((snapshot) => datesFirestoreToJs(snapshot.data()));
     } catch (error) {
@@ -79,7 +81,11 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
       setIsLoading(true);
 
       return datesFirestoreToJs(
-        (await getDoc(doc(getFirestore(), `articles/${uid}`))).data()
+        (
+          await getDoc(
+            doc(getFirestore(), `articles/${uid}`).withConverter(idConverter)
+          )
+        ).data()
       );
     } catch (error) {
       setErrors([error]);
@@ -94,18 +100,21 @@ export function ArticleProvider({ useFirebaseAuth, children }) {
     try {
       setIsLoading(true);
 
+      const thread = await newThread();
+
       const docRef = article.uid
         ? doc(getFirestore(), `articles/${article.uid}`)
         : doc(collection(getFirestore(), `articles`));
 
-      const data = {
+      const articleData = {
         ...article,
         authorName: user.displayName,
+        commentThreadId: thread.id,
         uid: docRef.id,
       };
+      await setDoc(docRef, articleData, { merge: true });
 
-      await setDoc(docRef, data, { merge: true });
-      return data;
+      return articleData;
     } catch (error) {
       setErrors([error]);
     } finally {
