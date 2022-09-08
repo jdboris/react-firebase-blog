@@ -29,6 +29,7 @@ export function Main({
               useFirebaseAuth={useFirebaseAuth}
               useArticles={useArticles}
               useSettings={useSettings}
+              useComments={useComments}
             />
           }
         ></Route>

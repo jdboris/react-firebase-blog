@@ -36,12 +36,15 @@ export function Homepage({
             useArticles={useArticles}
             useSettings={useSettings}
           />
-          {/* <CommentList
-            theme={theme}
-            threadId={mostRecent[0].commentThreadId}
-            useFirebaseAuth={useFirebaseAuth}
-            useComments={useComments}
-          /> */}
+          <section>
+            <h2>Comments</h2>
+            <CommentList
+              theme={theme}
+              threadId={mostRecent[0].commentThreadId}
+              useFirebaseAuth={useFirebaseAuth}
+              useComments={useComments}
+            />
+          </section>
         </>
       )}
 
