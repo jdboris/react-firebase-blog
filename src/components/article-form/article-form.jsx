@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaEdit, FaSave, FaPaperPlane } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import TextareaAutosize from "react-textarea-autosize";
 import { formatDateRelative } from "../../utils/date";
 import { ArticleEditor } from "../article-editor";
@@ -19,7 +19,7 @@ export function ArticleForm({
 }) {
   const { user, isLoading: isLoadingUser } = useFirebaseAuth();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
-
+  const navigate = useNavigate();
   const { socialLinks } = useSettings();
   const { save, isLoading, get, draft, saveDraft } = useArticles();
   const contentPreviewLimit = 256;
@@ -69,6 +69,7 @@ export function ArticleForm({
                 setMode("read");
                 if (mode === "create") {
                   saveDraft(null);
+                  navigate(`/article/${newArticle.id}`);
                 }
               }
             }

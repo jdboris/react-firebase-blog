@@ -104,6 +104,7 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
         authorName: user.displayName,
         commentThreadId: thread.id,
         uid: docRef.id,
+        id: docRef.id,
       };
       await setDoc(docRef, articleData, { merge: true });
 
