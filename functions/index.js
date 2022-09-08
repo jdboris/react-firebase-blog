@@ -2,7 +2,7 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-exports.writeToFirestore = functions.firestore
+exports.addCustomClaims = functions.firestore
   .document("users/{userId}")
   .onWrite(async (change, context) => {
     if (change.after) {
