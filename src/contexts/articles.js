@@ -93,8 +93,6 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
     try {
       setIsLoading(true);
 
-      const thread = await newThread();
-
       const docRef = article.uid
         ? doc(getFirestore(), `articles/${article.uid}`)
         : doc(collection(getFirestore(), `articles`));
@@ -102,7 +100,7 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
       const articleData = {
         ...article,
         authorName: user.displayName,
-        commentThreadId: thread.id,
+        commentThreadId: article.commentThreadId || (await newThread()).id,
         uid: docRef.id,
         id: docRef.id,
       };
