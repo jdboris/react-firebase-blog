@@ -8,33 +8,18 @@ import {
   query,
 } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
-import "../firebase";
-import { addTypes, parseTypes } from "../utils/json";
 import {
   useCollectionData,
   useDocumentData,
 } from "react-firebase-hooks/firestore";
-import { idConverter } from "../utils/firestore";
+import "../firebase";
+import { idAndDateConverter } from "../utils/firestore";
+import { addTypes, parseTypes } from "../utils/json";
 
 const CommentContext = createContext(null);
 
 export function useComments() {
   return useContext(CommentContext);
-}
-
-function datesFirestoreToJs(thread) {
-  return thread.comments
-    ? {
-        ...thread,
-        comments: thread.comments.map(
-          (comment) =>
-            comment && {
-              ...comment,
-              ...(comment.date ? { date: comment.date.toDate() } : {}),
-            }
-        ),
-      }
-    : thread;
 }
 
 export function CommentProvider({ useFirebaseAuth, children }) {
@@ -51,7 +36,9 @@ export function CommentProvider({ useFirebaseAuth, children }) {
   function useThread(id) {
     const [isLoading, setIsLoading] = useState(false);
     const [thread, isLoadingThread] = useDocumentData(
-      doc(getFirestore(), `commentThreads/${id}`).withConverter(idConverter)
+      doc(getFirestore(), `commentThreads/${id}`).withConverter(
+        idAndDateConverter
+      )
     );
 
     const [comments, isLoadingComments] = useCollectionData(
@@ -59,7 +46,7 @@ export function CommentProvider({ useFirebaseAuth, children }) {
         collection(getFirestore(), `commentThreads/${id}/comments`),
         orderBy("date", "desc"),
         limit(50)
-      ).withConverter(idConverter)
+      ).withConverter(idAndDateConverter)
     );
 
     const [draft, setDraft] = useState(

@@ -1,5 +1,4 @@
 import {
-  addDoc,
   collection,
   doc,
   getDoc,
@@ -12,19 +11,13 @@ import {
 } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import "../firebase";
-import { idConverter } from "../utils/firestore";
+import { idAndDateConverter } from "../utils/firestore";
 import { addTypes, parseTypes } from "../utils/json";
 
 const ArticleContext = createContext(null);
 
 export function useArticles() {
   return useContext(ArticleContext);
-}
-
-function datesFirestoreToJs(article) {
-  return article
-    ? { ...article, ...(article.date ? { date: article.date.toDate() } : {}) }
-    : article;
 }
 
 export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
@@ -64,9 +57,9 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
             collection(getFirestore(), "articles"),
             orderBy("date", "desc"),
             limit(6)
-          ).withConverter(idConverter)
+          ).withConverter(idAndDateConverter)
         )
-      ).docs.map((snapshot) => datesFirestoreToJs(snapshot.data()));
+      ).docs.map((snapshot) => snapshot.data());
     } catch (error) {
       setErrors([error]);
     } finally {
@@ -80,13 +73,13 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
     try {
       setIsLoading(true);
 
-      return datesFirestoreToJs(
-        (
-          await getDoc(
-            doc(getFirestore(), `articles/${uid}`).withConverter(idConverter)
+      return (
+        await getDoc(
+          doc(getFirestore(), `articles/${uid}`).withConverter(
+            idAndDateConverter
           )
-        ).data()
-      );
+        )
+      ).data();
     } catch (error) {
       setErrors([error]);
     } finally {
