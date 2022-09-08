@@ -19,7 +19,11 @@ export function App({ theme }) {
               useFirebaseAuth={useFirebaseAuth}
               useComments={useComments}
             >
-              <Header theme={theme} useFirebaseAuth={useFirebaseAuth} />
+              <Header
+                theme={theme}
+                useFirebaseAuth={useFirebaseAuth}
+                useSettings={useSettings}
+              />
               <Main
                 theme={theme}
                 useFirebaseAuth={useFirebaseAuth}

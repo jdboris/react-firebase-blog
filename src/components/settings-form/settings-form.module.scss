@@ -1,9 +1,24 @@
 .settingsForm {
   display: flex;
-  flex-direction: column;
-  gap: 1em;
+  flex-wrap: wrap;
+  justify-content: space-around;
 
-  button {
-    max-width: 14em;
+  .logoForm {
+    img {
+      max-height: 3em;
+      max-width: 9em;
+    }
+  }
+
+  .socialLinks {
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+
+      button {
+        max-width: 14em;
+      }
+    }
   }
 }

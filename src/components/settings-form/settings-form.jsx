@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { uploadFile } from "../../utils/files";
+import FileInput from "../file-input/file-input";
 import { SocialLinkForm } from "../social-link-form/social-link-form";
 import css from "./settings-form.module.scss";
 
@@ -9,64 +11,66 @@ export function SettingsForm({
   // ...props
 }) {
   const { user } = useFirebaseAuth();
-  const { socialLinks } = useSettings();
+  const { socialLinks, logo, saveLogo } = useSettings();
   // const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const [newLink, setNewLink] = useState(null);
 
   return (
     user &&
     user.isAdmin && (
-      <div
-      // onSubmit={async (e) => {
-      //   e.preventDefault();
-      //   if (isLoading) return;
-      //   if (mode === "create" || mode === "edit") {
-      //     const newArticle = await save(article);
-      //     if (newArticle) {
-      //       setArticle(newArticle);
-      //       setMode("read");
-      //       if (mode === "create") {
-      //         saveDraft(null);
-      //       }
-      //     }
-      //   }
-      // }}
-      >
-        <header>
-          <h3>Social Media Links</h3>
-        </header>
-        <main className={css.settingsForm}>
-          {socialLinks.map((link) => (
-            <SocialLinkForm
-              theme={theme}
-              key={link.uid}
-              link={link}
-              useFirebaseAuth={useFirebaseAuth}
-              useSettings={useSettings}
-            />
-          ))}
+      <div className={css.settingsForm}>
+        <section className={css.logoForm}>
+          <header>
+            <h3>Logo</h3>
+          </header>
+          <main>
+            {logo && <img src={logo.url} />}
+            <div>
+              <FileInput
+                onChange={async (files) => {
+                  saveLogo({ url: await uploadFile(files[0]) });
+                }}
+              />
+            </div>
+          </main>
+        </section>
+        <section className={css.socialLinks}>
+          <header>
+            <h3>Social Media Links</h3>
+          </header>
+          <main>
+            {socialLinks.map((link) => (
+              <SocialLinkForm
+                theme={theme}
+                key={link.uid}
+                link={link}
+                useFirebaseAuth={useFirebaseAuth}
+                useSettings={useSettings}
+              />
+            ))}
 
-          {newLink ? (
-            <SocialLinkForm
-              theme={theme}
-              link={newLink}
-              mode={"create"}
-              useFirebaseAuth={useFirebaseAuth}
-              useSettings={useSettings}
-              onSuccess={() => {
-                setNewLink(null);
-              }}
-            />
-          ) : (
-            <button
-              onClick={() => {
-                setNewLink({ url: "", iconUrl: "" });
-              }}
-            >
-              Add
-            </button>
-          )}
-        </main>
+            {newLink ? (
+              <SocialLinkForm
+                theme={theme}
+                link={newLink}
+                mode={"create"}
+                useFirebaseAuth={useFirebaseAuth}
+                useSettings={useSettings}
+                onSuccess={() => {
+                  setNewLink(null);
+                }}
+              />
+            ) : (
+              <button
+                onClick={() => {
+                  setNewLink({ url: "", iconUrl: "" });
+                }}
+              >
+                Add
+              </button>
+            )}
+          </main>
+        </section>
       </div>
     )
   );

@@ -7,9 +7,13 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import {
+  useCollectionData,
+  useDocumentData,
+} from "react-firebase-hooks/firestore";
 import { v4 as uuid } from "uuid";
 import "../firebase";
+import { uploadFile } from "../utils/files";
 
 const storage = getStorage();
 
@@ -17,15 +21,6 @@ const SettingsContext = createContext(null);
 
 export function useSettings() {
   return useContext(SettingsContext);
-}
-
-// Upload the given `File` object and return the download URL.
-export async function uploadIcon(file) {
-  const storageRef = ref(storage, `${uuid()}/${file.name}`);
-
-  // 'file' comes from the Blob or File API
-  const snapshot = await uploadBytes(storageRef, file);
-  return await getDownloadURL(snapshot.ref);
 }
 
 export function SettingsProvider({ useFirebaseAuth, children }) {
@@ -38,6 +33,10 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
     collection(getFirestore(), `settings/social/links`)
   );
 
+  const [logo, isLoadingLogo] = useDocumentData(
+    doc(getFirestore(), `settings/logo`)
+  );
+
   useEffect(() => {
     setIsLoading(isLoadingSoacialLinks);
   }, [isLoadingSoacialLinks]);
@@ -47,6 +46,21 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
       console.error(errors);
     }
   }, [errors]);
+
+  async function saveLogo(logo) {
+    if (!user.isAdmin || isLoading || isLoadingLogo) return;
+
+    try {
+      setIsLoading(true);
+
+      await setDoc(doc(getFirestore(), `settings/logo`), logo);
+      return logo;
+    } catch (error) {
+      setErrors([error]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   async function saveSocialLink(socialLink) {
     if (!user.isAdmin || isLoading || isLoadingSoacialLinks) return;
@@ -94,10 +108,12 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
     <SettingsContext.Provider
       value={{
         isLoading,
+        logo,
         socialLinks: socialLinks || [],
         saveSocialLink,
+        saveLogo,
         deleteSocialLink,
-        uploadIcon,
+        uploadFile,
       }}
     >
       {children}

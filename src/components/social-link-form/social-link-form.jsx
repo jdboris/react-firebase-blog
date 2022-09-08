@@ -12,7 +12,7 @@ export function SocialLinkForm({
   ...props
 }) {
   const { user } = useFirebaseAuth();
-  const { uploadIcon, saveSocialLink, deleteSocialLink, isLoading } =
+  const { uploadFile, saveSocialLink, deleteSocialLink, isLoading } =
     useSettings();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const [link, setLink] = useState(props.link || { url: "", iconUrl: "" });
@@ -85,7 +85,7 @@ export function SocialLinkForm({
                   <FileInput
                     disabled={isIconLocked}
                     onChange={async (files) => {
-                      const iconUrl = await uploadIcon(files[0]);
+                      const iconUrl = await uploadFile(files[0]);
                       setLink((link) => ({
                         ...link,
                         iconUrl,

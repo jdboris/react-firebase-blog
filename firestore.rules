@@ -47,8 +47,12 @@ service cloud.firestore {
       }
     }
 
-
     match /settings/social/links/{uid} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /settings/logo {
       allow read: if true;
       allow write: if isAdmin();
     }
