@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export const idConverter = {
   toFirestore: (data) => data,
   fromFirestore: (snap) => ({
@@ -14,7 +16,7 @@ export const dateConverter = {
     return Object.fromEntries(
       Object.entries(data).map(([key, value]) => [
         key,
-        value?.constructor?.name === "ut" ? value.toDate() : value,
+        value instanceof Timestamp ? value.toDate() : value,
       ])
     );
   },
@@ -31,7 +33,7 @@ export const idAndDateConverter = {
     return Object.fromEntries(
       Object.entries(data).map(([key, value]) => [
         key,
-        value?.constructor?.name === "ut" ? value.toDate() : value,
+        value instanceof Timestamp ? value.toDate() : value,
       ])
     );
   },
