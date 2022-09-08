@@ -1,3 +1,4 @@
+import { serverTimestamp } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -23,6 +24,7 @@ export function ArticleForm({
   const { socialLinks } = useSettings();
   const { save, isLoading, get, draft, saveDraft } = useArticles();
   const contentPreviewLimit = 256;
+
   const [article, setArticle] = useState(
     props.article ||
       (mode === "create" && draft
@@ -62,10 +64,11 @@ export function ArticleForm({
             e.preventDefault();
             if (isLoading) return;
             if (mode === "create" || mode === "edit") {
-              if (!article.date) article.date = new Date();
-              const newArticle = await save(article);
+              const newArticle = await save({
+                ...article,
+                date: article.date || serverTimestamp(),
+              });
               if (newArticle) {
-                setArticle(newArticle);
                 setMode("read");
                 if (mode === "create") {
                   saveDraft(null);

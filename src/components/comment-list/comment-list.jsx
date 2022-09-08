@@ -3,6 +3,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { FaPaperPlane } from "react-icons/fa";
 import { formatDateRelative } from "../../utils/date";
 import css from "./comment-list.module.scss";
+import { serverTimestamp } from "firebase/firestore";
 
 export function CommentList({
   theme,
@@ -31,7 +32,7 @@ export function CommentList({
               await saveComment({
                 ...draft,
                 username: user.displayName,
-                date: draft.date || new Date(),
+                date: draft.date || serverTimestamp(),
               })
             ) {
               saveDraft(null);
