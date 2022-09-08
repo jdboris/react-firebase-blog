@@ -65,20 +65,36 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 0 calc((100% - $max-content-width) / 2);
-    border-bottom: 0.5em solid rgb(81, 119, 55);
+
+    > *:first-child {
+      margin-left: -1em;
+    }
+    > *:last-child {
+      margin-right: -1em;
+    }
 
     nav {
       display: flex;
 
-      a {
+      > * {
         color: white;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      > *:hover:not(.logo) {
+        color: #f6eef6;
+      }
+
+      img {
+        max-height: 3em;
       }
     }
   }
 
   nav > * {
     color: white;
-    padding: 1.5em 1em;
+    padding: 1em;
     cursor: pointer;
   }
 
