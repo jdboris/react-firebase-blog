@@ -31,7 +31,6 @@ export function ArticleForm({
         ? draft
         : {
             authorName: user && user.displayName,
-            // NOTE: Defaults required to start in sync
             content: "<p><span></span></p>",
             contentPreview: "<p><span></span></p>",
           })
@@ -133,16 +132,8 @@ export function ArticleForm({
                     disabled={mode === "read"}
                     onChange={(value) => {
                       setArticle((old) => {
-                        const isPreviewInSync =
-                          old.content &&
-                          old.contentPreview ===
-                            old.content.substring(0, contentPreviewLimit);
-
                         return {
                           ...old,
-                          contentPreview: isPreviewInSync
-                            ? value.substring(0, contentPreviewLimit)
-                            : old.contentPreview,
                           content: value,
                         };
                       });
