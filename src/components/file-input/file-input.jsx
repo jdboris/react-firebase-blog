@@ -41,7 +41,9 @@ export default function FileInput({
   disabled,
   buttonMode = false,
   children,
+  ...props
 }) {
+  console.log("props: ", props);
   const {
     acceptedFiles,
     getRootProps,
@@ -89,6 +91,8 @@ export default function FileInput({
   return buttonMode ? (
     <>
       <button
+        {...props}
+        className={props.className + " " + css.fileInput}
         onClick={() => {
           inputRef.current.click();
         }}
@@ -105,7 +109,8 @@ export default function FileInput({
     </>
   ) : (
     <span
-      className={css.fileInput}
+      {...props}
+      className={props.className + " " + css.fileInput}
       {...getRootProps({ style })}
       // NOTE: To stop propagation up to ancestor label which triggers a second "click" on the input
       // onClick={(e) => e.stopPropagation()}

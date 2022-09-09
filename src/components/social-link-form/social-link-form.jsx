@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaEdit, FaSave } from "react-icons/fa";
+import { FaEdit, FaSave, FaImage, FaTrashAlt } from "react-icons/fa";
 import { RiCloseFill } from "react-icons/ri";
 import FileInput from "../file-input/file-input";
 import css from "./social-link-form.module.scss";
@@ -26,7 +26,7 @@ export function SocialLinkForm({
     user &&
     user.isAdmin && (
       <form
-        className={css.socialLinkForm}
+        className={css.socialLinkForm + " " + css[mode]}
         onSubmit={async (e) => {
           e.preventDefault();
           if (isLoading) return;
@@ -62,60 +62,49 @@ export function SocialLinkForm({
 
             {mode === "edit" && (
               <button
-                className={css.buttonAlt + " " + css.red}
+                className={css.buttonAlt + " " + css.delete}
                 onClick={(e) => {
                   e.preventDefault();
                   deleteSocialLink(link);
                 }}
               >
-                <RiCloseFill />
+                <FaTrashAlt />
               </button>
             )}
           </aside>
 
-          <label>
-            Icon:
-            {link.iconUrl && <img src={link.iconUrl} alt="social icon" />}
-          </label>
-
           <div>
-            {(mode === "create" || mode === "edit") && (
-              <>
-                <div>
-                  <FileInput
-                    disabled={isIconLocked}
-                    onChange={async (files) => {
-                      const iconUrl = await uploadFile(files[0]);
-                      setLink((link) => ({
-                        ...link,
-                        iconUrl,
-                      }));
-                      setIsIconLocked(true);
-                    }}
-                  />
-                </div>
-                <label>
-                  or...
-                  <input
-                    disabled={isIconLocked}
-                    placeholder="Image URL..."
-                    type="text"
-                    value={link.iconUrl}
-                    onChange={(e) => {
-                      setLink((link) => ({
-                        ...link,
-                        iconUrl: e.target.value,
-                      }));
-                    }}
-                  />
-                </label>
-              </>
-            )}
+            {(mode === "create" || mode === "edit") && "Icon:"}
+            <div className={css.row}>
+              {link.iconUrl ? (
+                <img
+                  className={css.socialLink}
+                  src={link.iconUrl}
+                  alt="social icon"
+                />
+              ) : (
+                <FaImage className={css.socialLink} />
+              )}
+              {(mode === "create" || mode === "edit") && (
+                <FileInput
+                  onChange={async (files) => {
+                    const iconUrl = await uploadFile(files[0]);
+                    setLink((link) => ({
+                      ...link,
+                      iconUrl,
+                    }));
+                    setIsIconLocked(true);
+                  }}
+                />
+              )}
+            </div>
           </div>
 
           {mode === "read" ? (
             <div>
-              <label>Link URL:</label>
+              {(mode === "create" || mode === "edit") && (
+                <label>Link URL:</label>
+              )}
               <a href={link.url} target="_blank" rel="noreferrer">
                 {link.url}
               </a>
