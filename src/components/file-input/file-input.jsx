@@ -43,7 +43,6 @@ export default function FileInput({
   children,
   ...props
 }) {
-  console.log("props: ", props);
   const {
     acceptedFiles,
     getRootProps,

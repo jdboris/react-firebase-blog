@@ -70,12 +70,17 @@ export function CommentProvider({ useFirebaseAuth, children }) {
       try {
         setIsLoading(true);
 
+        const data = {
+          ...comment,
+          userPhotoUrl: user.photoUrl,
+        };
+
         await addDoc(
           collection(getFirestore(), `commentThreads/${id}/comments`),
-          comment
+          data
         );
 
-        return comment;
+        return data;
       } catch (error) {
         setErrors([error]);
       } finally {

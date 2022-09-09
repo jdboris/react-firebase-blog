@@ -20,7 +20,10 @@ export function Header({ theme, useFirebaseAuth, useSettings }) {
           (user ? (
             <>
               {user && user.isAuthor && (
-                <Link to="/article/new">New Article</Link>
+                <>
+                  <Link to="/article/new">New Article</Link>
+                  <Link to="/account">Account</Link>
+                </>
               )}
 
               {user && user.isAdmin && <Link to="/settings">Settings</Link>}

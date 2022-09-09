@@ -1,0 +1,42 @@
+.accountForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 5em;
+
+  fieldset {
+    display: inline-flex;
+    align-items: center;
+    gap: 1em;
+    margin: auto;
+  }
+
+  .imageWrapper {
+    position: relative;
+
+    img {
+      width: 5em;
+      height: 5em;
+    }
+
+    svg {
+      position: absolute;
+      top: 0.4em;
+      right: 0.4em;
+      opacity: 0;
+    }
+
+    &:hover svg {
+      opacity: 0.8;
+    }
+
+    &:active svg {
+      opacity: 0.9;
+    }
+  }
+
+  .username {
+    font-size: 3em;
+    font-weight: bold;
+  }
+}

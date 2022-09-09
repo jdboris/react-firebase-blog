@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaEdit, FaSave, FaImage, FaTrashAlt } from "react-icons/fa";
+import { FaPencilAlt, FaRegSave, FaImage, FaTrashAlt } from "react-icons/fa";
 import { RiCloseFill } from "react-icons/ri";
 import FileInput from "../file-input/file-input";
 import css from "./social-link-form.module.scss";
@@ -50,13 +50,13 @@ export function SocialLinkForm({
                   setMode("edit");
                 }}
               >
-                <FaEdit />
+                <FaPencilAlt />
               </button>
             )}
 
             {(mode === "create" || mode === "edit") && (
               <button className={theme.buttonAlt}>
-                <FaSave />
+                <FaRegSave />
               </button>
             )}
 

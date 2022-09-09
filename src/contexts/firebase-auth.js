@@ -6,7 +6,7 @@ import {
   signOut,
   GoogleAuthProvider,
 } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
@@ -79,12 +79,40 @@ export function FirebaseAuthProvider({ children }) {
     return true;
   }
 
+  async function saveUser(user) {
+    if (isLoading) return;
+
+    try {
+      // setIsLoading(true);
+
+      await updateDoc(doc(getFirestore(), `users/${user.uid}`), user);
+
+      return user;
+    } catch (error) {
+      setErrors([error]);
+    } finally {
+      // setIsLoading(false);
+    }
+  }
+
+  // Remove the "photoURL"
+  const { photoURL, ...authUserLeftovers } = authUser || {};
+
   return (
     <FirebaseAuthContext.Provider
       value={{
-        user: userData && authUser ? { ...userData, ...authUser } : null,
+        user:
+          userData && authUser
+            ? {
+                ...userData,
+                ...authUserLeftovers,
+                // Correct the name
+                photoUrl: userData.photoUrl || photoURL || "default-user.jpg",
+              }
+            : null,
         login,
         logout,
+        saveUser,
         isLoading,
       }}
     >

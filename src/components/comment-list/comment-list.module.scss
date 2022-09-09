@@ -35,14 +35,32 @@
       }
 
       header {
+        display: flex;
+        align-items: center;
         font-weight: bold;
         color: #b50000;
+        gap: 1em;
+
+        img {
+          width: 3em;
+        }
+
+        div {
+          display: flex;
+          flex-direction: column;
+        }
+
+        small {
+          font-weight: initial;
+        }
       }
     }
 
     p {
       margin-bottom: 0;
       line-height: 1.5;
+      margin-left: 4em;
+      margin-top: 0;
     }
   }
 

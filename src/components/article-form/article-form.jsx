@@ -2,7 +2,7 @@ import { serverTimestamp } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaEdit, FaSave, FaPaperPlane } from "react-icons/fa";
+import { FaPencilAlt, FaRegSave, FaPaperPlane } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
 import TextareaAutosize from "react-textarea-autosize";
 import { formatDateRelative } from "../../utils/date";
@@ -185,14 +185,14 @@ export function ArticleForm({
                           }}
                           disabled={isLoading}
                         >
-                          <FaEdit />
+                          <FaPencilAlt />
                         </button>
                       ) : mode === "edit" ? (
                         <button
                           className={theme.buttonAlt}
                           disabled={isLoading}
                         >
-                          <FaSave />
+                          <FaRegSave />
                         </button>
                       ) : (
                         false

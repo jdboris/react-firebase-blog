@@ -7,6 +7,7 @@ import { SettingsForm } from "../settings-form";
 import { useParams } from "react-router-dom";
 import { ArticlePage } from "../article-page/article-page";
 import ScrollToTop from "../../utils/scroll-to-top";
+import { AccountForm } from "../account-form/account-form";
 
 export function Main({
   theme,
@@ -41,6 +42,12 @@ export function Main({
               useFirebaseAuth={useFirebaseAuth}
               useSettings={useSettings}
             />
+          }
+        ></Route>
+        <Route
+          path="account"
+          element={
+            <AccountForm theme={theme} useFirebaseAuth={useFirebaseAuth} />
           }
         ></Route>
 
