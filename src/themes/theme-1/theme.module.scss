@@ -113,7 +113,6 @@ body {
     width: 100%;
 
     small {
-      display: flex;
       font-size: 0.9rem;
       font-family: "Intro";
       font-weight: normal;
@@ -228,6 +227,11 @@ body {
     opacity: 0.5;
   }
 
+  a[rel="author"] {
+    font-weight: bold;
+    color: #b50000;
+  }
+
   .article {
     // border-bottom: 0.2em solid #7650a1;
 
@@ -237,8 +241,12 @@ body {
       flex-wrap: wrap;
       // column-gap: 1em;
 
-      small {
+      h1 {
         display: flex;
+        flex-direction: column;
+      }
+
+      small {
         width: 100%;
       }
 

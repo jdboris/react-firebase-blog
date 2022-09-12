@@ -99,7 +99,10 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
 
       const articleData = {
         ...article,
-        authorName: currentUser.displayName,
+        author: currentUser && {
+          id: currentUser.uid,
+          displayName: currentUser.displayName,
+        },
         commentThreadId: article.commentThreadId || (await newThread()).id,
         uid: docRef.id,
         id: docRef.id,

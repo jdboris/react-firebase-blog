@@ -73,16 +73,17 @@ export function CommentList({
             {thread?.comments?.map((comment) => (
               <li key={comment.id}>
                 <header>
-                  <img
-                    className={theme.profileImage}
-                    src={comment.userPhotoUrl}
-                  />
+                  <Link to={`/user/${comment.user.id}`}>
+                    <img
+                      className={theme.profileImage}
+                      src={comment.userPhotoUrl}
+                    />
+                  </Link>
+
                   <div>
-                    <div>
-                      <Link to={`/user/${comment.user.id}`}>
-                        {comment.user.displayName}
-                      </Link>
-                    </div>
+                    <Link to={`/user/${comment.user.id}`} rel="author">
+                      {comment.user.displayName}
+                    </Link>
                     <small>{formatDateRelative(comment.date)}</small>
                   </div>
                 </header>

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaPencilAlt, FaRegSave, FaPaperPlane } from "react-icons/fa";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import TextareaAutosize from "react-textarea-autosize";
 import { formatDateRelative } from "../../utils/date";
 import { ArticleEditor } from "../article-editor";
@@ -30,7 +30,10 @@ export function ArticleForm({
       (mode === "create" && draft
         ? draft
         : {
-            authorName: currentUser && currentUser.displayName,
+            author: currentUser && {
+              id: currentUser.uid,
+              displayName: currentUser.displayName,
+            },
             content: "<p><span></span></p>",
             contentPreview: "<p><span></span></p>",
           })
@@ -96,7 +99,10 @@ export function ArticleForm({
                 />
 
                 <small>
-                  {"By " + article?.authorName + " "}
+                  {"By "}
+                  <Link to={`/user/${article?.author.id}`} rel="author">
+                    {article?.author.displayName}
+                  </Link>{" "}
                   {mode === "read" ? (
                     formatDateRelative(article?.date)
                   ) : (
