@@ -21,7 +21,7 @@ export function useArticles() {
 }
 
 export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
-  const { user } = useFirebaseAuth();
+  const { currentUser } = useFirebaseAuth();
   const { newThread } = useComments();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -99,7 +99,7 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
 
       const articleData = {
         ...article,
-        authorName: user.displayName,
+        authorName: currentUser.displayName,
         commentThreadId: article.commentThreadId || (await newThread()).id,
         uid: docRef.id,
         id: docRef.id,

@@ -18,7 +18,7 @@ export function ArticleForm({
   useSettings,
   ...props
 }) {
-  const { user, isLoading: isLoadingUser } = useFirebaseAuth();
+  const { currentUser, isLoading: isLoadingUser } = useFirebaseAuth();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const navigate = useNavigate();
   const { socialLinks } = useSettings();
@@ -30,7 +30,7 @@ export function ArticleForm({
       (mode === "create" && draft
         ? draft
         : {
-            authorName: user && user.displayName,
+            authorName: currentUser && currentUser.displayName,
             content: "<p><span></span></p>",
             contentPreview: "<p><span></span></p>",
           })
@@ -56,7 +56,7 @@ export function ArticleForm({
 
   return useMemo(
     () =>
-      !(mode !== "read" && !user) && (
+      !(mode !== "read" && !currentUser) && (
         <form
           className={theme.article + " " + css.articleForm}
           onSubmit={async (e) => {
@@ -169,13 +169,13 @@ export function ArticleForm({
               {!isPreview && (
                 <aside>
                   <div>
-                    {user && user.isAuthor && mode === "create" && (
+                    {currentUser && currentUser.isAuthor && mode === "create" && (
                       <button className={theme.buttonAlt} disabled={isLoading}>
                         <FaPaperPlane />
                       </button>
                     )}
-                    {user &&
-                      user.isAuthor &&
+                    {currentUser &&
+                      currentUser.isAuthor &&
                       (mode === "read" ? (
                         <button
                           className={theme.buttonAlt}
@@ -218,6 +218,14 @@ export function ArticleForm({
         </form>
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [article, mode, isLoadingUser, isPreview, isLoading, socialLinks, user]
+    [
+      article,
+      mode,
+      isLoadingUser,
+      isPreview,
+      isLoading,
+      socialLinks,
+      currentUser,
+    ]
   );
 }

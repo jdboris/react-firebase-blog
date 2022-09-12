@@ -5,6 +5,7 @@ import {
   useFirebaseAuth,
 } from "../../contexts/firebase-auth";
 import { SettingsProvider, useSettings } from "../../contexts/settings";
+import { UserProvider, useUsers } from "../../contexts/users";
 import "../../firebase";
 import { Header } from "../header";
 import { Main } from "../main";
@@ -13,28 +14,31 @@ export function App({ theme }) {
   return (
     <div className={theme.root}>
       <FirebaseAuthProvider>
-        <SettingsProvider useFirebaseAuth={useFirebaseAuth}>
-          <CommentProvider useFirebaseAuth={useFirebaseAuth}>
-            <ArticleProvider
-              useFirebaseAuth={useFirebaseAuth}
-              useComments={useComments}
-            >
-              <Header
-                theme={theme}
+        <UserProvider>
+          <SettingsProvider useFirebaseAuth={useFirebaseAuth}>
+            <CommentProvider useFirebaseAuth={useFirebaseAuth}>
+              <ArticleProvider
                 useFirebaseAuth={useFirebaseAuth}
-                useSettings={useSettings}
-              />
-              <Main
-                theme={theme}
-                useFirebaseAuth={useFirebaseAuth}
-                useSettings={useSettings}
-                useArticles={useArticles}
                 useComments={useComments}
-              />
-              <footer></footer>
-            </ArticleProvider>
-          </CommentProvider>
-        </SettingsProvider>
+              >
+                <Header
+                  theme={theme}
+                  useFirebaseAuth={useFirebaseAuth}
+                  useSettings={useSettings}
+                />
+                <Main
+                  theme={theme}
+                  useFirebaseAuth={useFirebaseAuth}
+                  useUsers={useUsers}
+                  useSettings={useSettings}
+                  useArticles={useArticles}
+                  useComments={useComments}
+                />
+                <footer></footer>
+              </ArticleProvider>
+            </CommentProvider>
+          </SettingsProvider>
+        </UserProvider>
       </FirebaseAuthProvider>
     </div>
   );

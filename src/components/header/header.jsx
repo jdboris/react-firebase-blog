@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 export function Header({ theme, useFirebaseAuth, useSettings }) {
-  const { user, login, logout, isLoading } = useFirebaseAuth();
+  const { currentUser, login, logout, isLoading } = useFirebaseAuth();
   const { logo } = useSettings();
 
   return (
@@ -17,16 +17,18 @@ export function Header({ theme, useFirebaseAuth, useSettings }) {
       </nav>
       <nav>
         {!isLoading &&
-          (user ? (
+          (currentUser ? (
             <>
-              {user && user.isAuthor && (
+              {currentUser && currentUser.isAuthor && (
                 <>
                   <Link to="/article/new">New Article</Link>
-                  <Link to="/account">Account</Link>
+                  <Link to={`/user/${currentUser.uid}`}>Profile</Link>
                 </>
               )}
 
-              {user && user.isAdmin && <Link to="/settings">Settings</Link>}
+              {currentUser && currentUser.isAdmin && (
+                <Link to="/settings">Settings</Link>
+              )}
 
               <span onClick={logout}>Logout</span>
             </>

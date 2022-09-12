@@ -11,7 +11,7 @@ export function SocialLinkForm({
   onSuccess,
   ...props
 }) {
-  const { user } = useFirebaseAuth();
+  const { currentUser } = useFirebaseAuth();
   const { uploadFile, saveSocialLink, deleteSocialLink, isLoading } =
     useSettings();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
@@ -23,8 +23,8 @@ export function SocialLinkForm({
   }, [mode]);
 
   return (
-    user &&
-    user.isAdmin && (
+    currentUser &&
+    currentUser.isAdmin && (
       <form
         className={css.socialLinkForm + " " + css[mode]}
         onSubmit={async (e) => {

@@ -38,18 +38,13 @@
                                 'embedded-opentype', and 'svg' */
 }
 
-* {
-  box-sizing: border-box;
-}
-
 html,
 body {
-  margin: 0;
-  padding: 0;
   font-size: 16px;
 }
 
 .root {
+  min-height: 100%;
   $max-content-width: 900px;
 
   font-family: "Intro";
@@ -64,14 +59,14 @@ body {
     background: rgb(25, 20, 31);
     display: flex;
     justify-content: space-between;
-    padding: 0 calc((100% - $max-content-width) / 2);
+    padding: 0 calc((100% - $max-content-width) / 2 - 1em);
 
-    > *:first-child {
-      margin-left: -1em;
-    }
-    > *:last-child {
-      margin-right: -1em;
-    }
+    // > *:first-child {
+    //   margin-left: -1em;
+    // }
+    // > *:last-child {
+    //   margin-right: -1em;
+    // }
 
     nav {
       display: flex;
@@ -258,5 +253,4 @@ body {
 
 .profileImage {
   border-radius: 50%;
-  background: #000;
 }

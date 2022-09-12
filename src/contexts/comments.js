@@ -23,7 +23,7 @@ export function useComments() {
 }
 
 export function CommentProvider({ useFirebaseAuth, children }) {
-  const { user } = useFirebaseAuth();
+  const { currentUser } = useFirebaseAuth();
 
   const [errors, setErrors] = useState([]);
 
@@ -72,7 +72,7 @@ export function CommentProvider({ useFirebaseAuth, children }) {
 
         const data = {
           ...comment,
-          userPhotoUrl: user.photoUrl,
+          userPhotoUrl: currentUser.photoUrl,
         };
 
         await addDoc(

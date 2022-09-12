@@ -10,14 +10,14 @@ export function SettingsForm({
   useSettings,
   // ...props
 }) {
-  const { user } = useFirebaseAuth();
+  const { currentUser } = useFirebaseAuth();
   const { socialLinks, logo, saveLogo } = useSettings();
   // const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const [newLink, setNewLink] = useState(null);
 
   return (
-    user &&
-    user.isAdmin && (
+    currentUser &&
+    currentUser.isAdmin && (
       <div className={css.settingsForm}>
         <section className={css.logoForm}>
           <header>

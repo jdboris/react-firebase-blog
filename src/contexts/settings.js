@@ -24,7 +24,7 @@ export function useSettings() {
 }
 
 export function SettingsProvider({ useFirebaseAuth, children }) {
-  const { user } = useFirebaseAuth();
+  const { currentUser } = useFirebaseAuth();
 
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -48,7 +48,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
   }, [errors]);
 
   async function saveLogo(logo) {
-    if (!user.isAdmin || isLoading || isLoadingLogo) return;
+    if (!currentUser.isAdmin || isLoading || isLoadingLogo) return;
 
     try {
       setIsLoading(true);
@@ -63,7 +63,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
   }
 
   async function saveSocialLink(socialLink) {
-    if (!user.isAdmin || isLoading || isLoadingSoacialLinks) return;
+    if (!currentUser.isAdmin || isLoading || isLoadingSoacialLinks) return;
 
     try {
       setIsLoading(true);
@@ -89,7 +89,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
   }
 
   async function deleteSocialLink(socialLink) {
-    if (!user.isAdmin || isLoading || isLoadingSoacialLinks) return;
+    if (!currentUser.isAdmin || isLoading || isLoadingSoacialLinks) return;
 
     try {
       setIsLoading(true);

@@ -30,7 +30,8 @@ service cloud.firestore {
     }
 
     match /users/{uid} {
-      allow read, write: if isDocOwner(uid);
+      allow read: if true;
+      allow write: if isDocOwner(uid);
     }
 
     match /articles/{uid} {

@@ -7,16 +7,18 @@ import { SettingsForm } from "../settings-form";
 import { useParams } from "react-router-dom";
 import { ArticlePage } from "../article-page/article-page";
 import ScrollToTop from "../../utils/scroll-to-top";
-import { AccountForm } from "../account-form/account-form";
+import { UserForm } from "../user-form";
+import { UserPage } from "../user-page/user-page";
 
 export function Main({
   theme,
   useFirebaseAuth,
   useArticles,
+  useUsers,
   useSettings,
   useComments,
 }) {
-  const { user } = useFirebaseAuth();
+  const { currentUser } = useFirebaseAuth();
 
   return (
     <main>
@@ -44,19 +46,25 @@ export function Main({
             />
           }
         ></Route>
-        <Route
-          path="account"
-          element={
-            <AccountForm theme={theme} useFirebaseAuth={useFirebaseAuth} />
-          }
-        ></Route>
+
+        <Route path="user">
+          <Route
+            path=":uid"
+            element={
+              <UserPage
+                theme={theme}
+                useUsers={useUsers}
+                useFirebaseAuth={useFirebaseAuth}
+              />
+            }
+          />
+        </Route>
 
         <Route path="article">
           <Route
             path=":uid"
             element={
               <ArticlePage
-                key="uid"
                 theme={theme}
                 useFirebaseAuth={useFirebaseAuth}
                 useArticles={useArticles}
@@ -69,7 +77,7 @@ export function Main({
           <Route
             path="new"
             element={
-              user && (
+              currentUser && (
                 <ArticleForm
                   key="new-article"
                   theme={theme}

@@ -11,7 +11,7 @@ export function Homepage({
   useComments,
   useSettings,
 }) {
-  // const { user } = useFirebaseAuth();
+  // const { currentUser } = useFirebaseAuth();
   const { getMostRecent } = useArticles();
   const [mostRecent, setMostRecent] = useState([]);
 

@@ -4,6 +4,7 @@ import { FaPaperPlane } from "react-icons/fa";
 import { formatDateRelative } from "../../utils/date";
 import css from "./comment-list.module.scss";
 import { serverTimestamp } from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 export function CommentList({
   theme,
@@ -12,7 +13,7 @@ export function CommentList({
   useComments,
   ...props
 }) {
-  const { user, isLoading: isLoadingUser } = useFirebaseAuth();
+  const { currentUser, isLoading: isLoadingUser } = useFirebaseAuth();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
 
   const { isLoading, useThread } = useComments();
@@ -31,7 +32,10 @@ export function CommentList({
             if (
               await saveComment({
                 ...draft,
-                username: user.displayName,
+                user: {
+                  id: currentUser.uid,
+                  displayName: currentUser.displayName,
+                },
                 date: draft.date || serverTimestamp(),
               })
             ) {
@@ -41,7 +45,7 @@ export function CommentList({
         >
           <fieldset disabled={isLoading}>
             <label>
-              <small>{user?.displayName}</small>
+              <small>{currentUser?.displayName}</small>
               <TextareaAutosize
                 type="text"
                 name="content"
@@ -74,7 +78,11 @@ export function CommentList({
                     src={comment.userPhotoUrl}
                   />
                   <div>
-                    <div> {comment.username}</div>
+                    <div>
+                      <Link to={`/user/${comment.user.id}`}>
+                        {comment.user.displayName}
+                      </Link>
+                    </div>
                     <small>{formatDateRelative(comment.date)}</small>
                   </div>
                 </header>
@@ -88,6 +96,6 @@ export function CommentList({
       </div>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [draft, mode, isLoadingUser, isLoading, user, thread]
+    [draft, mode, isLoadingUser, isLoading, currentUser, thread]
   );
 }

@@ -1,3 +1,4 @@
+import "./css/global.css";
 // NOTE: Must import the theme stylesheet first to allow others to overwrite
 import theme from "./themes/theme-1/theme.module.scss";
 

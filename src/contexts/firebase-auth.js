@@ -6,7 +6,7 @@ import {
   signOut,
   GoogleAuthProvider,
 } from "firebase/auth";
-import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
@@ -20,7 +20,9 @@ export function useFirebaseAuth() {
 }
 
 export function FirebaseAuthProvider({ children }) {
-  const [authUser, isLoadingAuthUser] = useAuthState(auth);
+  // Ignore the "photoURL" because it doesn't follow camel-case rules (replace it with user data)
+  const [authUserData, isLoadingAuthUser] = useAuthState(auth);
+  const { photoURL, ...authUser } = authUserData || {};
   const [userData, isLoadingUserData] = useDocumentData(
     authUser ? doc(getFirestore(), `/users/${authUser.uid}`) : null
   );
@@ -48,10 +50,18 @@ export function FirebaseAuthProvider({ children }) {
       // const credential = GoogleAuthProvider.credentialFromResult(result);
       // const token = credential.accessToken;
 
+      const user =
+        (
+          await getDoc(doc(getFirestore(), `users/${result.user.uid}`))
+        ).data() || result.user;
+
+      // Save the auth user data if no user exists yet
       await setDoc(
         doc(getFirestore(), `/users/${result.user.uid}`),
         {
-          uid: result.user.uid,
+          uid: user.uid,
+          displayName: user.displayName,
+          photoUrl: user.photoUrl || user.photoURL || "default-user.jpg",
         },
         { merge: true }
       );
@@ -79,40 +89,18 @@ export function FirebaseAuthProvider({ children }) {
     return true;
   }
 
-  async function saveUser(user) {
-    if (isLoading) return;
-
-    try {
-      // setIsLoading(true);
-
-      await updateDoc(doc(getFirestore(), `users/${user.uid}`), user);
-
-      return user;
-    } catch (error) {
-      setErrors([error]);
-    } finally {
-      // setIsLoading(false);
-    }
-  }
-
-  // Remove the "photoURL"
-  const { photoURL, ...authUserLeftovers } = authUser || {};
-
   return (
     <FirebaseAuthContext.Provider
       value={{
-        user:
+        currentUser:
           userData && authUser
             ? {
+                ...authUser,
                 ...userData,
-                ...authUserLeftovers,
-                // Correct the name
-                photoUrl: userData.photoUrl || photoURL || "default-user.jpg",
               }
             : null,
         login,
         logout,
-        saveUser,
         isLoading,
       }}
     >
