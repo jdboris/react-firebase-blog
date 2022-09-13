@@ -68,15 +68,15 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
     try {
       setIsLoading(true);
 
-      const docRef = socialLink.uid
-        ? doc(getFirestore(), `settings/social/links/${socialLink.uid}`)
+      const docRef = socialLink.id
+        ? doc(getFirestore(), `settings/social/links/${socialLink.id}`)
         : doc(collection(getFirestore(), `settings/social/links`));
 
       const data = {
         // Default
         sortOrder: socialLinks.length + 1,
         ...socialLink,
-        uid: docRef.id,
+        id: docRef.id,
       };
 
       await setDoc(docRef, data, { merge: true });
@@ -94,7 +94,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
     try {
       setIsLoading(true);
       await deleteDoc(
-        doc(getFirestore(), `settings/social/links/${socialLink.uid}`)
+        doc(getFirestore(), `settings/social/links/${socialLink.id}`)
       );
       return true;
     } catch (error) {

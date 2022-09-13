@@ -42,7 +42,7 @@ export function SettingsForm({
             {socialLinks.map((link) => (
               <SocialLinkForm
                 theme={theme}
-                key={link.uid}
+                key={link.id}
                 link={link}
                 useFirebaseAuth={useFirebaseAuth}
                 useSettings={useSettings}

@@ -33,7 +33,7 @@ export function CommentList({
               await saveComment({
                 ...draft,
                 user: {
-                  id: currentUser.uid,
+                  id: currentUser.id,
                   displayName: currentUser.displayName,
                 },
                 date: draft.date || serverTimestamp(),

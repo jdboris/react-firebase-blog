@@ -11,19 +11,19 @@ export function ArticlePage({
   useComments,
   useSettings,
 }) {
-  const { uid } = useParams();
+  const { id } = useParams();
   const { get, getMostRecent } = useArticles();
 
   const [article, setArticle] = useState(null);
 
   useEffect(() => {
     (async () => {
-      if (uid) {
-        setArticle(await get(uid));
+      if (id) {
+        setArticle(await get(id));
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [uid]);
+  }, [id]);
 
   const [mostRecent, setMostRecent] = useState([]);
 
@@ -66,7 +66,7 @@ export function ArticlePage({
         <ul>
           {mostRecent.length > 1 &&
             mostRecent
-              .filter((article) => article.id != uid)
+              .filter((article) => article.id != id)
               .map((article) => (
                 <li key={"news-" + article.id}>
                   <Link to={`/article/${article.id}`} key={article.id}>

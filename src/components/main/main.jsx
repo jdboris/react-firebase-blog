@@ -49,7 +49,7 @@ export function Main({
 
         <Route path="user">
           <Route
-            path=":uid"
+            path=":id"
             element={
               <UserPage
                 theme={theme}
@@ -62,7 +62,7 @@ export function Main({
 
         <Route path="article">
           <Route
-            path=":uid"
+            path=":id"
             element={
               <ArticlePage
                 theme={theme}

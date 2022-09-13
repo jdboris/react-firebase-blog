@@ -31,7 +31,7 @@ export function ArticleForm({
         ? draft
         : {
             author: currentUser && {
-              id: currentUser.uid,
+              id: currentUser.id,
               displayName: currentUser.displayName,
             },
             content: "<p><span></span></p>",
@@ -100,9 +100,13 @@ export function ArticleForm({
 
                 <small>
                   {"By "}
-                  <Link to={`/user/${article?.author.id}`} rel="author">
-                    {article?.author.displayName}
-                  </Link>{" "}
+                  {isPreview ? (
+                    article?.author.displayName
+                  ) : (
+                    <Link to={`/user/${article?.author.id}`} rel="author">
+                      {article?.author.displayName}
+                    </Link>
+                  )}{" "}
                   {mode === "read" ? (
                     formatDateRelative(article?.date)
                   ) : (
@@ -208,7 +212,7 @@ export function ArticleForm({
                       mode === "read" &&
                       socialLinks.map((link) => (
                         <a
-                          key={link.uid}
+                          key={link.id}
                           href={link.url}
                           target="_blank"
                           rel="noreferrer"

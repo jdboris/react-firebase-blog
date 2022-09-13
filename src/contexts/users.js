@@ -30,7 +30,7 @@ export function UserProvider({ children }) {
     try {
       // setIsLoading(true);
 
-      await updateDoc(doc(getFirestore(), `users/${user.uid}`), user);
+      await updateDoc(doc(getFirestore(), `users/${user.id}`), user);
 
       return user;
     } catch (error) {

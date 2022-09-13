@@ -32,14 +32,6 @@ export function FirebaseAuthProvider({ children }) {
     [isLoadingAuthUser, isLoadingUserData]
   );
 
-  const [errors, setErrors] = useState([]);
-
-  useEffect(() => {
-    if (errors && errors.length) {
-      console.error(errors);
-    }
-  }, [errors]);
-
   async function login() {
     if (isLoading) return;
 
@@ -50,23 +42,23 @@ export function FirebaseAuthProvider({ children }) {
       // const credential = GoogleAuthProvider.credentialFromResult(result);
       // const token = credential.accessToken;
 
-      const user =
-        (
-          await getDoc(doc(getFirestore(), `users/${result.user.uid}`))
-        ).data() || result.user;
+      const user = (
+        await getDoc(doc(getFirestore(), `users/${result.user.id}`))
+      ).data() || { ...result.user, id: result.user.uid };
 
       // Save the auth user data if no user exists yet
       await setDoc(
-        doc(getFirestore(), `/users/${result.user.uid}`),
+        doc(getFirestore(), `/users/${user.id}`),
         {
-          uid: user.uid,
+          id: user.id,
           displayName: user.displayName,
-          photoUrl: user.photoUrl || user.photoURL || "default-user.jpg",
+          photoUrl: user.photoUrl || user.photoURL || "/default-user.jpg",
         },
         { merge: true }
       );
     } catch (error) {
-      setErrors([error]);
+      throw error;
+      // setErrors([error]);
       // // Handle Errors here.
       // const errorCode = error.code;
       // const errorMessage = error.message;
@@ -83,8 +75,9 @@ export function FirebaseAuthProvider({ children }) {
     try {
       await signOut(auth);
     } catch (error) {
-      setErrors([error]);
-      return false;
+      throw error;
+      // setErrors([error]);
+      // return false;
     }
     return true;
   }

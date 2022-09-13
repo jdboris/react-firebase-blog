@@ -67,7 +67,7 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
     }
   }
 
-  async function get(uid) {
+  async function get(id) {
     if (isLoading) return;
 
     try {
@@ -75,7 +75,7 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
 
       return (
         await getDoc(
-          doc(getFirestore(), `articles/${uid}`).withConverter(
+          doc(getFirestore(), `articles/${id}`).withConverter(
             idAndDateConverter
           )
         )
@@ -93,18 +93,17 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
     try {
       setIsLoading(true);
 
-      const docRef = article.uid
-        ? doc(getFirestore(), `articles/${article.uid}`)
+      const docRef = article.id
+        ? doc(getFirestore(), `articles/${article.id}`)
         : doc(collection(getFirestore(), `articles`));
 
       const articleData = {
         ...article,
         author: currentUser && {
-          id: currentUser.uid,
+          id: currentUser.id,
           displayName: currentUser.displayName,
         },
         commentThreadId: article.commentThreadId || (await newThread()).id,
-        uid: docRef.id,
         id: docRef.id,
       };
       await setDoc(docRef, articleData, { merge: true });

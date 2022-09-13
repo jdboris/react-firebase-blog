@@ -22,7 +22,7 @@ export function UserForm({ theme, id, useUsers, isEditable = false }) {
                 className={theme.buttonAlt}
                 onChange={async (files) => {
                   saveUser({
-                    uid: user.uid,
+                    id: user.id,
                     photoUrl: await uploadFile(files[0]),
                   });
                 }}
