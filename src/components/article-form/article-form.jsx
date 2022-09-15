@@ -8,6 +8,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { formatDateRelative } from "../../utils/date";
 import { ArticleEditor } from "../article-editor";
 import css from "./article-form.module.scss";
+import AutosizeInput from "react-input-autosize";
 import "./react-datepicker.scss";
 
 export function ArticleForm({
@@ -34,6 +35,7 @@ export function ArticleForm({
               id: currentUser.id,
               displayName: currentUser.displayName,
             },
+            tags: [],
             content: "<p><span></span></p>",
             contentPreview: "<p><span></span></p>",
           })
@@ -99,32 +101,96 @@ export function ArticleForm({
                 />
 
                 <small>
-                  {"By "}
-                  {isPreview ? (
-                    article?.author.displayName
-                  ) : (
-                    <Link to={`/user/${article?.author.id}`} rel="author">
-                      {article?.author.displayName}
-                    </Link>
-                  )}{" "}
-                  {mode === "read" ? (
-                    formatDateRelative(article?.date)
-                  ) : (
-                    <DatePicker
-                      name="date"
-                      selected={article?.date}
-                      value={!article?.date ? "[AUTOMATIC DATE]" : null}
-                      onChange={(date, e) => {
-                        setArticle((old) => ({
-                          ...old,
-                          date,
-                        }));
-                      }}
-                      showTimeSelect
-                      timeIntervals={5}
-                      dateFormat={"LLL d, yyyy h:mma"}
-                    />
-                  )}
+                  <span>
+                    {" "}
+                    {"By "}
+                    {isPreview ? (
+                      article?.author.displayName
+                    ) : (
+                      <Link to={`/user/${article?.author.id}`} rel="author">
+                        {article?.author.displayName}
+                      </Link>
+                    )}{" "}
+                    {mode === "read" ? (
+                      formatDateRelative(article?.date)
+                    ) : (
+                      <DatePicker
+                        name="date"
+                        selected={article?.date}
+                        value={!article?.date ? "[AUTOMATIC DATE]" : null}
+                        onChange={(date, e) => {
+                          setArticle((old) => ({
+                            ...old,
+                            date,
+                          }));
+                        }}
+                        showTimeSelect
+                        timeIntervals={5}
+                        dateFormat={"LLL d, yyyy h:mma"}
+                      />
+                    )}
+                  </span>
+
+                  <span className={css.tagSection}>
+                    {!isPreview &&
+                      (article?.tags?.length
+                        ? mode === "create" || mode === "edit"
+                          ? [...article?.tags, ""]
+                          : article?.tags
+                        : [""]
+                      )?.map((tag, i) => (
+                        <label>
+                          {/* NOTE: Must include a " " */} #
+                          <AutosizeInput
+                            placeholder="tag..."
+                            value={tag}
+                            onChange={(e) => {
+                              setArticle((old) => {
+                                const tags = [
+                                  ...old.tags.slice(0, i),
+                                  e.target.value,
+                                  ...old.tags.slice(i + 1),
+                                ]
+                                  .map((tag) =>
+                                    tag.trim().toLowerCase().replace(/\W/g, "")
+                                  )
+                                  .filter((tag) => tag);
+
+                                // // If this is the last tag AND the value ends with a whitespace
+                                // if (
+                                //   (mode === "create" || mode === "edit") &&
+                                //   i === old.tags.length - 1 &&
+                                //   (/\s$/.test(e.target.value) ||
+                                //     e.target.value.trim() === "")
+                                // ) {
+                                //   tags.push("");
+                                // }
+
+                                return {
+                                  ...old,
+                                  tags,
+                                };
+                              });
+                            }}
+                            onBlur={(e) => {
+                              // const tags = article.tags
+                              //   .map((tag) =>
+                              //     tag.trim().toLowerCase().replace(/\W/g, "")
+                              //   )
+                              //   .filter((tag) => tag);
+                              // // if (mode === "create" || mode === "edit")
+                              // //   tags.push("");
+                              // setArticle((old) => {
+                              //   return {
+                              //     ...old,
+                              //     tags,
+                              //   };
+                              // });
+                            }}
+                          />
+                        </label>
+                      ))}
+                  </span>
                 </small>
               </HeaderTag>
             </header>
