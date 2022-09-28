@@ -235,7 +235,8 @@ body {
   .article {
     // border-bottom: 0.2em solid #7650a1;
 
-    header {
+    header,
+    footer {
       display: flex;
       align-items: center;
       flex-wrap: wrap;

@@ -50,6 +50,7 @@ export default function FileInput({
     isFocused,
     isDragAccept,
     isDragReject,
+    inputRef,
   } = useDropzone(
     buttonMode
       ? {
@@ -67,7 +68,7 @@ export default function FileInput({
         }
   );
 
-  const inputRef = createRef();
+  // const inputRef = createRef();
 
   const style = useMemo(
     () => ({
@@ -83,6 +84,8 @@ export default function FileInput({
   useEffect(() => {
     if (acceptedFiles.length) {
       onChange(acceptedFiles);
+      // Reset the input value to allow triggering the onChange event by selecting the same file again
+      inputRef.current.value = "";
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [acceptedFiles]);
@@ -115,7 +118,7 @@ export default function FileInput({
       // onClick={(e) => e.stopPropagation()}
     >
       <FaUpload /> Drag and drop or <strong>choose a file.</strong>
-      <input {...getInputProps()} />
+      <input {...getInputProps()} value={acceptedFiles} />
       {children}
     </span>
   );

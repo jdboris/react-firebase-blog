@@ -1,3 +1,9 @@
+.ProseMirror {
+  // NOTE: Eliminates the empty space at bottom of article
+  display: flex;
+  flex-direction: column;
+}
+
 .ProseMirror:focus-within {
   .ProseMirror-selectednode {
     outline: 2px solid;

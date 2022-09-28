@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArticleForm } from "../article-form";
@@ -14,6 +15,32 @@ export function Homepage({
   // const { currentUser } = useFirebaseAuth();
   const { getMostRecent } = useArticles();
   const [mostRecent, setMostRecent] = useState([]);
+  const featured = useMemo(
+    () =>
+      mostRecent.filter((article) =>
+        article.lowercaseTags.includes("featured")
+      ),
+    [mostRecent]
+  );
+  const news = useMemo(
+    () =>
+      mostRecent.filter(
+        (article) =>
+          !article.lowercaseTags.includes("featured") &&
+          article.lowercaseTags.includes("news")
+      ),
+    [mostRecent]
+  );
+  const blogPosts = useMemo(
+    () =>
+      mostRecent.filter(
+        (article) =>
+          !article.lowercaseTags.includes("featured") &&
+          !article.lowercaseTags.includes("news") &&
+          article.lowercaseTags.includes("blog")
+      ),
+    [mostRecent]
+  );
 
   useEffect(() => {
     (async () => {
@@ -25,34 +52,25 @@ export function Homepage({
 
   return (
     <div className={css.homepage}>
-      {mostRecent.length > 0 && (
-        <>
+      {featured.length > 0 && (
+        <Link to={`/article/${featured[0].id}`} key={featured[0].id}>
           <ArticleForm
-            key={mostRecent[0].id}
+            key={featured[0].id}
+            isBigPreview={true}
             theme={theme}
-            article={mostRecent[0]}
+            article={featured[0]}
             mode="read"
             useFirebaseAuth={useFirebaseAuth}
             useArticles={useArticles}
             useSettings={useSettings}
           />
-          <section>
-            <h2>Comments</h2>
-            <CommentList
-              theme={theme}
-              threadId={mostRecent[0].commentThreadId}
-              useFirebaseAuth={useFirebaseAuth}
-              useComments={useComments}
-            />
-          </section>
-        </>
+        </Link>
       )}
 
       <section className={css.newsSection}>
-        <h2>Latest News</h2>
         <ul>
-          {mostRecent.length > 1 &&
-            mostRecent.slice(1).map((article) => (
+          {featured.length > 1 &&
+            featured.slice(1).map((article) => (
               <li key={"news-" + article.id}>
                 <Link to={`/article/${article.id}`} key={article.id}>
                   <ArticleForm
@@ -68,6 +86,50 @@ export function Homepage({
                 </Link>
               </li>
             ))}
+        </ul>
+      </section>
+
+      <section className={css.newsSection}>
+        <h2>Latest News</h2>
+        <ul>
+          {news.map((article) => (
+            <li key={"news-" + article.id}>
+              <Link to={`/article/${article.id}`} key={article.id}>
+                <ArticleForm
+                  key={"article-link-" + article.id}
+                  theme={theme}
+                  article={article}
+                  mode="read"
+                  isPreview={true}
+                  useFirebaseAuth={useFirebaseAuth}
+                  useArticles={useArticles}
+                  useSettings={useSettings}
+                />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className={css.blogSection}>
+        <h2>Blog</h2>
+        <ul>
+          {blogPosts.map((article) => (
+            <li key={"blogPosts-" + article.id}>
+              <Link to={`/article/${article.id}`} key={article.id}>
+                <ArticleForm
+                  key={"article-link-" + article.id}
+                  theme={theme}
+                  article={article}
+                  mode="read"
+                  isPreview={true}
+                  useFirebaseAuth={useFirebaseAuth}
+                  useArticles={useArticles}
+                  useSettings={useSettings}
+                />
+              </Link>
+            </li>
+          ))}
         </ul>
       </section>
     </div>
