@@ -118,7 +118,7 @@ export default function FileInput({
       // onClick={(e) => e.stopPropagation()}
     >
       <FaUpload /> Drag and drop or <strong>choose a file.</strong>
-      <input {...getInputProps()} value={acceptedFiles} />
+      <input {...getInputProps()} />
       {children}
     </span>
   );
