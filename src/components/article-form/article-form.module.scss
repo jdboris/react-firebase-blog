@@ -3,7 +3,7 @@
     border-bottom: none;
   }
 
-  &.bigPreview {
+  &.overlayMode {
     position: relative;
 
     &::before {
@@ -19,7 +19,7 @@
       background: linear-gradient(
         0deg,
         rgba(0, 0, 0, 0.8155637254901961) 0%,
-        rgba(0, 0, 0, 0.7063200280112045) 25%,
+        rgba(0, 0, 0, 0.03125) 50%,
         rgba(0, 0, 0, 0) 100%
       );
     }
@@ -28,7 +28,7 @@
       position: absolute;
       bottom: 0;
       color: white;
-      padding: 1em;
+      padding: 3%;
       font-size: 2em;
       z-index: 2;
     }

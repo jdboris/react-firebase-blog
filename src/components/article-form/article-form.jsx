@@ -15,11 +15,11 @@ export function ArticleForm({
   theme,
   useFirebaseAuth,
   useArticles,
-  isBigPreview = false,
+  isPreview = false,
+  overlayMode = false,
   useSettings,
   ...props
 }) {
-  const isPreview = props.isPreview || isBigPreview;
   const { currentUser, isLoading: isLoadingUser } = useFirebaseAuth();
   const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ export function ArticleForm({
             " " +
             css.articleForm +
             " " +
-            (isBigPreview ? css.bigPreview : "")
+            (isPreview && overlayMode ? css.overlayMode : "")
           }
           onSubmit={async (e) => {
             e.preventDefault();
@@ -130,68 +130,70 @@ export function ArticleForm({
             </header>
             <main>
               <article>
-                <div className={css.tagSection}>
-                  {!isPreview &&
-                    (article?.tags
-                      ? mode === "create" || mode === "edit"
-                        ? [...article?.tags, ""]
-                        : article?.tags
-                      : [""]
-                    )?.map((tag, i) => (
-                      <label key={`tag-${i}`}>
-                        {/* NOTE: Must include a " " */} #
-                        <AutosizeInput
-                          placeholder="tag..."
-                          name={`tag-${i}`}
-                          value={tag}
-                          onChange={(e) => {
-                            setArticle((old) => {
-                              const tags = [
-                                ...old.tags.slice(0, i),
-                                e.target.value,
-                                ...old.tags.slice(i + 1),
-                              ]
-                                .map((tag) => tag.trim().replace(/\W_/g, ""))
-                                .filter((tag) => tag);
+                {!isPreview && (
+                  <div className={css.tagSection}>
+                    {!isPreview &&
+                      (article?.tags
+                        ? mode === "create" || mode === "edit"
+                          ? [...article?.tags, ""]
+                          : article?.tags
+                        : [""]
+                      )?.map((tag, i) => (
+                        <label key={`tag-${i}`}>
+                          {/* NOTE: Must include a " " */} #
+                          <AutosizeInput
+                            placeholder="tag..."
+                            name={`tag-${i}`}
+                            value={tag}
+                            onChange={(e) => {
+                              setArticle((old) => {
+                                const tags = [
+                                  ...old.tags.slice(0, i),
+                                  e.target.value,
+                                  ...old.tags.slice(i + 1),
+                                ]
+                                  .map((tag) => tag.trim().replace(/\W_/g, ""))
+                                  .filter((tag) => tag);
 
-                              // // If this is the last tag AND the value ends with a whitespace
-                              // if (
-                              //   (mode === "create" || mode === "edit") &&
-                              //   i === old.tags.length - 1 &&
-                              //   (/\s$/.test(e.target.value) ||
-                              //     e.target.value.trim() === "")
-                              // ) {
-                              //   tags.push("");
-                              // }
+                                // // If this is the last tag AND the value ends with a whitespace
+                                // if (
+                                //   (mode === "create" || mode === "edit") &&
+                                //   i === old.tags.length - 1 &&
+                                //   (/\s$/.test(e.target.value) ||
+                                //     e.target.value.trim() === "")
+                                // ) {
+                                //   tags.push("");
+                                // }
 
-                              return {
-                                ...old,
-                                tags,
-                                lowercaseTags: tags.map((tag) =>
-                                  tag.toLowerCase()
-                                ),
-                              };
-                            });
-                          }}
-                          onBlur={(e) => {
-                            // const tags = article.tags
-                            //   .map((tag) =>
-                            //     tag.trim().toLowerCase().replace(/\W/g, "")
-                            //   )
-                            //   .filter((tag) => tag);
-                            // // if (mode === "create" || mode === "edit")
-                            // //   tags.push("");
-                            // setArticle((old) => {
-                            //   return {
-                            //     ...old,
-                            //     tags,
-                            //   };
-                            // });
-                          }}
-                        />
-                      </label>
-                    ))}
-                </div>
+                                return {
+                                  ...old,
+                                  tags,
+                                  lowercaseTags: tags.map((tag) =>
+                                    tag.toLowerCase()
+                                  ),
+                                };
+                              });
+                            }}
+                            onBlur={(e) => {
+                              // const tags = article.tags
+                              //   .map((tag) =>
+                              //     tag.trim().toLowerCase().replace(/\W/g, "")
+                              //   )
+                              //   .filter((tag) => tag);
+                              // // if (mode === "create" || mode === "edit")
+                              // //   tags.push("");
+                              // setArticle((old) => {
+                              //   return {
+                              //     ...old,
+                              //     tags,
+                              //   };
+                              // });
+                            }}
+                          />
+                        </label>
+                      ))}
+                  </div>
+                )}
 
                 {(mode === "create" || mode === "edit" || !isPreview) && (
                   <ArticleEditor

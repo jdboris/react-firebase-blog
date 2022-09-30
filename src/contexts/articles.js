@@ -56,7 +56,7 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
           query(
             collection(getFirestore(), "articles"),
             orderBy("date", "desc"),
-            limit(6)
+            limit(50)
           ).withConverter(idAndDateConverter)
         )
       ).docs.map((snapshot) => snapshot.data());
