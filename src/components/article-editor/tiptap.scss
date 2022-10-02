@@ -1,7 +1,11 @@
 .ProseMirror {
+  // display: flex;
+  // flex-direction: column;
+
   // NOTE: Eliminates the empty space at bottom of article
-  display: flex;
-  flex-direction: column;
+  img {
+    display: block;
+  }
 }
 
 .ProseMirror:focus-within {
