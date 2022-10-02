@@ -308,11 +308,16 @@ export function ArticleForm({
 
                   <small>
                     <span>
-                      {" "}
-                      {"By "}
-                      {article?.author.displayName}{" "}
+                      {!isPreview && (
+                        <>
+                          {" "}
+                          {"By "}
+                          {article?.author.displayName}{" "}
+                        </>
+                      )}
+
                       {mode === "read" ? (
-                        formatDateRelative(article?.date)
+                        formatDateRelative(article?.date, !overlayMode)
                       ) : (
                         <DatePicker
                           name="date"

@@ -1,4 +1,4 @@
-export function formatDateRelative(date) {
+export function formatDateRelative(date, prepostion = true) {
   if (!date) return null;
   const now = new Date();
   const minuteDifference = (now - date) / 1000 / 60;
@@ -38,12 +38,18 @@ export function formatDateRelative(date) {
       "Saturday",
     ];
 
-    return "on " + weekdays[date.getDay()] + " at " + formatter.format(date);
+    return (
+      (prepostion ? "on " : "") +
+      weekdays[date.getDay()] +
+      " at " +
+      formatter.format(date)
+    );
   }
 
   const formatter = new Intl.DateTimeFormat(undefined, {
     timeStyle: "short",
     dateStyle: "long",
   });
-  return "on " + formatter.format(date);
+
+  return (prepostion ? "on " : "") + formatter.format(date);
 }
