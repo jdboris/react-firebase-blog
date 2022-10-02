@@ -45,7 +45,7 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
     }
   }, [errors]);
 
-  async function getMostRecent() {
+  async function getMostRecent(articleLimit = 50) {
     if (isLoading) return;
 
     try {
@@ -56,7 +56,7 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
           query(
             collection(getFirestore(), "articles"),
             orderBy("date", "desc"),
-            limit(50)
+            limit(articleLimit)
           ).withConverter(idAndDateConverter)
         )
       ).docs.map((snapshot) => snapshot.data());

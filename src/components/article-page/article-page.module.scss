@@ -1,20 +1,27 @@
 .articlePage {
   > section > h2 {
     border-bottom: 0.1em solid #7650a1;
+    margin-bottom: 0;
   }
 
-  > .newsSection {
-    > ul {
+  > .articleSection {
+    $gap: 1em;
+    display: inline-flex;
+    flex-direction: column;
+    gap: $gap;
+    margin-top: $gap;
+
+    ul {
       list-style: none;
       margin: 0;
       padding: 0;
 
       display: flex;
       flex-wrap: wrap;
-      gap: 1em;
+      gap: $gap;
 
       li {
-        width: calc(50% - 0.5em);
+        flex-basis: calc(1280px / 4 - $gap + $gap / 4);
 
         &:hover h2 {
           color: #c195f3;

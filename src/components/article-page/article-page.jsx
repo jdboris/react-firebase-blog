@@ -29,7 +29,12 @@ export function ArticlePage({
 
   useEffect(() => {
     (async () => {
-      setMostRecent(await getMostRecent());
+      setMostRecent(
+        // NOTE: Add a buffer of 1 in case this page's main article is included
+        (await getMostRecent(8 + 1))
+          .filter((article) => article.id != id)
+          .slice(0, 8)
+      );
     })();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,31 +65,29 @@ export function ArticlePage({
           </section>
         </>
       )}
-
-      <section className={css.newsSection}>
-        <h2>Latest News</h2>
-        <ul>
-          {mostRecent.length > 1 &&
-            mostRecent
-              .filter((article) => article.id != id)
-              .map((article) => (
-                <li key={"news-" + article.id}>
-                  <Link to={`/article/${article.id}`} key={article.id}>
-                    <ArticleForm
-                      key={"article-link-" + article.id}
-                      theme={theme}
-                      article={article}
-                      mode="read"
-                      isPreview={true}
-                      useFirebaseAuth={useFirebaseAuth}
-                      useArticles={useArticles}
-                      useSettings={useSettings}
-                    />
-                  </Link>
-                </li>
-              ))}
-        </ul>
-      </section>
+      {mostRecent.length > 1 && (
+        <section className={css.articleSection}>
+          <h2>Latest</h2>
+          <ul>
+            {mostRecent.map((article) => (
+              <li key={"news-" + article.id}>
+                <Link to={`/article/${article.id}`} key={article.id}>
+                  <ArticleForm
+                    key={"article-link-" + article.id}
+                    theme={theme}
+                    article={article}
+                    mode="read"
+                    isPreview={true}
+                    useFirebaseAuth={useFirebaseAuth}
+                    useArticles={useArticles}
+                    useSettings={useSettings}
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }

@@ -317,7 +317,7 @@ export function ArticleForm({
                       )}
 
                       {mode === "read" ? (
-                        formatDateRelative(article?.date, !overlayMode)
+                        formatDateRelative(article?.date, !isPreview)
                       ) : (
                         <DatePicker
                           name="date"
