@@ -152,7 +152,9 @@ export function ArticleForm({
                                   e.target.value,
                                   ...old.tags.slice(i + 1),
                                 ]
-                                  .map((tag) => tag.trim().replace(/\W_/g, ""))
+                                  .map((tag) =>
+                                    tag.replace(/\s/g, "").replace(/\W_/g, "")
+                                  )
                                   .filter((tag) => tag);
 
                                 // // If this is the last tag AND the value ends with a whitespace
