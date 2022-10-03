@@ -22,9 +22,10 @@ export function Header({ theme, useFirebaseAuth, useSettings }) {
               {currentUser && currentUser.isAuthor && (
                 <>
                   <Link to="/article/new">New Article</Link>
-                  <Link to={`/user/${currentUser.id}`}>Profile</Link>
                 </>
               )}
+
+              <Link to={`/user/${currentUser.id}`}>Profile</Link>
 
               {currentUser && currentUser.isAdmin && (
                 <Link to="/settings">Settings</Link>
