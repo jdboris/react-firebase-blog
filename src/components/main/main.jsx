@@ -1,13 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import "../../firebase";
-import { CommentList } from "../comment-list";
+import ScrollToTop from "../../utils/scroll-to-top";
 import { ArticleForm } from "../article-form";
+import { ArticlePage } from "../article-page/article-page";
 import { Homepage } from "../homepage";
 import { SettingsForm } from "../settings-form";
-import { useParams } from "react-router-dom";
-import { ArticlePage } from "../article-page/article-page";
-import ScrollToTop from "../../utils/scroll-to-top";
-import { UserForm } from "../user-form";
 import { UserPage } from "../user-page/user-page";
 
 export function Main({

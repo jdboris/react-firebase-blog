@@ -73,8 +73,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
         : doc(collection(getFirestore(), `settings/social/links`));
 
       const data = {
-        // Default
-        sortOrder: socialLinks.length + 1,
+        sortOrder: Math.max(...socialLinks.map((link) => link.sortOrder)) + 1,
         ...socialLink,
         id: docRef.id,
       };
@@ -109,7 +108,9 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
       value={{
         isLoading,
         logo,
-        socialLinks: socialLinks || [],
+        socialLinks: socialLinks
+          ? socialLinks.sort((a, b) => a.sortOrder - b.sortOrder)
+          : [],
         saveSocialLink,
         saveLogo,
         deleteSocialLink,
