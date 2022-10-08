@@ -80,6 +80,7 @@
   header,
   footer {
     textarea {
+      font-family: "Intro";
       padding: 0;
     }
   }
@@ -95,6 +96,21 @@
 
   aside img {
     max-width: 1.5em;
+  }
+
+  aside {
+    a {
+      display: inline-flex;
+      transition: rotate 0.1s;
+    }
+
+    a:hover,
+    a:focus,
+    a:active {
+      rotate: 5deg;
+
+      transition: rotate 0.1s;
+    }
   }
 
   .tagSection {

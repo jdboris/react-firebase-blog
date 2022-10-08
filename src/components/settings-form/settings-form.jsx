@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { uploadFile } from "../../utils/files";
+import { BusinessForm } from "../business-form/business-form";
 import FileInput from "../file-input/file-input";
 import { SocialLinkForm } from "../social-link-form/social-link-form";
 import css from "./settings-form.module.scss";
@@ -19,6 +20,19 @@ export function SettingsForm({
     currentUser &&
     currentUser.isAdmin && (
       <div className={css.settingsForm}>
+        <section className={css.logoForm}>
+          <header>
+            <h3>Business</h3>
+          </header>
+          <main>
+            <BusinessForm
+              theme={theme}
+              useFirebaseAuth={useFirebaseAuth}
+              useSettings={useSettings}
+              mode={"read"}
+            />
+          </main>
+        </section>
         <section className={css.logoForm}>
           <header>
             <h3>Logo</h3>

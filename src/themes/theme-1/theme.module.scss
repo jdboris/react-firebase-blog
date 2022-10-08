@@ -49,10 +49,12 @@ body {
 
   font-family: "Intro";
   font-size: 1.1em;
+  background: rgb(25, 20, 31);
 
   & > main {
-    max-width: $max-content-width;
+    padding: 2em calc((100% - $max-content-width) / 2);
     margin: auto;
+    background: white;
   }
 
   & > header {
@@ -70,6 +72,9 @@ body {
 
     nav {
       display: flex;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.9em;
 
       > * {
         color: white;
@@ -87,10 +92,43 @@ body {
     }
   }
 
+  & > footer {
+    background: rgb(25, 20, 31);
+    color: grey;
+    padding: 3em calc((100% - $max-content-width) / 2 - 1em);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    nav {
+      a {
+        display: inline-flex;
+        transition: rotate 0.1s;
+        padding: 0.5em;
+
+        img {
+          width: 2em;
+        }
+      }
+
+      a:hover,
+      a:focus,
+      a:active {
+        rotate: 5deg;
+
+        transition: rotate 0.1s;
+      }
+    }
+  }
+
   nav > * {
     color: white;
     padding: 1em;
     cursor: pointer;
+  }
+
+  nav a {
+    display: inline-flex;
   }
 
   a * {

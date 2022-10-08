@@ -7,6 +7,7 @@ import {
 import { SettingsProvider, useSettings } from "../../contexts/settings";
 import { UserProvider, useUsers } from "../../contexts/users";
 import "../../firebase";
+import { Footer } from "../footer/footer";
 import { Header } from "../header";
 import { Main } from "../main";
 
@@ -34,7 +35,7 @@ export function App({ theme }) {
                   useArticles={useArticles}
                   useComments={useComments}
                 />
-                <footer></footer>
+                <Footer useSettings={useSettings} />
               </ArticleProvider>
             </CommentProvider>
           </SettingsProvider>

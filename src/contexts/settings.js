@@ -33,13 +33,17 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
     collection(getFirestore(), `settings/social/links`)
   );
 
+  const [business, isLoadingBusiness] = useDocumentData(
+    doc(getFirestore(), `settings/business`)
+  );
+
   const [logo, isLoadingLogo] = useDocumentData(
     doc(getFirestore(), `settings/logo`)
   );
 
   useEffect(() => {
-    setIsLoading(isLoadingSoacialLinks);
-  }, [isLoadingSoacialLinks]);
+    setIsLoading(isLoadingSoacialLinks || isLoadingBusiness);
+  }, [isLoadingSoacialLinks, isLoadingBusiness]);
 
   useEffect(() => {
     if (errors && errors.length) {
@@ -55,6 +59,21 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
 
       await setDoc(doc(getFirestore(), `settings/logo`), logo);
       return logo;
+    } catch (error) {
+      setErrors([error]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function saveBusiness(business) {
+    if (!currentUser.isAdmin || isLoading || isLoadingLogo) return;
+
+    try {
+      setIsLoading(true);
+
+      await setDoc(doc(getFirestore(), `settings/business`), business);
+      return business;
     } catch (error) {
       setErrors([error]);
     } finally {
@@ -108,11 +127,13 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
       value={{
         isLoading,
         logo,
+        business,
         socialLinks: socialLinks
           ? socialLinks.sort((a, b) => a.sortOrder - b.sortOrder)
           : [],
         saveSocialLink,
         saveLogo,
+        saveBusiness,
         deleteSocialLink,
         uploadFile,
       }}

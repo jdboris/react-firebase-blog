@@ -1,0 +1,64 @@
+.businessForm {
+  fieldset {
+    display: flex;
+    gap: 1em;
+    align-items: flex-end;
+    transition: padding 0.1s, box-shadow 0.1s;
+  }
+
+  &.edit,
+  &.create {
+    fieldset {
+      flex-direction: column;
+      box-shadow: 0 0 11px #ccc;
+      padding: 1em;
+      border-radius: 0.2em;
+      align-items: initial;
+    }
+  }
+
+  a {
+    display: inline-flex;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .row {
+    display: flex;
+    gap: 1em;
+  }
+
+  .socialLink {
+    margin: auto;
+    align-self: center;
+    justify-self: center;
+    width: 1.5em;
+  }
+
+  &.edit,
+  &.create {
+    .socialLink {
+      width: 2em;
+      height: 2em;
+    }
+  }
+
+  aside {
+    display: flex;
+  }
+
+  .buttonAlt {
+    display: inline-flex;
+    color: initial;
+    background-color: initial;
+    padding: 0.1em;
+  }
+
+  .delete {
+    color: red;
+    margin-left: auto;
+  }
+}
