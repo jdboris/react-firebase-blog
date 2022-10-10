@@ -6,40 +6,42 @@ export function Header({ theme, useFirebaseAuth, useSettings }) {
 
   return (
     <header>
-      <nav>
-        {logo ? (
-          <Link to="/" className={theme.logo}>
-            <img src={logo.url} />
-          </Link>
-        ) : (
-          <Link to="/">Home</Link>
-        )}
-      </nav>
-      <nav>
-        {!isLoading &&
-          (currentUser ? (
-            <>
-              {currentUser && currentUser.isAuthor && (
-                <>
-                  <Link to="/article/new">New Article</Link>
-                </>
-              )}
-
-              <Link to={`/user/${currentUser.id}`}>Profile</Link>
-
-              {currentUser && currentUser.isAdmin && (
-                <Link to="/settings">Settings</Link>
-              )}
-
-              <span onClick={logout}>Logout</span>
-            </>
+      <div className={theme.container}>
+        <nav>
+          {logo ? (
+            <Link to="/" className={theme.logo}>
+              <img src={logo.url} />
+            </Link>
           ) : (
-            <>
-              <span onClick={login}>Signup</span>
-              <span onClick={login}>Login</span>
-            </>
-          ))}
-      </nav>
+            <Link to="/">Home</Link>
+          )}
+        </nav>
+        <nav>
+          {!isLoading &&
+            (currentUser ? (
+              <>
+                {currentUser && currentUser.isAuthor && (
+                  <>
+                    <Link to="/article/new">New Article</Link>
+                  </>
+                )}
+
+                <Link to={`/user/${currentUser.id}`}>Profile</Link>
+
+                {currentUser && currentUser.isAdmin && (
+                  <Link to="/settings">Settings</Link>
+                )}
+
+                <button onClick={logout}>Logout</button>
+              </>
+            ) : (
+              <>
+                <span onClick={login}>Signup</span>
+                <span onClick={login}>Login</span>
+              </>
+            ))}
+        </nav>
+      </div>
     </header>
   );
 }

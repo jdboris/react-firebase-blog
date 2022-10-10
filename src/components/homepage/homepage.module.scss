@@ -1,4 +1,4 @@
-.homepage {
+.homePage {
   > section h1 {
     font-size: 2em;
     border-bottom: 2px solid #7650a1;
@@ -10,7 +10,10 @@
     display: inline-flex;
     flex-direction: column;
     gap: $gap;
-    margin-top: $gap;
+
+    &:not(:first-child) {
+      margin-top: $gap;
+    }
 
     ul {
       list-style: none;

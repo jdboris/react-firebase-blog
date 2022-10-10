@@ -41,7 +41,7 @@ export function ArticlePage({
   }, []);
 
   return (
-    <div className={css.articlePage}>
+    <div className={css.articlePage + " " + theme.container}>
       {article && (
         <>
           <ArticleForm

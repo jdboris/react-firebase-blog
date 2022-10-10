@@ -35,7 +35,7 @@ export function App({ theme }) {
                   useArticles={useArticles}
                   useComments={useComments}
                 />
-                <Footer useSettings={useSettings} />
+                <Footer theme={theme} useSettings={useSettings} />
               </ArticleProvider>
             </CommentProvider>
           </SettingsProvider>

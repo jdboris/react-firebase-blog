@@ -1,7 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin+Condensed:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cabin+Condensed:wght@700&family=Oswald:wght@700&display=swap");
+
 @font-face {
   font-family: "IntroCondCaps";
   src: local("IntroCondCaps"),
-    url(./intro-cond-light-free.otf) format("opentype");
+    url(https://fonts.googleapis.com/css2?family=Cabin+Condensed:wght@700&display=swap)
+      format("opentype");
   /* other formats include: 'woff2', 'truetype, 'opentype',
                                 'embedded-opentype', and 'svg' */
 }
@@ -10,7 +14,8 @@
   font-family: "IntroCondCaps";
   font-weight: bold;
   src: local("IntroCondCaps"),
-    url(./intro-cond-black-free.otf) format("opentype");
+    url(https://fonts.googleapis.com/css2?family=Cabin+Condensed:wght@700&display=swap)
+      format("opentype");
   /* other formats include: 'woff2', 'truetype, 'opentype',
                                 'embedded-opentype', and 'svg' */
 }
@@ -52,42 +57,50 @@ body {
   background: rgb(25, 20, 31);
 
   & > main {
-    padding: 2em calc((100% - $max-content-width) / 2);
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 2em;
     margin: auto;
-    background: white;
+    background: #f7f7f7;
   }
 
   & > header {
-    background: rgb(25, 20, 31);
     display: flex;
-    justify-content: space-between;
-    padding: 0 calc((100% - $max-content-width) / 2 - 1em);
+    flex-direction: column;
+    background: #f7f7f7;
+    position: sticky;
+    top: 0;
+    z-index: 5;
 
-    // > *:first-child {
-    //   margin-left: -1em;
-    // }
-    // > *:last-child {
-    //   margin-right: -1em;
-    // }
-
-    nav {
+    & > *:nth-child(1) {
       display: flex;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-size: 0.9em;
+      justify-content: space-between;
 
-      > * {
-        color: white;
-        display: inline-flex;
-        align-items: center;
-      }
+      width: 100%;
+      background: rgb(25, 20, 31);
 
-      > *:hover:not(.logo) {
-        color: #f6eef6;
-      }
+      nav {
+        display: flex;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.9em;
 
-      img {
-        max-height: 3em;
+        > * {
+          color: white;
+          display: inline-flex;
+          align-items: center;
+        }
+
+        > a:hover:not(.logo) {
+          color: #c195f3;
+          border-top: 2px solid transparent;
+          border-bottom: 2px solid;
+          transition: color 0.1s;
+        }
+
+        img {
+          height: 3em;
+        }
       }
     }
   }
@@ -95,7 +108,8 @@ body {
   & > footer {
     background: rgb(25, 20, 31);
     color: grey;
-    padding: 3em calc((100% - $max-content-width) / 2 - 1em);
+    padding-top: 3em;
+    padding-bottom: 3em;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -131,6 +145,27 @@ body {
     display: inline-flex;
   }
 
+  nav button {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+
+  nav:first-child > a:first-child {
+    margin-left: -1em;
+  }
+
+  nav:last-child > a:last-child {
+    margin-right: -1em;
+  }
+
+  nav:first-child > button:first-child {
+    margin-left: 0;
+  }
+
+  nav:last-child > button:last-child {
+    margin-right: 0;
+  }
+
   a * {
     cursor: inherit;
   }
@@ -147,13 +182,15 @@ body {
   h4,
   h5,
   h6 {
-    font-family: "IntroCondCaps";
+    font-family: "Intro";
+    text-transform: uppercase;
     width: 100%;
 
     small {
       font-size: 0.9rem;
       font-family: "Intro";
       font-weight: normal;
+      text-transform: initial;
       opacity: 0.5;
       width: 100%;
     }
@@ -240,15 +277,17 @@ body {
   button,
   .button,
   .buttonAlt {
-    font-family: "IntroCondCaps";
-    font-weight: bold;
+    font-family: "Intro";
+    text-transform: uppercase;
+    font-weight: normal;
     color: white;
     background-color: rgb(74, 71, 74);
     border: none;
     border-radius: 0.2em;
-    padding: 0.2em 0.4em;
-
-    font-size: 1.5rem;
+    padding: 0.5em 0.9em;
+    font-size: inherit;
+    letter-spacing: inherit;
+    align-self: center;
     cursor: pointer;
   }
 
@@ -296,8 +335,27 @@ body {
       }
     }
   }
-}
 
-.profileImage {
-  border-radius: 50%;
+  .container {
+    padding-left: calc((100% - $max-content-width) / 2);
+    padding-right: calc((100% - $max-content-width) / 2);
+  }
+
+  .profileImage {
+    border-radius: 50%;
+  }
+
+  .pageHeader {
+    // position: sticky;
+    // top: 1.5em;
+    display: flex;
+    justify-content: center;
+    font-size: 3em;
+    padding: 0.5em;
+    z-index: 3;
+    color: rgb(72, 38, 108);
+    font-weight: bold;
+    padding-left: calc((100% - $max-content-width) / 2);
+    padding-right: calc((100% - $max-content-width) / 2);
+  }
 }

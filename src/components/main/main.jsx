@@ -75,15 +75,17 @@ export function Main({
             path="new"
             element={
               currentUser && (
-                <ArticleForm
-                  key="new-article"
-                  theme={theme}
-                  useFirebaseAuth={useFirebaseAuth}
-                  useArticles={useArticles}
-                  useComments={useComments}
-                  useSettings={useSettings}
-                  mode="create"
-                />
+                <div className={theme.container}>
+                  <ArticleForm
+                    key="new-article"
+                    theme={theme}
+                    useFirebaseAuth={useFirebaseAuth}
+                    useArticles={useArticles}
+                    useComments={useComments}
+                    useSettings={useSettings}
+                    mode="create"
+                  />
+                </div>
               )
             }
           ></Route>

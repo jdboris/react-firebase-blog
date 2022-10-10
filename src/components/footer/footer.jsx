@@ -1,9 +1,8 @@
-export function Footer({ useSettings }) {
+export function Footer({ theme, useSettings }) {
   const { socialLinks, business } = useSettings();
-  console.log(business);
 
   return (
-    <footer>
+    <footer className={theme.container}>
       {socialLinks.length > 0 && (
         <>
           <nav>

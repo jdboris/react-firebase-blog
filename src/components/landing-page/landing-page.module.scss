@@ -1,0 +1,25 @@
+.landingPage {
+  z-index: 4;
+
+  div {
+    background: url("https://cdn.shopify.com/s/files/1/0281/0173/8555/files/about-background.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+  }
+
+  &::after {
+    content: "";
+    // background: rgb(72 38 108);
+    color: lightgrey;
+    font-size: 4em;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+
+    // border-top: 4vw solid rgb(43, 26, 60);
+    border-top: 4vw solid rgb(25, 20, 31);
+    border-left: 5vw solid transparent;
+    border-right: 5vw solid transparent;
+  }
+}
