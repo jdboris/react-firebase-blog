@@ -19,7 +19,7 @@ export function SettingsForm({
   return (
     currentUser &&
     currentUser.isAdmin && (
-      <div className={css.settingsForm}>
+      <div className={css.settingsForm + " " + theme.container}>
         <section className={css.logoForm}>
           <header>
             <h3>Business</h3>

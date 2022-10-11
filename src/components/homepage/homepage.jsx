@@ -47,7 +47,7 @@ export function Homepage({ theme, useFirebaseAuth, useArticles, useSettings }) {
       <>
         <LandingPage />
         <header className={theme.pageHeader}>
-          <span>BLOG</span>
+          <h1>BLOG</h1>
         </header>
         <div className={css.homePage + " " + theme.container}>
           {articlesByTag.featured.length > 0 && (
