@@ -349,9 +349,14 @@ body {
     display: flex;
     justify-content: center;
     text-align: center;
+    background-image: url("./graphic-1.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center -5px;
+    color: #92c954;
     padding: 0.5em;
     z-index: 3;
-    color: rgb(72, 38, 108);
+    // color: rgb(72, 38, 108);
     font-weight: bold;
     padding-left: calc((100% - $max-content-width) / 2);
     padding-right: calc((100% - $max-content-width) / 2);
