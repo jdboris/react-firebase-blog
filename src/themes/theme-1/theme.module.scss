@@ -59,15 +59,14 @@ body {
   & > main {
     display: flex;
     flex-direction: column;
-    padding-bottom: 2em;
     margin: auto;
-    background: #f7f7f7;
+    background: white;
   }
 
   & > header {
     display: flex;
     flex-direction: column;
-    background: #f7f7f7;
+    background: white;
     position: sticky;
     top: 0;
     z-index: 5;
