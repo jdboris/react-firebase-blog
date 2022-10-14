@@ -3,6 +3,10 @@
   margin-top: -4.5em;
   text-align: center;
 
+  // 3D box effect:
+  // width: 95vw;
+  // margin: auto;
+
   div {
     display: flex;
     justify-content: center;
@@ -13,6 +17,11 @@
     background: url("https://cdn.shopify.com/s/files/1/0281/0173/8555/files/about-background.jpg");
     background-size: cover;
     background-position: center;
+
+    // 3D box effect:
+    // box-shadow: 0px 160px 20px -3.5em #0000004f;
+    // // NOTE: To put the shadow under the ::after
+    // z-index: -1;
 
     &::before {
       content: "";
@@ -35,6 +44,9 @@
       color: #f6eef6;
       font-family: "Takota";
       text-shadow: 0px 0px 10px black;
+
+      // NOTE: To put the shadow under the ::after
+      z-index: 1;
     }
 
     button {
@@ -47,20 +59,21 @@
     }
   }
 
-  &::after {
-    content: "";
-    // background: rgb(72 38 108);
-    color: lightgrey;
-    font-size: 4em;
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
+  // 3D box effect:
+  // &::after {
+  //   content: "";
+  //   // background: rgb(72 38 108);
+  //   color: lightgrey;
+  //   font-size: 4em;
+  //   display: flex;
+  //   justify-content: center;
+  //   font-weight: bold;
 
-    // border-top: 4vw solid rgb(43, 26, 60);
-    // border-top: 4vw solid rgb(25, 20, 31);
-    border-top: 4vw solid #1c1a1e;
+  //   // border-top: 4vw solid rgb(43, 26, 60);
+  //   // border-top: 4vw solid rgb(25, 20, 31);
+  //   border-top: 4vw solid #0d0c0e;
 
-    border-left: 5vw solid transparent;
-    border-right: 5vw solid transparent;
-  }
+  //   border-left: 5vw solid transparent;
+  //   border-right: 5vw solid transparent;
+  // }
 }
