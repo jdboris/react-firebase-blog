@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "../../firebase";
 import ScrollToTop from "../../utils/scroll-to-top";
 import { ArticleForm } from "../article-form";
@@ -90,6 +90,8 @@ export function Main({
             }
           ></Route>
         </Route>
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </main>
   );
