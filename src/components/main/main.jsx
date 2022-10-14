@@ -36,11 +36,15 @@ export function Main({
         <Route
           path="settings"
           element={
-            <SettingsForm
-              theme={theme}
-              useFirebaseAuth={useFirebaseAuth}
-              useSettings={useSettings}
-            />
+            currentUser ? (
+              <SettingsForm
+                theme={theme}
+                useFirebaseAuth={useFirebaseAuth}
+                useSettings={useSettings}
+              />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         ></Route>
 
@@ -74,7 +78,7 @@ export function Main({
           <Route
             path="new"
             element={
-              currentUser && (
+              currentUser ? (
                 <div className={theme.container}>
                   <ArticleForm
                     key="new-article"
@@ -86,6 +90,8 @@ export function Main({
                     mode="create"
                   />
                 </div>
+              ) : (
+                <Navigate to="/" replace />
               )
             }
           ></Route>
