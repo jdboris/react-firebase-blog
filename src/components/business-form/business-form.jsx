@@ -39,6 +39,18 @@ export function BusinessForm({
               disabled={mode == "read"}
             />
           </label>
+
+          <label>
+            Slogan{" "}
+            <input
+              name="slogan"
+              value={business.slogan}
+              onChange={(e) =>
+                setBusiness((old) => ({ ...old, slogan: e.target.value }))
+              }
+              disabled={mode == "read"}
+            />
+          </label>
           {mode != "edit" && (
             <button
               onClick={(e) => {
@@ -49,6 +61,7 @@ export function BusinessForm({
               Edit
             </button>
           )}
+
           {mode == "edit" && <button>Save</button>}
         </fieldset>
       </form>

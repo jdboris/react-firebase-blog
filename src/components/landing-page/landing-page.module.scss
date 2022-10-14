@@ -1,12 +1,50 @@
 .landingPage {
   z-index: 4;
   margin-top: -4.5em;
+  text-align: center;
 
   div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    position: relative;
+    height: 100vh;
     background: url("https://cdn.shopify.com/s/files/1/0281/0173/8555/files/about-background.jpg");
     background-size: cover;
     background-position: center;
-    height: 100vh;
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgb(0, 0, 0);
+      background: radial-gradient(
+        circle,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.03125) 45%,
+        rgba(0, 0, 0, 0.8155637254901961) 100%
+      );
+    }
+
+    &::after {
+      content: attr(data-slogan);
+      position: absolute;
+      font-size: 3em;
+      color: #f6eef6;
+      font-family: "Takota";
+      text-shadow: 0px 0px 10px black;
+    }
+
+    button {
+      position: absolute;
+
+      color: white !important;
+      font-size: 2em !important;
+      bottom: 1em;
+      opacity: 0.7;
+    }
   }
 
   &::after {

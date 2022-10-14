@@ -45,103 +45,105 @@ export function Homepage({ theme, useFirebaseAuth, useArticles, useSettings }) {
   return (
     articlesByTag && (
       <>
-        <LandingPage />
-        <header className={theme.pageHeader}>
-          <h1>BLOG</h1>
-        </header>
-        <div className={css.homePage + " " + theme.container}>
-          {articlesByTag.featured.length > 0 && (
-            <section className={css.featuredSection}>
-              <Link
-                to={`/article/${articlesByTag.featured[0].id}`}
-                key={articlesByTag.featured[0].id}
-              >
-                <ArticleForm
+        <LandingPage theme={theme} useSettings={useSettings} />
+        <div>
+          <header className={theme.pageHeader}>
+            <h1>BLOG</h1>
+          </header>
+          <div className={css.homePage + " " + theme.container}>
+            {articlesByTag.featured.length > 0 && (
+              <section className={css.featuredSection}>
+                <Link
+                  to={`/article/${articlesByTag.featured[0].id}`}
                   key={articlesByTag.featured[0].id}
-                  isPreview={true}
-                  overlayMode={true}
-                  theme={theme}
-                  article={articlesByTag.featured[0]}
-                  mode="read"
-                  useFirebaseAuth={useFirebaseAuth}
-                  useArticles={useArticles}
-                  useSettings={useSettings}
-                />
-              </Link>
+                >
+                  <ArticleForm
+                    key={articlesByTag.featured[0].id}
+                    isPreview={true}
+                    overlayMode={true}
+                    theme={theme}
+                    article={articlesByTag.featured[0]}
+                    mode="read"
+                    useFirebaseAuth={useFirebaseAuth}
+                    useArticles={useArticles}
+                    useSettings={useSettings}
+                  />
+                </Link>
 
-              <aside>
-                <h1>Featured</h1>
+                <aside>
+                  <h1>Featured</h1>
+                  <ul>
+                    {articlesByTag.featured.length > 1 &&
+                      articlesByTag.featured.slice(1).map((article) => (
+                        <li key={"news-" + article.id}>
+                          <Link to={`/article/${article.id}`} key={article.id}>
+                            <ArticleForm
+                              key={"article-link-" + article.id}
+                              theme={theme}
+                              article={article}
+                              mode="read"
+                              isPreview={true}
+                              overlayMode={true}
+                              useFirebaseAuth={useFirebaseAuth}
+                              useArticles={useArticles}
+                              useSettings={useSettings}
+                            />
+                          </Link>
+                        </li>
+                      ))}
+                  </ul>
+                </aside>
+              </section>
+            )}
+
+            {articlesByTag.news.length > 0 && (
+              <section>
+                <h1>News</h1>
                 <ul>
-                  {articlesByTag.featured.length > 1 &&
-                    articlesByTag.featured.slice(1).map((article) => (
-                      <li key={"news-" + article.id}>
-                        <Link to={`/article/${article.id}`} key={article.id}>
-                          <ArticleForm
-                            key={"article-link-" + article.id}
-                            theme={theme}
-                            article={article}
-                            mode="read"
-                            isPreview={true}
-                            overlayMode={true}
-                            useFirebaseAuth={useFirebaseAuth}
-                            useArticles={useArticles}
-                            useSettings={useSettings}
-                          />
-                        </Link>
-                      </li>
-                    ))}
+                  {articlesByTag.news.map((article) => (
+                    <li key={"news-" + article.id}>
+                      <Link to={`/article/${article.id}`} key={article.id}>
+                        <ArticleForm
+                          key={"article-link-" + article.id}
+                          theme={theme}
+                          article={article}
+                          mode="read"
+                          isPreview={true}
+                          useFirebaseAuth={useFirebaseAuth}
+                          useArticles={useArticles}
+                          useSettings={useSettings}
+                        />
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
-              </aside>
-            </section>
-          )}
+              </section>
+            )}
 
-          {articlesByTag.news.length > 0 && (
-            <section>
-              <h1>News</h1>
-              <ul>
-                {articlesByTag.news.map((article) => (
-                  <li key={"news-" + article.id}>
-                    <Link to={`/article/${article.id}`} key={article.id}>
-                      <ArticleForm
-                        key={"article-link-" + article.id}
-                        theme={theme}
-                        article={article}
-                        mode="read"
-                        isPreview={true}
-                        useFirebaseAuth={useFirebaseAuth}
-                        useArticles={useArticles}
-                        useSettings={useSettings}
-                      />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {articlesByTag.blog.length > 0 && (
-            <section className={css.blogSection}>
-              <h1>Blog</h1>
-              <ul>
-                {articlesByTag.blog.map((article) => (
-                  <li key={"blogPosts-" + article.id}>
-                    <Link to={`/article/${article.id}`} key={article.id}>
-                      <ArticleForm
-                        key={"article-link-" + article.id}
-                        theme={theme}
-                        article={article}
-                        mode="read"
-                        isPreview={true}
-                        useFirebaseAuth={useFirebaseAuth}
-                        useArticles={useArticles}
-                        useSettings={useSettings}
-                      />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+            {articlesByTag.blog.length > 0 && (
+              <section className={css.blogSection}>
+                <h1>Blog</h1>
+                <ul>
+                  {articlesByTag.blog.map((article) => (
+                    <li key={"blogPosts-" + article.id}>
+                      <Link to={`/article/${article.id}`} key={article.id}>
+                        <ArticleForm
+                          key={"article-link-" + article.id}
+                          theme={theme}
+                          article={article}
+                          mode="read"
+                          isPreview={true}
+                          useFirebaseAuth={useFirebaseAuth}
+                          useArticles={useArticles}
+                          useSettings={useSettings}
+                        />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+          </div>
         </div>
       </>
     )
