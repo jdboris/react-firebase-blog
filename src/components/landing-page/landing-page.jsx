@@ -9,7 +9,7 @@ export function LandingPage({ theme, useSettings }) {
   return (
     // landingPage && (
     <div ref={landingPage} className={css.landingPage}>
-      <div data-slogan={business.slogan}>
+      <div data-slogan={business && business.slogan ? business.slogan : ""}>
         <button
           className={theme.buttonAlt}
           onClick={() => {
