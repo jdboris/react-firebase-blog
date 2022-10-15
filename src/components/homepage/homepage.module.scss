@@ -53,7 +53,7 @@
 
     > a {
       flex-basis: 870px;
-      flex-grow: 1;
+      flex-grow: 14;
     }
 
     aside {
@@ -63,6 +63,7 @@
       justify-content: flex-end;
 
       flex-basis: 250px;
+      flex-grow: 1;
     }
 
     ul {
