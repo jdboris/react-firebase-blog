@@ -42,7 +42,7 @@ body {
 
 * {
   // NOTE: Allows scrolling to this element to work correctly
-  scroll-margin: 4.5em;
+  scroll-margin: 5rem;
 }
 
 .root {
@@ -53,7 +53,7 @@ body {
   font-size: 1.1em;
   background: rgb(25, 20, 31);
 
-  padding-top: 4.5em;
+  padding-top: 5rem;
 
   & > main {
     display: flex;
@@ -74,25 +74,99 @@ body {
 
     nav {
       display: flex;
+      position: relative;
+      flex-wrap: wrap;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       font-size: 0.9em;
+      color: white;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
 
-      > * {
-        color: white;
-        display: inline-flex;
-        align-items: center;
+      // NOTE: Required to center logo only after wrapping
+      width: 100%;
+      justify-content: center;
+      overflow: hidden;
+      height: 5rem;
+      background: inherit;
+
+      > button {
+        position: absolute;
+        align-self: center;
+        color: white !important;
+        right: 0;
+
+        > * {
+          font-size: 2em;
+        }
       }
 
-      > a:hover:not(.logo) {
-        color: #c195f3;
+      ul {
+        display: inline-flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        // NOTE: Required to center logo only after wrapping
+        margin-left: auto;
+        z-index: 1;
+        background: inherit;
+
+        li {
+          display: inline-flex;
+        }
+      }
+
+      a:not(.logo) {
         border-top: 2px solid transparent;
-        border-bottom: 2px solid;
+        border-bottom: 2px solid transparent;
+      }
+
+      a:not(.logo):hover {
+        color: #c195f3;
+        border-bottom-color: inherit;
         transition: color 0.1s;
       }
 
       img {
         height: 3em;
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.37);
+      }
+
+      &.open {
+        overflow: visible;
+
+        ul {
+          flex-direction: column;
+          position: absolute;
+          right: 0;
+          top: 100%;
+          height: 100vh;
+
+          a {
+            border-top: 0;
+            border-bottom: 0;
+            width: 100%;
+          }
+
+          button {
+            margin: 1em;
+          }
+        }
+
+        .overlay {
+          display: initial;
+        }
       }
     }
   }
@@ -128,36 +202,18 @@ body {
     }
   }
 
-  nav > * {
+  nav a {
+    display: inline-flex;
+    align-items: center;
     color: white;
     padding: 1em;
     cursor: pointer;
-  }
-
-  nav a {
-    display: inline-flex;
   }
 
   nav button {
     margin-left: 1em;
     margin-right: 1em;
     align-self: center;
-  }
-
-  nav:first-child > a:first-child {
-    margin-left: -1em;
-  }
-
-  nav:last-child > a:last-child {
-    margin-right: -1em;
-  }
-
-  nav:first-child > button:first-child {
-    margin-left: 0;
-  }
-
-  nav:last-child > button:last-child {
-    margin-right: 0;
   }
 
   a * {
