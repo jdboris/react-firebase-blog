@@ -70,10 +70,7 @@ export function Header({ theme, useFirebaseAuth, useSettings }) {
           ) : (
             <ul>
               <li>
-                <span onClick={login}>Signup</span>
-              </li>
-              <li>
-                <span onClick={login}>Login</span>
+                <button onClick={login}>Login</button>
               </li>
             </ul>
           ))}
