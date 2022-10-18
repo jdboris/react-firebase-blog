@@ -85,6 +85,12 @@ export function ArticlePage({
                 </Link>
               </li>
             ))}
+
+            {/* NOTE: Effectively limits the width of the remainders */}
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
           </ul>
         </section>
       )}

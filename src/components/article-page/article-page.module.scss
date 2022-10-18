@@ -23,7 +23,9 @@
       gap: $gap;
 
       li {
+        display: flex;
         flex-basis: calc(1280px / 4 - $gap + $gap / 4);
+        flex-grow: 1;
 
         &:hover h2 {
           color: #c195f3;

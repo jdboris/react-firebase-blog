@@ -85,21 +85,23 @@
     }
   }
 
-  aside > div {
-    position: sticky;
-    // NOTE: Must add a gap to prevent overlapping with sticky navbar
-    top: 5em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
-  }
-
-  aside img {
-    max-width: 1.5em;
-  }
-
   aside {
+    flex-basis: 1.5em;
+    flex-grow: 1;
+
+    > div {
+      position: sticky;
+      // NOTE: Must add a gap to prevent overlapping with sticky navbar
+      top: 5em;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em;
+    }
+
+    img {
+      max-width: 1.5em;
+    }
+
     a {
       display: inline-flex;
       transition: rotate 0.1s;
@@ -115,9 +117,11 @@
   }
 
   .tagSection {
+    display: flex;
+    flex-wrap: wrap;
+
     font-size: 1.5em;
     margin-left: auto;
-    display: block;
     margin-bottom: 0.5em;
 
     label {

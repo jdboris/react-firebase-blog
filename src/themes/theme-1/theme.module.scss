@@ -387,6 +387,7 @@ body {
   }
 
   .container {
+    width: 100%;
     max-width: calc(1280px + 2em);
     margin: auto;
     padding-left: 1em;
@@ -394,6 +395,7 @@ body {
   }
 
   .paddingContainer {
+    width: 100%;
     padding-left: calc((100% - $max-content-width) / 2);
     padding-right: calc((100% - $max-content-width) / 2);
   }
