@@ -1,6 +1,7 @@
 .socialLinkForm {
   fieldset {
     display: flex;
+    flex-wrap: wrap;
     gap: 1em;
     align-items: center;
     transition: padding 0.1s, box-shadow 0.1s;
@@ -30,6 +31,7 @@
 
   .row {
     display: flex;
+    flex-wrap: wrap;
     gap: 1em;
   }
 

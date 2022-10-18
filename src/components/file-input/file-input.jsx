@@ -5,7 +5,8 @@ import css from "./file-input.module.scss";
 
 const baseStyle = {
   display: "inline-flex",
-  gap: "0.3em",
+  flexWrap: "wrap",
+  gap: "1em",
   alignItems: "center",
   padding: "1em",
   borderWidth: 2,
@@ -117,7 +118,11 @@ export default function FileInput({
       // NOTE: To stop propagation up to ancestor label which triggers a second "click" on the input
       // onClick={(e) => e.stopPropagation()}
     >
-      <FaUpload /> Drag and drop or <strong>choose a file.</strong>
+      <FaUpload />
+      <span>
+        {" "}
+        Drag and drop or <strong>choose a file.</strong>
+      </span>
       <input {...getInputProps()} />
       {children}
     </span>
