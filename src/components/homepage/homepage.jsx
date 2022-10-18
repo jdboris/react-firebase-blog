@@ -91,6 +91,9 @@ export function Homepage({ theme, useFirebaseAuth, useArticles, useSettings }) {
                           </Link>
                         </li>
                       ))}
+
+                    {/* NOTE: Effectively limits the width of the remainders */}
+                    <li></li>
                   </ul>
                 </aside>
               </section>
