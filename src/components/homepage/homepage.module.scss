@@ -31,9 +31,15 @@
         flex-basis: calc(1280px / 4 - $gap + $gap / 4);
         flex-grow: 1;
 
+        h2 {
+          font-size: 120%;
+        }
+
         &:hover h2 {
           color: #c195f3;
-          text-decoration: underline;
+          small {
+            text-decoration: underline;
+          }
         }
 
         article {
