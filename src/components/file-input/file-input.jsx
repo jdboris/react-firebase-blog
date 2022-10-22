@@ -42,6 +42,7 @@ export default function FileInput({
   disabled,
   buttonMode = false,
   children,
+  accept,
   ...props
 }) {
   const {
@@ -52,22 +53,13 @@ export default function FileInput({
     isDragAccept,
     isDragReject,
     inputRef,
-  } = useDropzone(
-    buttonMode
-      ? {
-          accept: {
-            "image/*": [],
-          },
-          multiple: false,
-        }
-      : {
-          accept: {
-            "image/*": [],
-          },
-          multiple: false,
-          disabled,
-        }
-  );
+  } = useDropzone({
+    accept: {
+      [accept]: [],
+    },
+    multiple: false,
+    disabled: !buttonMode ? disabled : false,
+  });
 
   // const inputRef = createRef();
 

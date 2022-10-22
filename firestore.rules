@@ -58,6 +58,11 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    match /settings/favicon {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     match /settings/business {
       allow read: if true;
       allow write: if isAdmin();

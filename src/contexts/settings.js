@@ -41,9 +41,23 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
     doc(getFirestore(), `settings/logo`)
   );
 
+  const [favicon, isLoadingFavicon] = useDocumentData(
+    doc(getFirestore(), `settings/favicon`)
+  );
+
   useEffect(() => {
-    setIsLoading(isLoadingSoacialLinks || isLoadingBusiness);
-  }, [isLoadingSoacialLinks, isLoadingBusiness]);
+    setIsLoading(
+      isLoadingSoacialLinks ||
+        isLoadingBusiness ||
+        isLoadingLogo ||
+        isLoadingFavicon
+    );
+  }, [
+    isLoadingSoacialLinks,
+    isLoadingBusiness,
+    isLoadingLogo,
+    isLoadingFavicon,
+  ]);
 
   useEffect(() => {
     if (errors && errors.length) {
@@ -52,7 +66,8 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
   }, [errors]);
 
   async function saveLogo(logo) {
-    if (!currentUser.isAdmin || isLoading || isLoadingLogo) return;
+    if (!currentUser.isAdmin || isLoading || isLoadingLogo || isLoadingFavicon)
+      return;
 
     try {
       setIsLoading(true);
@@ -66,8 +81,25 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
     }
   }
 
+  async function saveFavicon(favicon) {
+    if (!currentUser.isAdmin || isLoading || isLoadingLogo || isLoadingFavicon)
+      return;
+
+    try {
+      setIsLoading(true);
+
+      await setDoc(doc(getFirestore(), `settings/favicon`), favicon);
+      return favicon;
+    } catch (error) {
+      setErrors([error]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   async function saveBusiness(business) {
-    if (!currentUser.isAdmin || isLoading || isLoadingLogo) return;
+    if (!currentUser.isAdmin || isLoading || isLoadingLogo || isLoadingFavicon)
+      return;
 
     try {
       setIsLoading(true);
@@ -107,7 +139,14 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
   }
 
   async function deleteSocialLink(socialLink) {
-    if (!currentUser.isAdmin || isLoading || isLoadingSoacialLinks) return;
+    if (
+      !currentUser.isAdmin ||
+      isLoading ||
+      isLoadingSoacialLinks ||
+      isLoadingLogo ||
+      isLoadingFavicon
+    )
+      return;
 
     try {
       setIsLoading(true);
@@ -127,6 +166,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
       value={{
         isLoading,
         logo,
+        favicon,
         business,
         socialLinks: socialLinks
           ? socialLinks.sort((a, b) => a.sortOrder - b.sortOrder)
@@ -134,6 +174,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
         saveSocialLink,
         saveLogo,
         saveBusiness,
+        saveFavicon,
         deleteSocialLink,
         uploadFile,
       }}
