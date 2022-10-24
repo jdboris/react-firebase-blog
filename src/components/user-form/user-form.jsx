@@ -1,6 +1,6 @@
 // import { useEffect } from "react";
 import { FaPencilAlt } from "react-icons/fa";
-import { uploadFile } from "../../utils/files";
+import { uploadImage } from "../../utils/files";
 import FileInput from "../file-input/file-input";
 import css from "./user-form.module.scss";
 
@@ -23,7 +23,7 @@ export function UserForm({ theme, id, useUsers, isEditable = false }) {
                 onChange={async (files) => {
                   saveUser({
                     id: user.id,
-                    photoUrl: await uploadFile(files[0]),
+                    photoUrl: await uploadImage(files[0]),
                   });
                 }}
               >

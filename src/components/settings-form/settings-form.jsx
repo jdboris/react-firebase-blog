@@ -67,6 +67,7 @@ export function SettingsForm({
                 <FileInput
                   accept="application/zip"
                   onChange={async (files) => {
+                    // NOTE: Assumes files are named following the conventions of realfavicongenerator.net
                     if (files[0].type === "application/zip") {
                       const zip = await JSZip.loadAsync(files[0]);
 
@@ -78,8 +79,6 @@ export function SettingsForm({
                           ),
                           true
                         );
-
-                        // saveFavicon({ url: await uploadFile(files[0]) });
                       });
                     }
                   }}

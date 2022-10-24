@@ -15,90 +15,93 @@ export function Main({
   useSettings,
   useComments,
 }) {
-  const { currentUser } = useFirebaseAuth();
+  const { currentUser, isLoading } = useFirebaseAuth();
 
   return (
     <main>
       <ScrollToTop />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Homepage
-              theme={theme}
-              useFirebaseAuth={useFirebaseAuth}
-              useArticles={useArticles}
-              useSettings={useSettings}
-              useComments={useComments}
-            />
-          }
-        ></Route>
-        <Route
-          path="settings"
-          element={
-            currentUser ? (
-              <SettingsForm
-                theme={theme}
-                useFirebaseAuth={useFirebaseAuth}
-                useSettings={useSettings}
-              />
-            ) : (
-              <Navigate to="/" replace />
-            )
-          }
-        ></Route>
 
-        <Route path="user">
+      {(currentUser || !isLoading) && (
+        <Routes>
           <Route
-            path=":id"
+            path="/"
             element={
-              <UserPage
-                theme={theme}
-                useUsers={useUsers}
-                useFirebaseAuth={useFirebaseAuth}
-              />
-            }
-          />
-        </Route>
-
-        <Route path="article">
-          <Route
-            path=":id"
-            element={
-              <ArticlePage
+              <Homepage
                 theme={theme}
                 useFirebaseAuth={useFirebaseAuth}
                 useArticles={useArticles}
-                useComments={useComments}
                 useSettings={useSettings}
-                mode="read"
+                useComments={useComments}
               />
             }
           ></Route>
           <Route
-            path="new"
+            path="settings"
             element={
               currentUser ? (
-                <div className={theme.container}>
-                  <ArticleForm
-                    key="new-article"
-                    theme={theme}
-                    useFirebaseAuth={useFirebaseAuth}
-                    useArticles={useArticles}
-                    useComments={useComments}
-                    useSettings={useSettings}
-                    mode="create"
-                  />
-                </div>
+                <SettingsForm
+                  theme={theme}
+                  useFirebaseAuth={useFirebaseAuth}
+                  useSettings={useSettings}
+                />
               ) : (
                 <Navigate to="/" replace />
               )
             }
           ></Route>
-        </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          <Route path="user">
+            <Route
+              path=":id"
+              element={
+                <UserPage
+                  theme={theme}
+                  useUsers={useUsers}
+                  useFirebaseAuth={useFirebaseAuth}
+                />
+              }
+            />
+          </Route>
+
+          <Route path="article">
+            <Route
+              path=":id"
+              element={
+                <ArticlePage
+                  theme={theme}
+                  useFirebaseAuth={useFirebaseAuth}
+                  useArticles={useArticles}
+                  useComments={useComments}
+                  useSettings={useSettings}
+                  mode="read"
+                />
+              }
+            ></Route>
+            <Route
+              path="new"
+              element={
+                currentUser ? (
+                  <div className={theme.container}>
+                    <ArticleForm
+                      key="new-article"
+                      theme={theme}
+                      useFirebaseAuth={useFirebaseAuth}
+                      useArticles={useArticles}
+                      useComments={useComments}
+                      useSettings={useSettings}
+                      mode="create"
+                    />
+                  </div>
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
+            ></Route>
+          </Route>
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      )}
     </main>
   );
 }

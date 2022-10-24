@@ -19,7 +19,7 @@ import {
 import { GrRedo, GrReturn, GrUndo } from "react-icons/gr";
 import { RiCodeSFill, RiCodeSSlashFill } from "react-icons/ri";
 import { VscHorizontalRule } from "react-icons/vsc";
-import { uploadFile } from "../../utils/files";
+import { uploadImage } from "../../utils/files";
 import FileInput from "../file-input/file-input";
 
 const MenuBar = ({ editor, ...props }) => {
@@ -127,7 +127,7 @@ const MenuBar = ({ editor, ...props }) => {
         <FileInput
           buttonMode={true}
           onChange={async (files) => {
-            (await Promise.all(files.map((file) => uploadFile(file)))).forEach(
+            (await Promise.all(files.map((file) => uploadImage(file)))).forEach(
               (url) => editor.chain().focus().setImage({ src: url }).run()
             );
           }}

@@ -20,6 +20,7 @@ export function useFirebaseAuth() {
 }
 
 export function FirebaseAuthProvider({ children }) {
+  const [errors, setErrors] = useState([]);
   // Ignore the "photoURL" because it doesn't follow camel-case rules (replace it with user data)
   const [authUserData, isLoadingAuthUser] = useAuthState(auth);
   const { photoURL, ...authUser } = authUserData || {};
@@ -57,8 +58,7 @@ export function FirebaseAuthProvider({ children }) {
         { merge: true }
       );
     } catch (error) {
-      throw error;
-      // setErrors([error]);
+      setErrors([error]);
       // // Handle Errors here.
       // const errorCode = error.code;
       // const errorMessage = error.message;
@@ -95,6 +95,7 @@ export function FirebaseAuthProvider({ children }) {
         login,
         logout,
         isLoading,
+        errors,
       }}
     >
       {children}

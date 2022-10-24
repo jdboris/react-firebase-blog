@@ -1,0 +1,14 @@
+name = "blog-cms"
+main = "src/index.js"
+compatibility_date = "2022-10-24"
+usage_model = "bundled"
+env = { }
+
+[triggers]
+crons = [ ]
+
+[vars]
+# The necessary secrets are:
+# - CLOUDFLARE_IMAGES_API_TOKEN
+# - CLOUDFLARE_IMAGES_ACCOUNT_ID
+# Run `echo <VALUE> | wrangler secret put <NAME> --name blog-cms` for each of these
