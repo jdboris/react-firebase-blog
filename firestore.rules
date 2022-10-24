@@ -5,6 +5,10 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    function affectedKeys() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
     function isLoggedIn() {
       return request.auth != null && request.auth.uid != null;
     }
@@ -31,7 +35,8 @@ service cloud.firestore {
 
     match /users/{uid} {
       allow read, create: if true;
-      allow update: if isDocOwner(uid);
+      allow update: if isDocOwner(uid) 
+                    && (isAdmin() || (!affectedKeys().hasAny(["isAdmin", "isAuthor"])));
     }
 
     match /articles/{uid} {
@@ -59,6 +64,11 @@ service cloud.firestore {
     }
 
     match /settings/favicon {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /settings/homeBackground {
       allow read: if true;
       allow write: if isAdmin();
     }
