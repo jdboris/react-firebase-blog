@@ -44,7 +44,7 @@ export function FirebaseAuthProvider({ children }) {
       // const token = credential.accessToken;
 
       const user = (
-        await getDoc(doc(getFirestore(), `users/${result.user.id}`))
+        await getDoc(doc(getFirestore(), `users/${result.user.uid}`))
       ).data() || { ...result.user, id: result.user.uid };
 
       // Save the auth user data if no user exists yet
