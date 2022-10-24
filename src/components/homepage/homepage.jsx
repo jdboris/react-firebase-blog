@@ -70,11 +70,11 @@ export function Homepage({ theme, useFirebaseAuth, useArticles, useSettings }) {
                   />
                 </Link>
 
-                <aside>
-                  <h1>Featured</h1>
-                  <ul>
-                    {articlesByTag.featured.length > 1 &&
-                      articlesByTag.featured.slice(1).map((article) => (
+                {articlesByTag.featured.length > 1 && (
+                  <aside>
+                    <h1>Featured</h1>
+                    <ul>
+                      {articlesByTag.featured.slice(1).map((article) => (
                         <li key={"news-" + article.id}>
                           <Link to={`/article/${article.id}`} key={article.id}>
                             <ArticleForm
@@ -92,10 +92,11 @@ export function Homepage({ theme, useFirebaseAuth, useArticles, useSettings }) {
                         </li>
                       ))}
 
-                    {/* NOTE: Effectively limits the width of the remainders */}
-                    <li></li>
-                  </ul>
-                </aside>
+                      {/* NOTE: Effectively limits the width of the remainders */}
+                      <li></li>
+                    </ul>
+                  </aside>
+                )}
               </section>
             )}
 
