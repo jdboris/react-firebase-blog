@@ -14,7 +14,8 @@ export function SettingsForm({
   // ...props
 }) {
   const { currentUser } = useFirebaseAuth();
-  const { socialLinks, logo, saveLogo, favicon, saveFavicon } = useSettings();
+  const { socialLinks, logo, saveLogo, homeBackground, saveHomeBackground } =
+    useSettings();
   // const [mode, setMode] = useState(props.mode ? props.mode : "read");
   const [newLink, setNewLink] = useState(null);
 
@@ -23,17 +24,35 @@ export function SettingsForm({
     currentUser.isAdmin && (
       <div className={css.settingsForm + " " + theme.container}>
         <section className={css.logoForm}>
-          <header>
-            <h3>Business</h3>
-          </header>
-          <main>
-            <BusinessForm
-              theme={theme}
-              useFirebaseAuth={useFirebaseAuth}
-              useSettings={useSettings}
-              mode={"read"}
-            />
-          </main>
+          <div>
+            <header>
+              <h3>Business</h3>
+            </header>
+            <main>
+              <BusinessForm
+                theme={theme}
+                useFirebaseAuth={useFirebaseAuth}
+                useSettings={useSettings}
+                mode={"read"}
+              />
+            </main>
+          </div>
+          <div>
+            <header>
+              <h3>Landing Page Background</h3>
+            </header>
+            <main>
+              {homeBackground && <img src={homeBackground.url} />}
+              <div>
+                <FileInput
+                  accept="image/*"
+                  onChange={async (files) => {
+                    saveHomeBackground({ url: await uploadFile(files[0]) });
+                  }}
+                />
+              </div>
+            </main>
+          </div>
         </section>
         <section className={css.logoForm}>
           <div>
@@ -62,7 +81,9 @@ export function SettingsForm({
               </h3>
             </header>
             <main>
-              {favicon && <img src={favicon.url} />}
+              <img
+                src={`${process.env.REACT_APP_FIREBASE_STORAGE_URL}/apple-touch-icon.png`}
+              />
               <div>
                 <FileInput
                   accept="application/zip"

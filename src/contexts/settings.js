@@ -6,7 +6,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import {
   useCollectionData,
   useDocumentData,
@@ -41,23 +41,13 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
     doc(getFirestore(), `settings/logo`)
   );
 
-  const [favicon, isLoadingFavicon] = useDocumentData(
-    doc(getFirestore(), `settings/favicon`)
+  const [homeBackground, isLoadingHomeBackground] = useDocumentData(
+    doc(getFirestore(), `settings/homeBackground`)
   );
 
   useEffect(() => {
-    setIsLoading(
-      isLoadingSoacialLinks ||
-        isLoadingBusiness ||
-        isLoadingLogo ||
-        isLoadingFavicon
-    );
-  }, [
-    isLoadingSoacialLinks,
-    isLoadingBusiness,
-    isLoadingLogo,
-    isLoadingFavicon,
-  ]);
+    setIsLoading(isLoadingSoacialLinks || isLoadingBusiness || isLoadingLogo);
+  }, [isLoadingSoacialLinks, isLoadingBusiness, isLoadingLogo]);
 
   useEffect(() => {
     if (errors && errors.length) {
@@ -66,7 +56,12 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
   }, [errors]);
 
   async function saveLogo(logo) {
-    if (!currentUser.isAdmin || isLoading || isLoadingLogo || isLoadingFavicon)
+    if (
+      !currentUser.isAdmin ||
+      isLoading ||
+      isLoadingLogo ||
+      isLoadingHomeBackground
+    )
       return;
 
     try {
@@ -81,15 +76,23 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
     }
   }
 
-  async function saveFavicon(favicon) {
-    if (!currentUser.isAdmin || isLoading || isLoadingLogo || isLoadingFavicon)
+  async function saveHomeBackground(homeBackground) {
+    if (
+      !currentUser.isAdmin ||
+      isLoading ||
+      isLoadingLogo ||
+      isLoadingHomeBackground
+    )
       return;
 
     try {
       setIsLoading(true);
 
-      await setDoc(doc(getFirestore(), `settings/favicon`), favicon);
-      return favicon;
+      await setDoc(
+        doc(getFirestore(), `settings/homeBackground`),
+        homeBackground
+      );
+      return homeBackground;
     } catch (error) {
       setErrors([error]);
     } finally {
@@ -98,8 +101,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
   }
 
   async function saveBusiness(business) {
-    if (!currentUser.isAdmin || isLoading || isLoadingLogo || isLoadingFavicon)
-      return;
+    if (!currentUser.isAdmin || isLoading || isLoadingLogo) return;
 
     try {
       setIsLoading(true);
@@ -143,8 +145,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
       !currentUser.isAdmin ||
       isLoading ||
       isLoadingSoacialLinks ||
-      isLoadingLogo ||
-      isLoadingFavicon
+      isLoadingLogo
     )
       return;
 
@@ -166,7 +167,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
       value={{
         isLoading,
         logo,
-        favicon,
+        homeBackground,
         business,
         socialLinks: socialLinks
           ? socialLinks.sort((a, b) => a.sortOrder - b.sortOrder)
@@ -174,7 +175,7 @@ export function SettingsProvider({ useFirebaseAuth, children }) {
         saveSocialLink,
         saveLogo,
         saveBusiness,
-        saveFavicon,
+        saveHomeBackground,
         deleteSocialLink,
         uploadFile,
       }}
