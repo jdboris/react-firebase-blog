@@ -1,5 +1,6 @@
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -116,11 +117,29 @@ export function ArticleProvider({ useFirebaseAuth, useComments, children }) {
     }
   }
 
+  async function destroy(article) {
+    if (isLoading) return;
+
+    try {
+      setIsLoading(true);
+
+      if (docRef) {
+        deleteDoc(doc(getFirestore(), `articles/${article.id}`));
+      }
+      return true;
+    } catch (error) {
+      setErrors([error]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <ArticleContext.Provider
       value={{
         save,
         get,
+        destroy,
         getMostRecent,
         isLoading,
         draft,
