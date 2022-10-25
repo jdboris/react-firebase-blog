@@ -8,14 +8,13 @@ export function LandingPage({ theme, useSettings }) {
 
   return (
     // landingPage && (
-    <div
-      ref={landingPage}
-      className={css.landingPage}
-      style={
-        homeBackground && { backgroundImage: `url('${homeBackground.url}')` }
-      }
-    >
-      <div data-slogan={business && business.slogan ? business.slogan : ""}>
+    <div ref={landingPage} className={css.landingPage}>
+      <div
+        data-slogan={business && business.slogan ? business.slogan : ""}
+        style={
+          homeBackground && { backgroundImage: `url('${homeBackground.url}')` }
+        }
+      >
         <button
           className={theme.buttonAlt}
           onClick={() => {
