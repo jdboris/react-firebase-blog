@@ -22,10 +22,14 @@ export function Homepage({ theme, useFirebaseAuth, useArticles, useSettings }) {
     for (const article of mostRecent) {
       // ...for each tag...
       for (const tag in articlesByTag) {
+        const lowercaseTag = tag.toLocaleLowerCase();
         // ...if the article has the tag...
-        if (article.tags.includes(tag) && articlesByTag[tag].length < limit) {
+        if (
+          article.tags.includes(lowercaseTag) &&
+          articlesByTag[lowercaseTag].length < limit
+        ) {
           // ...add it to the corresponding array, and BREAK.
-          articlesByTag[tag].push(article);
+          articlesByTag[lowercaseTag].push(article);
           break;
         }
       }
