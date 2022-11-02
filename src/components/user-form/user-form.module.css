@@ -1,0 +1,37 @@
+.userForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2em 0;
+}
+.userForm fieldset {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  margin: auto;
+}
+.userForm .imageWrapper {
+  position: relative;
+}
+.userForm .imageWrapper img {
+  width: 5em;
+  height: 5em;
+}
+.userForm .imageWrapper svg {
+  position: absolute;
+  top: 0.4em;
+  right: 0.4em;
+  opacity: 0;
+}
+.userForm .imageWrapper:hover svg {
+  opacity: 0.8;
+}
+.userForm .imageWrapper:active svg {
+  opacity: 0.9;
+}
+.userForm .username {
+  font-size: 3em;
+  font-weight: bold;
+}/*# sourceMappingURL=user-form.module.css.map */

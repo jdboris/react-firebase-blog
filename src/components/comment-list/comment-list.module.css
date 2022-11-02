@@ -1,0 +1,94 @@
+.commentList {
+  background: rgb(245, 245, 245);
+  padding: 1em;
+}
+.commentList > * {
+  margin-bottom: 1em;
+}
+.commentList > *:last-child {
+  margin-bottom: 0;
+}
+.commentList > em {
+  display: flex;
+  justify-content: center;
+  font-size: 2em;
+}
+.commentList ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.commentList ul > li {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 0.5em;
+  padding: 1em;
+  margin-bottom: 1em;
+  box-shadow: 0 0 5px #dfdfdf;
+}
+.commentList ul > li:last-child {
+  margin-bottom: 0;
+}
+.commentList ul > li header {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+.commentList ul > li header img {
+  width: 3em;
+}
+.commentList ul > li header div {
+  display: flex;
+  flex-direction: column;
+}
+.commentList ul > li header small {
+  font-weight: initial;
+}
+.commentList ul p {
+  margin-bottom: 0;
+  line-height: 1.5;
+  margin-left: 4em;
+  margin-top: 0;
+}
+.commentList form {
+  position: relative;
+}
+.commentList form fieldset {
+  display: flex;
+}
+.commentList form label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.commentList form textarea {
+  border-radius: 0.5em;
+  border: 2px solid #cfcece;
+}
+.commentList form textarea::-moz-placeholder {
+  font-size: 0.8em;
+  line-height: 1.5em;
+  vertical-align: middle;
+}
+.commentList form textarea:-ms-input-placeholder {
+  font-size: 0.8em;
+  line-height: 1.5em;
+  vertical-align: middle;
+}
+.commentList form textarea::placeholder {
+  font-size: 0.8em;
+  line-height: 1.5em;
+  vertical-align: middle;
+}
+.commentList form button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 0.7em;
+  margin-right: 0.7em;
+  opacity: 0.5;
+}
+.commentList form button:hover {
+  opacity: 1;
+}/*# sourceMappingURL=comment-list.module.css.map */

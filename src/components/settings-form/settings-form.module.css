@@ -1,0 +1,25 @@
+.settingsForm {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 2em 0;
+}
+.settingsForm section {
+  min-width: 310px;
+}
+.settingsForm section header h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+}
+.settingsForm section header h3 a {
+  display: inline-flex;
+}
+.settingsForm .logoForm img {
+  max-width: 310px;
+}
+.settingsForm .socialLinks main {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}/*# sourceMappingURL=settings-form.module.css.map */

@@ -1,0 +1,70 @@
+.homePage {
+  padding-bottom: 2em;
+}
+.homePage > section h1 {
+  font-size: 2em;
+  border-bottom: 2px solid #7650a1;
+  margin: 0;
+}
+.homePage > section {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.homePage > section:not(:first-child) {
+  margin-top: 1em;
+}
+.homePage > section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+.homePage > section ul li {
+  display: flex;
+  flex-basis: calc(320px - 1em + 0.25em);
+  flex-grow: 1;
+}
+.homePage > section ul li h2 {
+  font-size: 120%;
+}
+.homePage > section ul li:hover h2 {
+  color: #c195f3;
+}
+.homePage > section ul li:hover h2 small {
+  text-decoration: underline;
+}
+.homePage > section ul li article {
+  max-width: 100%;
+}
+.homePage > section ul li img {
+  aspect-ratio: 16/9;
+}
+.homePage .featuredSection {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: initial;
+  gap: 1em;
+}
+.homePage .featuredSection > a {
+  flex-basis: 870px;
+  flex-grow: 14;
+}
+.homePage .featuredSection aside {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  justify-content: flex-end;
+  flex-basis: 250px;
+  flex-grow: 1;
+}
+.homePage .featuredSection ul {
+  flex-basis: 250px;
+  align-content: flex-start;
+  gap: 1em;
+}
+.homePage .featuredSection ul li {
+  font-size: 0.4em;
+}/*# sourceMappingURL=homepage.module.css.map */

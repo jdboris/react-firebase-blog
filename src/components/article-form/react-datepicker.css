@@ -1,0 +1,13 @@
+h1 small .react-datepicker-wrapper {
+  width: auto;
+}
+h1 small .react-datepicker-wrapper > * {
+  display: inline-flex;
+}
+h1 small .react-datepicker-wrapper input {
+  padding: 0;
+}
+
+.react-datepicker button {
+  background-color: rgba(0, 0, 0, 0) !important;
+}/*# sourceMappingURL=react-datepicker.css.map */

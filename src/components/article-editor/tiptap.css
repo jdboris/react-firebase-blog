@@ -1,0 +1,7 @@
+.ProseMirror img {
+  display: block;
+}
+
+.ProseMirror:focus-within .ProseMirror-selectednode {
+  outline: 2px solid;
+}/*# sourceMappingURL=tiptap.css.map */

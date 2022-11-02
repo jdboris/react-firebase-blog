@@ -1,0 +1,39 @@
+.landingPage {
+  z-index: 4;
+  margin-top: -5rem;
+  text-align: center;
+}
+.landingPage div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  position: relative;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+.landingPage div::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgb(0, 0, 0);
+  background: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.03125) 45%, rgba(0, 0, 0, 0.8155637255) 100%);
+}
+.landingPage div::after {
+  content: attr(data-slogan);
+  position: absolute;
+  font-size: 3em;
+  color: #f6eef6;
+  font-family: "Takota";
+  text-shadow: 0px 0px 10px black;
+  z-index: 1;
+}
+.landingPage div button {
+  position: absolute;
+  color: white !important;
+  font-size: 2em !important;
+  bottom: 1em;
+  opacity: 0.7;
+}/*# sourceMappingURL=landing-page.module.css.map */

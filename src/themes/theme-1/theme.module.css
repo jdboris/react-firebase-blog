@@ -1,0 +1,372 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "Intro";
+  src: local("Intro"), url(./intro-regular.ttf) format("truetype");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                                'embedded-opentype', and 'svg' */
+}
+@font-face {
+  font-family: "Intro";
+  font-weight: 300;
+  src: local("Intro"), url(./intro-bold.ttf) format("truetype");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                                'embedded-opentype', and 'svg' */
+}
+@font-face {
+  font-family: "Intro";
+  font-weight: bold;
+  src: local("Intro"), url(./intro-black.ttf) format("truetype");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                                'embedded-opentype', and 'svg' */
+}
+@font-face {
+  font-family: "Takota";
+  src: local("Takota"), url(./Takota.ttf) format("truetype");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                                'embedded-opentype', and 'svg' */
+}
+@font-face {
+  font-family: "Capture it";
+  src: local("Capture it"), url("./Capture it.ttf") format("truetype");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                                'embedded-opentype', and 'svg' */
+}
+html,
+body {
+  font-size: 16px;
+}
+
+* {
+  scroll-margin: 5rem;
+}
+
+.root {
+  min-height: 100%;
+  font-family: "Intro";
+  font-size: 1.1em;
+  background: rgb(25, 20, 31);
+  padding-top: 5rem;
+}
+.root > main {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  background: white;
+}
+.root > header {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 5;
+  background: rgb(25, 20, 31);
+}
+.root > header nav {
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.9em;
+  color: white;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100%;
+  justify-content: center;
+  overflow: hidden;
+  height: 5rem;
+  background: inherit;
+}
+.root > header nav > button {
+  position: absolute;
+  align-self: center;
+  color: white !important;
+  right: 0;
+}
+.root > header nav > button > * {
+  font-size: 2em;
+}
+.root > header nav ul {
+  display: inline-flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-left: auto;
+  z-index: 1;
+  background: inherit;
+  height: inherit;
+}
+.root > header nav ul li {
+  display: inline-flex;
+}
+.root > header nav a:not(.logo) {
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+}
+.root > header nav a:not(.logo):hover {
+  color: #c195f3;
+  border-bottom-color: inherit;
+  transition: color 0.1s;
+}
+.root > header nav img {
+  height: 3em;
+}
+.root > header nav .overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.37);
+}
+.root > header nav.open {
+  overflow: visible;
+}
+.root > header nav.open ul {
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  height: 100vh;
+}
+.root > header nav.open ul a {
+  border-top: 0;
+  border-bottom: 0;
+  width: 100%;
+}
+.root > header nav.open ul button {
+  margin: 1em;
+}
+.root > header nav.open .overlay {
+  display: initial;
+}
+.root > footer {
+  background: rgb(25, 20, 31);
+  color: grey;
+  padding-top: 3em;
+  padding-bottom: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.root > footer nav a {
+  display: inline-flex;
+  transition: rotate 0.1s;
+  padding: 0.5em;
+}
+.root > footer nav a img {
+  width: 2em;
+}
+.root > footer nav a:hover,
+.root > footer nav a:focus,
+.root > footer nav a:active {
+  rotate: 5deg;
+  transition: rotate 0.1s;
+}
+.root nav a {
+  display: inline-flex;
+  align-items: center;
+  color: white;
+  padding: 1em;
+  cursor: pointer;
+}
+.root nav button {
+  margin-left: 1em;
+  margin-right: 1em;
+  align-self: center;
+}
+.root a * {
+  cursor: inherit;
+}
+.root small {
+  opacity: 0.5;
+  color: gray;
+  font-size: 0.7em;
+}
+.root h1,
+.root h2,
+.root h3,
+.root h4,
+.root h5,
+.root h6 {
+  font-family: "Intro";
+  text-transform: uppercase;
+  width: 100%;
+}
+.root h1 small,
+.root h2 small,
+.root h3 small,
+.root h4 small,
+.root h5 small,
+.root h6 small {
+  font-size: 0.9rem;
+  font-family: "Intro";
+  font-weight: normal;
+  text-transform: initial;
+  opacity: 0.5;
+  width: 100%;
+}
+.root h1 {
+  font-size: 3em;
+}
+.root input,
+.root textarea {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 0.3em;
+}
+.root textarea {
+  width: 100%;
+  resize: none;
+  padding: 1em;
+}
+.root ::-moz-placeholder {
+  font-style: italic;
+}
+.root :-ms-input-placeholder {
+  font-style: italic;
+}
+.root ::placeholder {
+  font-style: italic;
+}
+.root fieldset {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+.root a {
+  text-decoration: none;
+  color: inherit;
+}
+.root blockquote {
+  position: relative;
+  color: #8b8b8b;
+  font-style: italic;
+  background: #f9f9f9;
+  border-left: 10px solid rgb(118, 80, 161);
+  margin: 1.5em 10px;
+  padding: 1.1em 10px;
+  padding-left: 2em;
+}
+.root blockquote:before {
+  content: "“";
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #ccc;
+  font-size: 4em;
+  left: 0.1em;
+  top: 0em;
+}
+.root code {
+  display: inline;
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  color: #666;
+  font-family: monospace;
+  font-size: 0.9em;
+  line-height: 1.6;
+  margin-bottom: 1.6em;
+  overflow: auto;
+  word-wrap: break-word;
+  padding: 0em 0.2em;
+  border-radius: 0.2em;
+}
+.root pre code {
+  display: block;
+  border-left: 3px solid rgb(118, 80, 161);
+  page-break-inside: avoid;
+  max-width: 100%;
+  padding: 1em 1.5em;
+  margin: 10px;
+}
+.root button,
+.root .button,
+.root .buttonAlt {
+  font-family: "Intro";
+  text-transform: uppercase;
+  font-weight: normal;
+  color: white;
+  background-color: indianred;
+  border: none;
+  border-radius: 0.2em;
+  padding: 0.5em 0.9em;
+  font-size: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+.root .buttonAlt {
+  display: inline-flex;
+  color: initial;
+  background-color: initial;
+  padding: 0.1em;
+}
+.root button[disabled],
+.root .button[disabled] {
+  cursor: initial;
+  opacity: 0.5;
+}
+.root a[rel=author] {
+  font-weight: bold;
+  color: #b50000;
+}
+.root .article header,
+.root .article footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.root .article header h1,
+.root .article footer h1 {
+  display: flex;
+  flex-direction: column;
+}
+.root .article header small,
+.root .article footer small {
+  width: 100%;
+}
+.root .article header a svg,
+.root .article footer a svg {
+  font-size: 1.5em;
+}
+.root .container {
+  width: 100%;
+  max-width: calc(1280px + 2em);
+  margin: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+.root .paddingContainer {
+  width: 100%;
+  padding-left: calc((100% - 1280px) / 2);
+  padding-right: calc((100% - 1280px) / 2);
+}
+.root .profileImage {
+  border-radius: 50%;
+}
+.root .pageHeader {
+  background-image: url("./graphic-1-1.svg");
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #92c954;
+  z-index: 3;
+  font-size: 1.2em;
+  padding-left: calc((100% - 1280px) / 2);
+  padding-right: calc((100% - 1280px) / 2);
+  margin: 10px 0;
+}
+.root .pageHeader h1 {
+  padding: 0.2em;
+  font-family: "Takota", "Intro";
+  font-weight: normal;
+  margin: min(0.4em, 5vw);
+}/*# sourceMappingURL=theme.module.css.map */

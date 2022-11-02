@@ -1,0 +1,20 @@
+.businessForm fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 300px;
+  gap: 1em;
+  align-items: flex-end;
+  transition: padding 0.1s, box-shadow 0.1s;
+}
+.businessForm.edit fieldset {
+  flex-direction: column;
+  box-shadow: 0 0 11px #ccc;
+  padding: 1em;
+  border-radius: 0.2em;
+  align-items: initial;
+}
+.businessForm label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}/*# sourceMappingURL=business-form.module.css.map */

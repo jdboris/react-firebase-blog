@@ -40,9 +40,11 @@
       content: attr(data-slogan);
       position: absolute;
       font-size: 3em;
-      color: #f6eef6;
+      // color: #f6eef6;
+      color: white;
       font-family: "Takota";
-      text-shadow: 0px 0px 10px black;
+      // text-shadow: 0px 0px 10px black;
+      text-shadow: 0 0 10px #a0a000;
 
       // NOTE: To put the shadow under the ::after
       z-index: 1;

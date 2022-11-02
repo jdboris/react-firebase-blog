@@ -1,0 +1,50 @@
+.socialLinkForm fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  align-items: center;
+  transition: padding 0.1s, box-shadow 0.1s;
+}
+.socialLinkForm.edit fieldset, .socialLinkForm.create fieldset {
+  flex-direction: column;
+  box-shadow: 0 0 11px #ccc;
+  padding: 1em;
+  border-radius: 0.2em;
+  align-items: initial;
+  background: white;
+}
+.socialLinkForm a {
+  display: inline-flex;
+}
+.socialLinkForm label {
+  display: flex;
+  flex-direction: column;
+}
+.socialLinkForm .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+.socialLinkForm .socialLink {
+  margin: auto;
+  align-self: center;
+  justify-self: center;
+  width: 1.5em;
+}
+.socialLinkForm.edit .socialLink, .socialLinkForm.create .socialLink {
+  width: 2em;
+  height: 2em;
+}
+.socialLinkForm aside {
+  display: flex;
+}
+.socialLinkForm .buttonAlt {
+  display: inline-flex;
+  color: initial;
+  background-color: initial;
+  padding: 0.1em;
+}
+.socialLinkForm .delete {
+  color: red;
+  margin-left: auto;
+}/*# sourceMappingURL=social-link-form.module.css.map */

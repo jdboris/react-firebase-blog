@@ -1,0 +1,132 @@
+.articleForm.preview {
+  border-bottom: none;
+}
+.articleForm.overlayMode {
+  position: relative;
+}
+.articleForm.overlayMode::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.3);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.8155637255) 0%, rgba(0, 0, 0, 0.03125) 50%, rgba(0, 0, 0, 0) 100%);
+}
+.articleForm.overlayMode footer {
+  position: absolute;
+  bottom: 0;
+  color: white;
+  padding: 3%;
+  font-size: min(2em, 7vw);
+  z-index: 2;
+}
+.articleForm header h1,
+.articleForm header h2,
+.articleForm header h3,
+.articleForm header h4,
+.articleForm header h5,
+.articleForm header h6,
+.articleForm footer h1,
+.articleForm footer h2,
+.articleForm footer h3,
+.articleForm footer h4,
+.articleForm footer h5,
+.articleForm footer h6 {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+.articleForm header h1 small,
+.articleForm header h2 small,
+.articleForm header h3 small,
+.articleForm header h4 small,
+.articleForm header h5 small,
+.articleForm header h6 small,
+.articleForm footer h1 small,
+.articleForm footer h2 small,
+.articleForm footer h3 small,
+.articleForm footer h4 small,
+.articleForm footer h5 small,
+.articleForm footer h6 small {
+  display: flex;
+  opacity: 1 !important;
+  align-items: center;
+}
+.articleForm main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.8em;
+}
+.articleForm article {
+  flex-grow: 1;
+  position: relative;
+  flex-basis: 94%;
+}
+.articleForm input,
+.articleForm textarea {
+  border: 0;
+  vertical-align: middle;
+  overflow-y: hidden;
+  background: initial;
+  color: inherit;
+}
+.articleForm header textarea,
+.articleForm footer textarea {
+  font-family: "Intro";
+  padding: 0;
+}
+.articleForm aside {
+  flex-basis: 1.5em;
+  flex-grow: 1;
+}
+.articleForm aside > div {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 5em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+.articleForm aside img {
+  max-width: 1.5em;
+}
+.articleForm aside a {
+  display: inline-flex;
+  transition: rotate 0.1s;
+}
+.articleForm aside a:hover,
+.articleForm aside a:focus,
+.articleForm aside a:active {
+  rotate: 5deg;
+  transition: rotate 0.1s;
+}
+.articleForm .tagSection {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.5em;
+  margin-left: auto;
+  margin-bottom: 0.5em;
+  gap: 0.1em;
+}
+.articleForm .tagSection label {
+  white-space: nowrap;
+}
+.articleForm .tagSection label > div {
+  display: inline-flex !important;
+}
+.articleForm .tagSection input {
+  padding: 0;
+  outline: none;
+}
+.articleForm .tagSection input::-moz-placeholder {
+  opacity: 0.5;
+}
+.articleForm .tagSection input:-ms-input-placeholder {
+  opacity: 0.5;
+}
+.articleForm .tagSection input::placeholder {
+  opacity: 0.5;
+}/*# sourceMappingURL=article-form.module.css.map */

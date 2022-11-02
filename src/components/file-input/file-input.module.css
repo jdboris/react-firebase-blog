@@ -1,0 +1,9 @@
+.fileInput {
+  flex-wrap: wrap;
+  gap: 1em;
+}
+.fileInput span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}/*# sourceMappingURL=file-input.module.css.map */

@@ -1,0 +1,41 @@
+.articlePage {
+  padding-bottom: 2em;
+}
+.articlePage > section > h2 {
+  border-bottom: 0.1em solid #7650a1;
+  margin-bottom: 0;
+}
+.articlePage > .articleSection {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-top: 1em;
+}
+.articlePage > .articleSection ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+.articlePage > .articleSection ul li {
+  display: flex;
+  flex-basis: calc(320px - 1em + 0.25em);
+  flex-grow: 1;
+}
+.articlePage > .articleSection ul li h2 {
+  font-size: 120%;
+}
+.articlePage > .articleSection ul li:hover h2 {
+  color: #c195f3;
+}
+.articlePage > .articleSection ul li:hover h2 small {
+  text-decoration: underline;
+}
+.articlePage > .articleSection ul li article {
+  max-width: 100%;
+}
+.articlePage > .articleSection ul li img {
+  aspect-ratio: 16/9;
+}/*# sourceMappingURL=article-page.module.css.map */

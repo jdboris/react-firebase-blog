@@ -1,0 +1,68 @@
+.articleEditor .invisible {
+  visibility: hidden;
+}
+.articleEditor header {
+  display: flex;
+  visibility: hidden;
+  gap: 0.1em;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 1em;
+  z-index: 1;
+}
+.articleEditor header .formatControls {
+  display: inline-flex;
+  flex-wrap: wrap;
+  background: white;
+}
+.articleEditor header .formatControls .buttonGroup {
+  display: inline-flex;
+  align-items: flex-end;
+  border-right: 1px solid #eee;
+  margin: 0.1em;
+  padding: 0.3em;
+  border: 1px solid rgb(184, 184, 184);
+  border-radius: 0.2em;
+}
+.articleEditor header .formatControls .buttonGroup button.active {
+  color: inherit;
+}
+.articleEditor button {
+  padding: 0.2em;
+  border-radius: 0;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+.articleEditor button > * {
+  color: #c7c7c7;
+}
+.articleEditor button.small {
+  font-size: 1em;
+}
+.articleEditor:hover header, .articleEditor:focus header, .articleEditor:active header {
+  visibility: visible;
+}
+.articleEditor .imageWrapper > div {
+  position: relative;
+}
+.articleEditor .imageWrapper img {
+  display: block;
+  max-width: 100%;
+  max-height: 20em;
+  box-shadow: none;
+}
+.articleEditor .imageWrapper button {
+  display: none;
+  position: absolute;
+  top: 0.5em;
+  left: 0.5em;
+  background-color: white;
+}
+.articleEditor .imageWrapper button.small {
+  padding: 0.3em;
+}
+.articleEditor .imageWrapper.selected img {
+  box-shadow: 0 0 0 3px #b4d5ff;
+}
+.articleEditor .imageWrapper.selected button {
+  display: inline-flex;
+}/*# sourceMappingURL=article-editor.module.css.map */
