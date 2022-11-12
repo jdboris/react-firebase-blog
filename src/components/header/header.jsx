@@ -29,8 +29,9 @@ export function Header({ theme, useFirebaseAuth, useSettings }) {
 
         <div
           className={theme.overlay}
-          onClick={() => {
+          onClick={(e) => {
             setIsMenuOpen(false);
+            e.target.closest("header").scrollTo({ top: 0 });
           }}
         ></div>
 
