@@ -11,7 +11,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
   locationId: process.env.REACT_APP_FIREBASE_LOCATION,
-  apiKey: process.env.REACT_APP_API_KEY,
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGE_SENDER_ID,
 };
