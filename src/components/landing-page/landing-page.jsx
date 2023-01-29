@@ -7,7 +7,6 @@ export function LandingPage({ theme, useSettings }) {
   const landingPage = useRef();
 
   return (
-    // landingPage && (
     <div ref={landingPage} className={css.landingPage}>
       <div
         data-slogan={business && business.slogan ? business.slogan : ""}
@@ -27,6 +26,5 @@ export function LandingPage({ theme, useSettings }) {
         </button>
       </div>
     </div>
-    // )
   );
 }

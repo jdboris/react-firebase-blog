@@ -1,2 +1,0 @@
-# react-firebase-blog
- 
