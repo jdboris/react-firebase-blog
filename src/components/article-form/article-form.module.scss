@@ -51,6 +51,10 @@
         align-items: center;
       }
     }
+
+    h2 {
+      font-size: min(1.5em, 8vw);
+    }
   }
 
   main {
