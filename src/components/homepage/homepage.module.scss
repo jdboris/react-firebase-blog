@@ -24,7 +24,7 @@
 
       display: flex;
       flex-wrap: wrap;
-      gap: $gap;
+      column-gap: $gap;
 
       li {
         display: flex;
@@ -77,10 +77,20 @@
     ul {
       flex-basis: 250px;
       align-content: flex-start;
-      gap: 1em;
+      column-gap: 1em;
 
       li {
         font-size: 0.4em;
+
+        a {
+          margin-top: 1rem;
+        }
+
+        &:first-child {
+          a {
+            margin-top: 0;
+          }
+        }
       }
     }
   }

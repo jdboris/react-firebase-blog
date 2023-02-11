@@ -221,6 +221,10 @@ body {
     cursor: inherit;
   }
 
+  img {
+    max-width: 100%;
+  }
+
   small {
     opacity: 0.5;
     color: gray;

@@ -51,86 +51,123 @@ export function ArticleForm({
   }, [article, mode]);
 
   return useMemo(
-    () =>
-      !(mode !== "read" && !currentUser) && (
-        <form
-          className={
-            theme.article +
-            " " +
-            css.articleForm +
-            " " +
-            (isPreview && overlayMode ? css.overlayMode : "")
-          }
-          onSubmit={async (e) => {
-            e.preventDefault();
-            if (isLoading) return;
-            if (mode === "create" || mode === "edit") {
-              const newArticle = await save({
-                ...article,
-                date: article.date || serverTimestamp(),
-              });
-              if (newArticle) {
-                setMode("read");
-                if (mode === "create") {
-                  saveDraft(null);
-                  navigate(`/article/${newArticle.id}`);
+    () => {
+      if (isPreview) {
+        return (
+          <article
+            className={
+              theme.article +
+              " " +
+              css.articleForm +
+              " " +
+              (overlayMode ? css.overlayMode : "")
+            }
+          >
+            <main
+              dangerouslySetInnerHTML={{ __html: article?.contentPreview }}
+            ></main>
+
+            <footer>
+              <h2>
+                {article?.title}
+
+                <small>
+                  <span>
+                    {mode === "read" ? (
+                      formatDateRelative(article?.date, false)
+                    ) : (
+                      <DatePicker
+                        name="date"
+                        selected={article?.date}
+                        value={!article?.date ? "[AUTOMATIC DATE]" : null}
+                        onChange={(date, e) => {
+                          setArticle((old) => ({
+                            ...old,
+                            date,
+                          }));
+                        }}
+                        showTimeSelect
+                        timeIntervals={5}
+                        dateFormat={"LLL d, yyyy h:mma"}
+                      />
+                    )}
+                  </span>
+                </small>
+              </h2>
+            </footer>
+          </article>
+        );
+      }
+
+      return (
+        !(mode !== "read" && !currentUser) && (
+          <form
+            className={theme.article + " " + css.articleForm}
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (isLoading) return;
+              if (mode === "create" || mode === "edit") {
+                const newArticle = await save({
+                  ...article,
+                  date: article.date || serverTimestamp(),
+                });
+                if (newArticle) {
+                  setMode("read");
+                  if (mode === "create") {
+                    saveDraft(null);
+                    navigate(`/article/${newArticle.id}`);
+                  }
                 }
               }
-            }
-          }}
-        >
-          <fieldset disabled={mode === "read" || isLoading}>
-            <header>
-              {!isPreview && (
-                <>
-                  <h1>
-                    <TextareaAutosize
-                      type="text"
-                      name="title"
-                      value={article?.title}
-                      placeholder="New Article..."
-                      onChange={(e) => {
-                        setArticle((old) => {
-                          return {
-                            ...old,
-                            [e.target.name]: e.target.value,
-                          };
-                        });
-                      }}
-                    />
+            }}
+          >
+            <fieldset disabled={mode === "read" || isLoading}>
+              <header>
+                <h1>
+                  <TextareaAutosize
+                    type="text"
+                    name="title"
+                    value={article?.title}
+                    placeholder="New Article..."
+                    onChange={(e) => {
+                      setArticle((old) => {
+                        return {
+                          ...old,
+                          [e.target.name]: e.target.value,
+                        };
+                      });
+                    }}
+                  />
 
-                    <small>
-                      <span>
-                        {" "}
-                        {"By "}
-                        {article?.author.displayName}{" "}
-                        {mode === "read" ? (
-                          formatDateRelative(article?.date)
-                        ) : (
-                          <DatePicker
-                            name="date"
-                            selected={article?.date}
-                            value={!article?.date ? "[AUTOMATIC DATE]" : null}
-                            onChange={(date, e) => {
-                              setArticle((old) => ({
-                                ...old,
-                                date,
-                              }));
-                            }}
-                            showTimeSelect
-                            timeIntervals={5}
-                            dateFormat={"LLL d, yyyy h:mma"}
-                          />
-                        )}
-                      </span>
-                    </small>
-                  </h1>
-                </>
-              )}
-            </header>
-            <main>
-              <article>
-                {!isPreview && (
+                  <small>
+                    <span>
+                      {" "}
+                      {"By "}
+                      {article?.author.displayName}{" "}
+                      {mode === "read" ? (
+                        formatDateRelative(article?.date)
+                      ) : (
+                        <DatePicker
+                          name="date"
+                          selected={article?.date}
+                          value={!article?.date ? "[AUTOMATIC DATE]" : null}
+                          onChange={(date, e) => {
+                            setArticle((old) => ({
+                              ...old,
+                              date,
+                            }));
+                          }}
+                          showTimeSelect
+                          timeIntervals={5}
+                          dateFormat={"LLL d, yyyy h:mma"}
+                        />
+                      )}
+                    </span>
+                  </small>
+                </h1>
+              </header>
+              <main>
+                <article>
                   <div className={css.tagSection}>
                     {(article?.tags
                       ? mode === "create" || mode === "edit"
@@ -194,55 +231,55 @@ export function ArticleForm({
                       </label>
                     ))}
                   </div>
-                )}
 
-                {(mode === "create" || mode === "edit" || !isPreview) && (
-                  <ArticleEditor
-                    theme={theme}
-                    className={css.articleEditor}
-                    name="content"
-                    placeholder="Article content..."
-                    value={article?.content}
-                    autoFocus={mode !== "read"}
-                    renderToolbar={mode !== "read"}
-                    disabled={mode === "read"}
-                    onChange={(value) => {
-                      setArticle((old) => {
-                        return {
-                          ...old,
-                          content: value,
-                        };
-                      });
-                    }}
-                  />
-                )}
+                  {(mode === "create" ||
+                    mode === "edit" ||
+                    mode === "read") && (
+                    <ArticleEditor
+                      theme={theme}
+                      className={css.articleEditor}
+                      name="content"
+                      placeholder="Article content..."
+                      value={article?.content}
+                      autoFocus={mode !== "read"}
+                      renderToolbar={mode !== "read"}
+                      disabled={mode === "read"}
+                      onChange={(value) => {
+                        setArticle((old) => {
+                          return {
+                            ...old,
+                            content: value,
+                          };
+                        });
+                      }}
+                    />
+                  )}
 
-                {(mode === "create" || mode === "edit") && (
-                  <h4>Article Preview</h4>
-                )}
+                  {(mode === "create" || mode === "edit") && (
+                    <h4>Article Preview</h4>
+                  )}
 
-                {(mode === "create" || mode === "edit" || isPreview) && (
-                  <ArticleEditor
-                    theme={theme}
-                    className={css.articleEditor}
-                    name="contentPreview"
-                    placeholder="Content preview..."
-                    value={article?.contentPreview}
-                    // hideToolbar={mode === "read"}
-                    renderToolbar={mode !== "read"}
-                    disabled={mode === "read"}
-                    onChange={(value) => {
-                      setArticle((old) => {
-                        return {
-                          ...old,
-                          contentPreview: value,
-                        };
-                      });
-                    }}
-                  />
-                )}
-              </article>
-              {!isPreview && (
+                  {(mode === "create" || mode === "edit") && (
+                    <ArticleEditor
+                      theme={theme}
+                      className={css.articleEditor}
+                      name="contentPreview"
+                      placeholder="Content preview..."
+                      value={article?.contentPreview}
+                      // hideToolbar={mode === "read"}
+                      renderToolbar={mode !== "read"}
+                      disabled={mode === "read"}
+                      onChange={(value) => {
+                        setArticle((old) => {
+                          return {
+                            ...old,
+                            contentPreview: value,
+                          };
+                        });
+                      }}
+                    />
+                  )}
+                </article>
                 <aside>
                   <div>
                     {currentUser && currentUser.isAuthor && mode === "create" && (
@@ -287,49 +324,13 @@ export function ArticleForm({
                       ))}
                   </div>
                 </aside>
-              )}
-            </main>
-            <footer>
-              {isPreview && (
-                <h2>
-                  {article?.title}
-
-                  <small>
-                    <span>
-                      {!isPreview && (
-                        <>
-                          {" "}
-                          {"By "}
-                          {article?.author.displayName}{" "}
-                        </>
-                      )}
-
-                      {mode === "read" ? (
-                        formatDateRelative(article?.date, !isPreview)
-                      ) : (
-                        <DatePicker
-                          name="date"
-                          selected={article?.date}
-                          value={!article?.date ? "[AUTOMATIC DATE]" : null}
-                          onChange={(date, e) => {
-                            setArticle((old) => ({
-                              ...old,
-                              date,
-                            }));
-                          }}
-                          showTimeSelect
-                          timeIntervals={5}
-                          dateFormat={"LLL d, yyyy h:mma"}
-                        />
-                      )}
-                    </span>
-                  </small>
-                </h2>
-              )}
-            </footer>
-          </fieldset>
-        </form>
-      ),
+              </main>
+              <footer></footer>
+            </fieldset>
+          </form>
+        )
+      );
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       article,
